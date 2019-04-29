@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFCEDE">
+
+    <ImageView
+        android:id="@+id/smallLogo"
+        android:layout_width="195dp"
+        android:layout_height="170dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginRight="108dp"
+        android:src="@drawable/small_logo" />
+
+    <EditText
+        android:id="@+id/id"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/smallLogo"
+        android:layout_alignLeft="@id/smallLogo"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/black_line"
+        android:hint="아이디" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/id"
+        android:layout_alignLeft="@+id/id"
+        android:background="@drawable/black_line"
+        android:hint="비밀번호" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_alignLeft="@id/password"
+        android:layout_marginTop="40dp"
+        android:background="#F6F6F6"
+        android:text="로그인"
+        android:textStyle="bold" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#F6F6F6"
+        android:text="회원가입"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/password"
+        android:layout_alignTop="@id/buttonLogin"
+       android:layout_toRightOf="@id/buttonLogin"
+        android:layout_alignRight="@id/password"
+        android:textStyle="bold"
+        />
+
+</RelativeLayout>
