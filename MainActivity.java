@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         img.setLayoutParams(params);
         moveToLogin();
     }
+
     /*2초있다가 자동으로 loginActivity 로 전환.
     * */
     protected void moveToLogin()
