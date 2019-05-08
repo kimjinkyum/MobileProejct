@@ -2,5 +2,24 @@
 <LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/diaryView"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_weight="9">
+
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/createDiary"
+        android:text="추가하기"
+        android:layout_gravity="center"
+        android:layout_weight="1"/>
+
 </LinearLayout>
