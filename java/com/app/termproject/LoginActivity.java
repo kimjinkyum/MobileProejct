@@ -3,9 +3,11 @@ package com.app.termproject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,10 +15,17 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
+
 
     Button loginButton;//login Button
     Button signupButton;
@@ -26,10 +35,15 @@ public class LoginActivity extends AppCompatActivity {
     String password;//value of edit text(password)
     LoginFragment dialog;
     InputMethodManager imm;
+    FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        firebaseAuth=FirebaseAuth.getInstance();
+
 
         loginButton = findViewById(R.id.loginButton);
         loginButton.setEnabled(false);
@@ -100,34 +114,45 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void onAuthStateChanged(@NonNull FirebaseAuth f)
+    {
+        FirebaseUser user=f.getCurrentUser();
+        Toast.makeText(this, user.getEmail(), Toast.LENGTH_SHORT).show();
+
+    }
     /*로그인정보 맞는지 확인하는 함수
      * true:로그인 성공, fail:로그인 실패
      * <추후 DB랑 연동하여 다시 함수 작성 할 필요>
      * */
-    public boolean loginInfo() {
+    public void loginEvent() {
 
         id = idText.getText().toString();
         password = passwordText.getText().toString();
-        if(id.equals("abc")&&password.equals("abc"))
-            return true;
-        else
-            return false;
+
+
+        /*여기서 id 비번 null이면 그거 처리도 해줘야될듯...
+         * */
+        firebaseAuth.signInWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    onAuthStateChanged(firebaseAuth);
+                    finish();
+                    Intent intent = new Intent(LoginActivity.this, Basic.class);
+                    startActivity(intent);
+
+                }
+                else {
+                    dialog = LoginFragment.newInstance("null");
+                    dialog.show(getSupportFragmentManager(), "dialog");
+                }
+
+            }
+
+
+        });
+
+
     }
 
-    public void loginEvent() {
-        if (loginInfo())
-        {
-            /*로그인성공 기본 어플 화면액티비티(Basic) 전환*/
-            Intent intent = new Intent(LoginActivity.this, Basic.class);
-            startActivity(intent);
-            //유저를 identify 할 수 있는 뭔가를 넘겨주기(DB연동)
-        }
-
-        /*존재하지 않는 아이디라고 팝업 띄우기*/
-        else {
-            dialog = LoginFragment.newInstance("null");
-            dialog.show(getSupportFragmentManager(), "dialog");
-
-        }
-    }
 }
