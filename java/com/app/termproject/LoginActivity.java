@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,11 +21,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    String idToken="";
     Button loginButton;//login Button
     Button signupButton;
     EditText idText;//EditText(id)
@@ -116,12 +116,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onAuthStateChanged(@NonNull FirebaseAuth f)
     {
+
         FirebaseUser user=f.getCurrentUser();
-        Toast.makeText(this, user.getEmail(), Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, idToken, Toast.LENGTH_LONG).show();
 
     }
     /*로그인정보 맞는지 확인하는 함수
-     * true:로그인 성공, fail:로그인 실패
      * <추후 DB랑 연동하여 다시 함수 작성 할 필요>
      * */
     public void loginEvent() {
@@ -136,9 +137,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    onAuthStateChanged(firebaseAuth);
+                    //onAuthStateChanged(firebaseAuth);
                     finish();
+                    FirebaseUser user=firebaseAuth.getCurrentUser();
                     Intent intent = new Intent(LoginActivity.this, Basic.class);
+                    intent.putExtra("UserEmail",user.getEmail());
                     startActivity(intent);
 
                 }

@@ -51,6 +51,7 @@ public class SignupActivity extends Activity {
                 String name=signupNameText.getText().toString();
                 String password=signupPasswordText.getText().toString();
                 joinStart(id,name,password);
+                checkSignup();
 
             }
         });
@@ -58,7 +59,7 @@ public class SignupActivity extends Activity {
     /*가입함수*/
     public void joinStart(String id, final String name, String password)
     {
-        Toast.makeText(SignupActivity.this,"Dsffd",Toast.LENGTH_LONG).show();
+
         mAuth.createUserWithEmailAndPassword(id,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
