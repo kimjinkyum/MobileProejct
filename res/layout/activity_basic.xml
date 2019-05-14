@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:id="@+id/diaryView"
         android:orientation="vertical"
-        android:layout_gravity="center"
         android:layout_weight="9">
 
     </LinearLayout>
