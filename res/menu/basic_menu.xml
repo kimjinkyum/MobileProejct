@@ -5,7 +5,8 @@
     <item
         android:icon="@drawable/searchicon"
         app:showAsAction="always"
-        android:title="검색" />
+        android:title="검색"
+        android:id="@+id/searchingPIN"/>
     <item
         android:title="로그아웃"
         android:id="@+id/logOut"
