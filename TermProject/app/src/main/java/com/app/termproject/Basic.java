@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,9 +37,13 @@ public class Basic extends AppCompatActivity {
     Button createButton;
     SearchingPIN dialog;
     TextView test;
+
+    LinearLayout con;
     private FirebaseFirestore firestore;
+    ArrayList<Object>temp=new ArrayList<>();
     private Map<String, Object> diary = new HashMap<>();
-    private ArrayList<Object> getDiary=new ArrayList<>();
+    private ArrayList<Object> Directory=new ArrayList<>();
+
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -59,9 +61,10 @@ public class Basic extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         createButton = findViewById(R.id.createDiary);
         test=findViewById(R.id.test);
-        LinearLayout con = findViewById(R.id.diaryView);
+         con = findViewById(R.id.diaryView);
+         getDiary();
         Sub_Basic sub;
-        //여기서 반복문을 통해 DB에 있는 정보를 가져와 초기화를 한다
+         //여기서 반복문을 통해 DB에 있는 정보를 가져와 초기화를 한다
         //파라미터가 현재 하나인데 2개를 만들어 db정보만 넣음 될듯
         ArrayList<String> name = new ArrayList<>();
         name.add("1");
@@ -77,7 +80,7 @@ public class Basic extends AppCompatActivity {
                 }
             });
         }
-        getDiary();
+
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +92,7 @@ public class Basic extends AppCompatActivity {
                 //다이어리 생성과 동시에 여기 밑에 DB 연동 필요
 //                Toast.makeText(Basic.this, randomDictionary(), Toast.LENGTH_SHORT).show();
                 createDB();
+
 
             }
         });
@@ -102,18 +106,28 @@ public class Basic extends AppCompatActivity {
 
     public void getDiary()
     {
+
+        ArrayList<Object>sdf=new ArrayList<>();
         firestore.collection("Diary").whereEqualTo("userEmail",userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {
+            {   QueryDocumentSnapshot d;
+                Sub_Basic sub_basic;
+                int i=0;
+
                 if(task.isSuccessful())
                 {
                     for (QueryDocumentSnapshot document : task.getResult())
                     {
-
-                        getDiary.add(document.getId());
+                        d=document;
+                        //getDiary.add(document.getId());
                         Log.d("sdfsdf", document.getId() + " => " + document.getData());
-                        test.setText(document.getId() + " => " + document.getData().get("diaryPin"));
+                        temp.add(i++,d.get("diaryPin"));
+                        Log.d("sdfsdfkd",temp.get(i-1).toString());
+                        //test.append("\n"+temp.get(i-1).toString());
+                        sub_basic = new Sub_Basic(getApplicationContext(), temp.get(i-1).toString());
+                        con.addView(sub_basic);
 
                     }
                 }
@@ -121,10 +135,8 @@ public class Basic extends AppCompatActivity {
                     {
 
                     }
-
-            }
+                }
         });
-
 
     }
 
