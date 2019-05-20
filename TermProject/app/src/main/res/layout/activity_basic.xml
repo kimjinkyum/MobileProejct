@@ -25,7 +25,8 @@
         android:id="@+id/createDiary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:src="@drawable/addbutton"/>
+        android:layout_gravity="center"
+        android:src="@drawable/addbutton"
+        android:background="@color/background"/>
 
 </LinearLayout>

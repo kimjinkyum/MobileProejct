@@ -56,29 +56,30 @@
         android:layout_alignLeft="@+id/idText"
         android:hint="비밀번호" />
 
-    <Button
+    <ImageButton
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_below="@id/passwordText"
         android:layout_alignLeft="@id/passwordText"
-        android:layout_marginTop="40dp"
         android:layout_marginLeft="30dp"
-        android:text="로그인"
-        android:textStyle="bold"
-          />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/background"
+        android:src="@drawable/log_in"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/signupButton"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
         android:layout_below="@id/passwordText"
         android:layout_alignTop="@id/loginButton"
-       android:layout_toRightOf="@id/loginButton"
         android:layout_alignRight="@id/passwordText"
-        android:textStyle="bold"
+        android:layout_marginLeft="90dp"
         android:layout_marginRight="30dp"
-        android:id="@+id/signupButton"
-        />
+        android:layout_toRightOf="@id/loginButton"
+        android:background="@color/background"
+        android:src="@drawable/signup"
+        android:textStyle="bold" />
 
 </RelativeLayout>

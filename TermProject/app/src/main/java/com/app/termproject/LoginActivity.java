@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,8 +28,8 @@ import com.google.firebase.auth.GetTokenResult;
 public class LoginActivity extends AppCompatActivity {
 
     String idToken="";
-    Button loginButton;//login Button
-    Button signupButton;
+    ImageButton loginButton;//login Button
+    ImageButton signupButton;
     EditText idText;//EditText(id)
     EditText passwordText;//EditText(password)
     String id;//value of edit text(id)
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setEnabled(false);
         idText = (EditText) findViewById(R.id.idText);
         passwordText = (EditText) findViewById(R.id.passwordText);
-        signupButton=(Button)findViewById(R.id.signupButton);
+        signupButton=(ImageButton)findViewById(R.id.signupButton);
         checkEnter(passwordText);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

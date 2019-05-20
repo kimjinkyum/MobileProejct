@@ -3,6 +3,8 @@ package com.app.termproject;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -30,13 +32,19 @@ public class SearchingPIN extends DialogFragment implements View.OnClickListener
     public Dialog onCreateDialog(Bundle s) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.fragment_searching, null)).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+        builder.setView(inflater.inflate(R.layout.fragment_searching, null)).setPositiveButton("검색", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface d, int w) {
                 String pinNumber = editText.getText().toString();
                 dismissDialog();
             }
         });
-        return builder.create();
+
+        AlertDialog alert = builder.create();
+        alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(255, 237, 21, 96)));
+
+        alert.show();
+        return alert;
     }
 
     private void dismissDialog() {
