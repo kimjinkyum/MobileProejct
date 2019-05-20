@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Message;
 
@@ -36,7 +35,6 @@ public class Basic extends AppCompatActivity {
     String userEmail = "";
     Button createButton;
     SearchingPIN dialog;
-    TextView test;
 
     LinearLayout con;
     private FirebaseFirestore firestore;
@@ -47,7 +45,7 @@ public class Basic extends AppCompatActivity {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            Intent intent = new Intent(Basic.this, Showing.class);
+            Intent intent = new Intent(Basic.this, Diary.class);
             startActivity(intent);
         }
     };
@@ -60,7 +58,6 @@ public class Basic extends AppCompatActivity {
         userEmail = pass.getStringExtra("UserEmail");
         firestore = FirebaseFirestore.getInstance();
         createButton = findViewById(R.id.createDiary);
-        test=findViewById(R.id.test);
          con = findViewById(R.id.diaryView);
          getDiary();
         Sub_Basic sub;
@@ -96,6 +93,7 @@ public class Basic extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override

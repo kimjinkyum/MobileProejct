@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="다이어리 이름을 적어주세요"/>
+        android:text="다이어리 이름을 적어주세요" />
+
     <EditText
+        android:id="@+id/diaryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Ex) 홍길동의 신나는 여행 일기"
-        android:id="@+id/diaryName"/>
+        android:hint="Ex) 홍길동의 신나는 여행 일기" />
 
     <Button
+        android:id="@+id/checkDiary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkDiary"
-        android:text="확인"/>
+        android:text="확인" />
 </LinearLayout>
