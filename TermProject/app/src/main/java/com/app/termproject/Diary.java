@@ -12,7 +12,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 public class Diary extends AppCompatActivity {
 
     ShowingMap showingMap;
-    FrameLayout content;
+    LookDiary lookDiary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +20,7 @@ public class Diary extends AppCompatActivity {
         setContentView(R.layout.activity_diary);
 
         showingMap = new ShowingMap();
-        content=findViewById(R.id.contentContainer);
-
+        lookDiary=new LookDiary();
         BottomBar bottomBar = findViewById(R.id.bottombar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -29,10 +28,11 @@ public class Diary extends AppCompatActivity {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (tabId) {
                     case 0: {
-                        transaction.replace(R.id.contentContainer, showingMap).commit();
+                        transaction.replace(R.id.contentContainer,showingMap).commit();
                         break;
                     }
                     case 1:{
+                        transaction.replace(R.id.contentContainer,lookDiary).commit();
                         break;
                     }
                 }
