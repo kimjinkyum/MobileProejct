@@ -1,38 +1,66 @@
 package com.app.termproject;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 public class Diary extends AppCompatActivity {
 
-    ShowingMap showingMap;
+    LookMap lookMap;
     LookDiary lookDiary;
+    LookPhoto lookPhoto;
+    Button button;
+    ListView listView;
+    FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_diary);
 
-        showingMap = new ShowingMap();
+        lookMap = new LookMap();
         lookDiary=new LookDiary();
+        lookPhoto=new LookPhoto();
+        button=findViewById(R.id.search);
+        listView=findViewById(R.id.diaryList);
+        frameLayout=findViewById(R.id.contentContainer);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Diary.this,Search.class);
+                startActivity(intent);
+            }
+        });
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.contentContainer,lookDiary).commit();
         BottomBar bottomBar = findViewById(R.id.bottombar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (tabId) {
-                    case 0: {
-                        transaction.replace(R.id.contentContainer,showingMap).commit();
+                    case R.id.tab_photo: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
                         break;
                     }
-                    case 1:{
-                        transaction.replace(R.id.contentContainer,lookDiary).commit();
+                    case R.id.tab_diary:{
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
+                        break;
+                    }
+                    case R.id.tab_map:{
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookMap).commit();
                         break;
                     }
                 }

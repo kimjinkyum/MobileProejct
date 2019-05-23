@@ -1,6 +1,7 @@
 package com.app.termproject;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -39,9 +40,9 @@ public class Basic extends AppCompatActivity {
 
     LinearLayout con;
     private FirebaseFirestore firestore;
-    ArrayList<Object>temp=new ArrayList<>();
+    ArrayList<Object> temp = new ArrayList<>();
     private Map<String, Object> diary = new HashMap<>();
-    private ArrayList<Object> Directory=new ArrayList<>();
+    private ArrayList<Object> Directory = new ArrayList<>();
 
 
     Handler handler = new Handler() {
@@ -54,22 +55,27 @@ public class Basic extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_basic);
         Intent pass = getIntent();
         userEmail = pass.getStringExtra("UserEmail");
         firestore = FirebaseFirestore.getInstance();
         createButton = findViewById(R.id.createDiary);
-         con = findViewById(R.id.diaryView);
-         getDiary();
+        con = findViewById(R.id.diaryView);
+
+        getDiary();
         Sub_Basic sub;
-         //여기서 반복문을 통해 DB에 있는 정보를 가져와 초기화를 한다
+        //여기서 반복문을 통해 DB에 있는 정보를 가져와 초기화를 한다
         //파라미터가 현재 하나인데 2개를 만들어 db정보만 넣음 될듯
         ArrayList<String> name = new ArrayList<>();
         name.add("1");
         name.add("2");
+
         for (int i = 0; i < name.size(); i++) {
             sub = new Sub_Basic(getApplicationContext(), name.get(i));
             con.addView(sub);
+
             sub.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,38 +109,33 @@ public class Basic extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void getDiary()
-    {
+    public void getDiary() {
 
-        ArrayList<Object>sdf=new ArrayList<>();
-        firestore.collection("Diary").whereEqualTo("userEmail",userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        ArrayList<Object> sdf = new ArrayList<>();
+        firestore.collection("Diary").whereEqualTo("userEmail", userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {   QueryDocumentSnapshot d;
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QueryDocumentSnapshot d;
                 Sub_Basic sub_basic;
-                int i=0;
+                int i = 0;
 
-                if(task.isSuccessful())
-                {
-                    for (QueryDocumentSnapshot document : task.getResult())
-                    {
-                        d=document;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        d = document;
                         //getDiary.add(document.getId());
                         Log.d("sdfsdf", document.getId() + " => " + document.getData());
-                        temp.add(i++,d.get("diaryPin"));
-                        Log.d("sdfsdfkd",temp.get(i-1).toString());
+                        temp.add(i++, d.get("diaryPin"));
+                        Log.d("sdfsdfkd", temp.get(i - 1).toString());
                         //test.append("\n"+temp.get(i-1).toString());
-                        sub_basic = new Sub_Basic(getApplicationContext(), temp.get(i-1).toString());
+                        sub_basic = new Sub_Basic(getApplicationContext(), temp.get(i - 1).toString());
                         con.addView(sub_basic);
 
                     }
-                }
-                else
-                    {
+                } else {
 
-                    }
                 }
+            }
         });
 
     }
@@ -158,7 +159,7 @@ public class Basic extends AppCompatActivity {
     //앞에 LoginFragment와 같이 SearchingPIN을 짬
     //LoginActivity 128번째 줄 loginEvent()함수와 같이 짜면 될듯
     //이코드는 104번째줄 돋보기 화면버튼을 눌렀을 때 실행되는 함수
-    public void search(){
+    public void search() {
         dialog = SearchingPIN.newInstance("null");
         dialog.show(getSupportFragmentManager(), "dialog");
 
@@ -187,7 +188,7 @@ public class Basic extends AppCompatActivity {
         diary.put("diaryPin", pin);
 
 
-        firestore.collection("Diary").document(randomDictionary()+" "+pin).set(diary).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firestore.collection("Diary").document(randomDictionary() + " " + pin).set(diary).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
