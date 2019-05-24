@@ -5,16 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="하...ㅅㅂ"
-        android:id="@+id/search"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/contentContainer"
-        android:layout_below="@+id/search"
         android:layout_above="@+id/bottombar">
 
     </FrameLayout>

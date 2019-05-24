@@ -20,7 +20,6 @@ public class Diary extends AppCompatActivity {
     LookMap lookMap;
     LookDiary lookDiary;
     LookPhoto lookPhoto;
-    Button button;
     ListView listView;
     FrameLayout frameLayout;
 
@@ -33,33 +32,26 @@ public class Diary extends AppCompatActivity {
         lookMap = new LookMap();
         lookDiary=new LookDiary();
         lookPhoto=new LookPhoto();
-        button=findViewById(R.id.search);
         listView=findViewById(R.id.diaryList);
         frameLayout=findViewById(R.id.contentContainer);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Diary.this,Search.class);
-                startActivity(intent);
-            }
-        });
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer,lookDiary).commit();
+
         BottomBar bottomBar = findViewById(R.id.bottombar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
-                    case R.id.tab_photo: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
-                        break;
-                    }
-                    case R.id.tab_diary:{
+                    case R.id.tabDiary: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
                         break;
                     }
-                    case R.id.tab_map:{
+                    case R.id.tabPhoto:{
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
+                        break;
+                    }
+                    case R.id.tabMap:{
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookMap).commit();
                         break;
                     }

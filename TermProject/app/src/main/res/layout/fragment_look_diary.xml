@@ -6,11 +6,6 @@
     android:orientation="vertical"
     tools:context=".LookDiary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="다이어리 보기"
-        android:id="@+id/www"/>
     <ListView
         android:id="@+id/diaryList"
         android:layout_width="match_parent"
