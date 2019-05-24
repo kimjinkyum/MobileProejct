@@ -4,15 +4,12 @@
     <tabs>
         <tab
             id="@+id/tab_photo"
-            android:icon="@drawable/photo"
-            android:title="Photo" />
+            android:icon="@drawable/photo" />
         <tab
             id="@+id/tab_diary"
-            android:icon="@drawable/diary"
-            android:title="Diary"/>
+            android:icon="@drawable/diary" />
         <tab
             id="@+id/tab_map"
-            android:icon="@drawable/diary"
-            android:title="Map"/>
+            android:icon="@drawable/ic_nearby" />
     </tabs>
 </PreferenceScreen>

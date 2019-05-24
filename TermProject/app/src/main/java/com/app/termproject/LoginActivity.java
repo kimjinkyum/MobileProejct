@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setEnabled(false);
         idText = (EditText) findViewById(R.id.idText);
         passwordText = (EditText) findViewById(R.id.passwordText);
+        passwordText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         signupButton=(ImageButton)findViewById(R.id.signupButton);
         checkEnter(passwordText);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-        passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
 
     }
     /*Edit text에 값이 입력 됬는지 확인하여
