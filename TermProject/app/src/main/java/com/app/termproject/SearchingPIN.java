@@ -6,15 +6,27 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SearchingPIN extends DialogFragment implements View.OnClickListener {
     private static final String TAG = "LoginFragment";
     private static final String ARG_DIALOG_MAIN_MSG = "Login message";
     EditText editText;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference ;
 
     public static SearchingPIN newInstance(String m) {
         Bundle bundle = new Bundle();
@@ -47,11 +59,13 @@ public class SearchingPIN extends DialogFragment implements View.OnClickListener
         return alert;
     }
 
-    private void dismissDialog() {
+    private void dismissDialog()
+    {
         this.dismiss();
     }
 
     public void onClick(View v) {
 
     }
+
 }

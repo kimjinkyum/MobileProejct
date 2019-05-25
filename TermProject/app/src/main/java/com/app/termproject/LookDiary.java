@@ -67,7 +67,6 @@ public class LookDiary extends Fragment {
                 intent.putExtra("date",list2.get(position));
                 //image를 보낸다.
 //                intent.putExtra("name",list1.get(position));
-
                 startActivity(intent);
 
             }
@@ -78,7 +77,8 @@ public class LookDiary extends Fragment {
     }
 
     // 검색에 사용될 데이터를 리스트에 추가한다.
-    private void settingList() {
+    private void settingList()
+    {
         list1.add("박지현");
         list1.add("수지");
         list1.add("남태현");
@@ -108,5 +108,4 @@ public class LookDiary extends Fragment {
         list2.add("이상웅");
         list2.add("노웅기");
     }
-
 }

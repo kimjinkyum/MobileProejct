@@ -43,7 +43,8 @@ public class Diary extends AppCompatActivity {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
-                    case R.id.tabDiary: {
+                    case R.id.tabDiary:
+                        {
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
                         break;
                     }

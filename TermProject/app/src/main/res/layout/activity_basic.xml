@@ -8,21 +8,42 @@
 
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9">
-    <LinearLayout
-        android:id="@+id/diaryView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-    </LinearLayout>
+        android:layout_weight="9">
+
+        <LinearLayout
+            android:id="@+id/diaryView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="600dp">
+
+            </ListView>
+
+        </LinearLayout>
 
     </ScrollView>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/test"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/testbutton"
+        />
 
     <ImageButton
         android:id="@+id/createDiary"
+        android:layout_below="@+id/diaryView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

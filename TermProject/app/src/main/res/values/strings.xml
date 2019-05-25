@@ -2,5 +2,6 @@
     <string name="app_name">Remember us</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_basic">Remember us</string>
+    <string name="title_activity_add_test">AddTest</string>
 
 </resources>

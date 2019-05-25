@@ -5,44 +5,56 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.os.Message;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 
 public class Basic extends AppCompatActivity {
 
-    String userEmail = "";
     ImageButton createButton;
     SearchingPIN dialog;
-
+    ArrayList<String> list;
+    ArrayAdapter<String> adapter;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference ;
     LinearLayout con;
-    private FirebaseFirestore firestore;
-    ArrayList<Object> temp = new ArrayList<>();
+    ListView listView;
+    Button testButton;
+    EditText test;
     private Map<String, Object> diary = new HashMap<>();
-    private ArrayList<Object> Directory = new ArrayList<>();
+    HashMap<String,String> result=new HashMap<>();
+
+
 
 
     Handler handler = new Handler() {
@@ -58,33 +70,17 @@ public class Basic extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_basic);
-        Intent pass = getIntent();
-        userEmail = pass.getStringExtra("UserEmail");
-        firestore = FirebaseFirestore.getInstance();
         createButton = findViewById(R.id.createDiary);
         con = findViewById(R.id.diaryView);
-
-        getDiary();
+        listView=findViewById(R.id.listView);
+        list=new ArrayList<>();
+        adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1);
+        listView.setAdapter(adapter);
         Sub_Basic sub;
         //여기서 반복문을 통해 DB에 있는 정보를 가져와 초기화를 한다
         //파라미터가 현재 하나인데 2개를 만들어 db정보만 넣음 될듯
-        ArrayList<String> name = new ArrayList<>();
-        name.add("1");
-        name.add("2");
 
-        for (int i = 0; i < name.size(); i++) {
-            sub = new Sub_Basic(getApplicationContext(), name.get(i));
-            con.addView(sub);
-
-            sub.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Message msg = handler.obtainMessage();
-                    handler.sendMessage(msg);
-                }
-            });
-        }
-
+        showDiaryList();
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,15 +88,48 @@ public class Basic extends AppCompatActivity {
 
 
                 Intent intent = new Intent(Basic.this, CreateDiary.class);
-                startActivity(intent);
-                //다이어리 생성과 동시에 여기 밑에 DB 연동 필요
-//                Toast.makeText(Basic.this, randomDictionary(), Toast.LENGTH_SHORT).show();
-                createDB();
 
+                startActivityForResult(intent,1);
 
             }
         });
+        testButton=findViewById(R.id.testbutton);
+        test=findViewById(R.id.test);
+        testButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                String k=test.getText().toString();
+                FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+                String uid=user.getUid();
+                String email=user.getEmail();
+                Log.d("ddd",k);
+                GetDiary d= new GetDiary();
+                d.setPin(k);
+                d.setUid(uid);
+                d.writeOld(uid,email,k);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("kk",list.get(position));
+                Intent intent=new Intent(getApplicationContext(), AddTest.class);
 
+                //GetDiary d= new GetDiary();
+
+                intent.putExtra("pinnumber",list.get(position));
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String name=data.getStringExtra("diary_name");
+        createDB(name);
     }
 
     @Override
@@ -109,36 +138,6 @@ public class Basic extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void getDiary() {
-
-        ArrayList<Object> sdf = new ArrayList<>();
-        firestore.collection("Diary").whereEqualTo("userEmail", userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QueryDocumentSnapshot d;
-                Sub_Basic sub_basic;
-                int i = 0;
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        d = document;
-                        //getDiary.add(document.getId());
-                        Log.d("sdfsdf", document.getId() + " => " + document.getData());
-                        temp.add(i++, d.get("diaryPin"));
-                        Log.d("sdfsdfkd", temp.get(i - 1).toString());
-                        //test.append("\n"+temp.get(i-1).toString());
-                        sub_basic = new Sub_Basic(getApplicationContext(), temp.get(i - 1).toString());
-                        con.addView(sub_basic);
-
-                    }
-                } else {
-
-                }
-            }
-        });
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,14 +163,6 @@ public class Basic extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), "dialog");
 
     }
-
-    public String randomDictionary() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String pinnumber = user.getUid();
-        Toast.makeText(this, pinnumber, Toast.LENGTH_LONG).show();
-        return pinnumber;
-    }
-
     public int randomDiaryPinNumber() {
         int k = new Random().nextInt();
         if (k < 0)
@@ -181,24 +172,47 @@ public class Basic extends AppCompatActivity {
         return k + (m * r);
     }
 
-    public void createDB() {
-        int pin = randomDiaryPinNumber();
-        diary.put("userEmail", userEmail);
-        diary.put("diaryName", "abc");
-        diary.put("diaryPin", pin);
+    public void createDB(String diary_name) {
+        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+        String uid=user.getUid();
+        String email=user.getEmail();
+        String diary_pin= Integer.toString(randomDiaryPinNumber());
+        GetDiary d= new GetDiary();
+        d.set(uid,diary_pin,diary_name);
+        d.writeNew(uid,email,diary_pin,diary_name);
+    }
 
-
-        firestore.collection("Diary").document(randomDictionary() + " " + pin).set(diary).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void showDiaryList()
+    {
+        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+        String uid=user.getUid();
+        databaseReference=firebaseDatabase.getReference("user-diary/"+uid);
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                adapter.clear();
+                for(DataSnapshot message: dataSnapshot.getChildren())
+                {
+                    //Log.d("ddd", message.child(message.getKey()).getValue().toString());
+                    Log.d("ddd",message.getKey());
+                    String value=message.getKey();
+                    String a= dataSnapshot.child(value).child("diaryname").getValue().toString() ;
+                    Log.d("Ddd",a);
+                    list.add(value);
+                    adapter.add(a);
 
+                }
+                adapter.notifyDataSetChanged();
+                //listView.setSelection(adapter.getCount()-1);
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
     }
 
 }
