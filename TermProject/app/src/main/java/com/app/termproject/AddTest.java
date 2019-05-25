@@ -1,12 +1,17 @@
 package com.app.termproject;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +34,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -47,6 +54,21 @@ public class AddTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_add_test);
+
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+            }
+        }
+
+
+
         btChoose = (Button) findViewById(R.id.bt_choose);
         btUpload = (Button) findViewById(R.id.bt_upload);
         ivPreview = (ImageView) findViewById(R.id.iv_preview);
@@ -111,6 +133,37 @@ public class AddTest extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
+
+
+
+
+            // exif 위도 경도 추출
+
+            float[] latlng = new float[2];
+            boolean isDone;
+            try {
+                File file = new File(filePath.getPath());
+                final String[] split = file.getPath().split(":");
+                String filePathTemp = split[0];
+                ExifInterface exif = new ExifInterface(filePathTemp);
+
+                isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
+
+                // latlng[0] : 위도
+                // latlng[1] : 경도
+                Log.d("latlng", latlng[0] + " " + latlng[1]);
+                // mView.setText(latlng[0] + " " + latlng[1]);
+                // showExif(exif);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show();
+            }
+
+
+
+
         }
     }
     private void getURI() {
