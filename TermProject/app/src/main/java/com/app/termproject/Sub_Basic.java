@@ -3,6 +3,7 @@ package com.app.termproject;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -32,6 +33,7 @@ public class Sub_Basic extends FrameLayout {
         //여기다가 diary DB에서 가져온 이름만 집어넣자
         button.setText(string);
         button.setTextSize(30);
+
     }
 
 

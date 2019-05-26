@@ -21,7 +21,7 @@ public class GetDiary {
     public String email;
     public String diary_name;
     public String uid;
-    public boolean is;
+    public boolean is=false;
     private DatabaseReference firebaseDatabase;
 
     public GetDiary() {

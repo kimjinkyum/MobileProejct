@@ -35,6 +35,13 @@ public class Diary extends AppCompatActivity {
         listView=findViewById(R.id.diaryList);
         frameLayout=findViewById(R.id.contentContainer);
 
+        //앞에서 보낸 pinnumber 가져오기
+        Intent intent=getIntent();
+        Bundle bundle =intent.getExtras();
+        String string = bundle.getString("pinnumber");
+
+        Toast.makeText(getApplicationContext(), string+"가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer,lookDiary).commit();
 

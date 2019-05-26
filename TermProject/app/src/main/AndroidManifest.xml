@@ -9,10 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".AddTest"
-            android:label="@string/title_activity_add_test"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".DiaryDetail" />
         <activity
             android:name=".Diary"
