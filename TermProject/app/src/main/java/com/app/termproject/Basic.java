@@ -45,7 +45,6 @@ public class Basic extends AppCompatActivity {
     private DatabaseReference databaseReference;
     LinearLayout con;
     ListView diaryView;
-    EditText test;
 
 
     Handler handler = new Handler() {
@@ -122,23 +121,25 @@ public class Basic extends AppCompatActivity {
 
                 //수정!!
             case R.id.searchingPIN:
-                SearchingPIN searchingPIN=new SearchingPIN(this);
+                SearchingPIN searchingPIN = new SearchingPIN(this);
                 searchingPIN.setDialogListener(new SearchingPIN.SearchingPINListener() {
                     @Override
                     public void onPositiveClicked(String pin) {
                         String k = pin;
+                        Toast.makeText(getApplicationContext(), k, Toast.LENGTH_SHORT).show();
+
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = user.getUid();
                         String email = user.getEmail();
                         Log.d("ddd", k);
-                        //diary 이름을 모르겠음/ 이름까지 넣어야 writeOld 함수에서 해결할듯?
-                        GetDiary d = new GetDiary(uid,email,k);
-                        d.writeOld(uid, email, k);
-                        d.isPin();
-                        if(d.is!=true){
-                            notFound=NotFound.newInstance("null");
+                        GetDiary getDiary = new GetDiary(uid, email, k);
+//                        getDiary.isPin();
+                        if (getDiary.pinCheck()) {
+                            notFound = NotFound.newInstance("null");
                             notFound.show(getSupportFragmentManager(), "dialog");
 
+                        } else { //찾으면
+                            Toast.makeText(getApplicationContext(), "꺼져", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -150,7 +151,7 @@ public class Basic extends AppCompatActivity {
                 });
                 searchingPIN.show();
 
-                default:
+            default:
                 return super.onOptionsItemSelected(item);
         }
     }

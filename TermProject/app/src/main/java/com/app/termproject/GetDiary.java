@@ -57,6 +57,15 @@ public class GetDiary {
         this.email = email;
     }
 
+    public boolean pinCheck(){
+        final DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("diary");
+        if(databaseReference.getKey().equals(pinnumber)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public void isPin()
     {
         final DatabaseReference databaseReference;
@@ -74,7 +83,6 @@ public class GetDiary {
                         diary_name=dataSnapshot.child(message.getKey()).child("diaryname").getValue().toString();
                         Log.d("co","in");
                         is=true;
-                        writeOld(uid,email,pinnumber);
                         break;
                     }
                     else {
