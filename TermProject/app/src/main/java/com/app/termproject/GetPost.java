@@ -54,12 +54,7 @@ public class GetPost
         Map<String,Object> value=toMap();
         Map<String,Object> update=new HashMap<>();
         update.put("/diary/"+pinnumber+"/"+key, value);
-        //firebaseDatabase.child("diary").child(pinnumber).child("diaryname").setValue(postName);
-        Log.d("confirm","update");
         firebaseDatabase.updateChildren(update);
         Log.d("confirm","confirm");
     }
-
-
-
 }
