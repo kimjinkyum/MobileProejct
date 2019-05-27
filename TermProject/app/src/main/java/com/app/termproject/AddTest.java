@@ -140,14 +140,17 @@ public class AddTest extends AppCompatActivity {
 
 
             // exif 위도 경도 추출
-
             float[] latlng = new float[2];
             boolean isDone;
             try {
+                /*
                 File file = new File(filePath.getPath());
                 final String[] split = file.getPath().split(":");
                 String filePathTemp = split[0];
                 ExifInterface exif = new ExifInterface(filePathTemp);
+                */
+                String path = FileUtility.getRealPathFromURI(this, Uri.parse(filePath.getPath()));
+                ExifInterface exif = new ExifInterface(path);
 
                 isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
 
