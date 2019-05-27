@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -114,11 +116,12 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("kk",list.get(position));
-                Intent intent=new Intent(getApplicationContext(), AddTest.class);
-
+                Intent intent=new Intent(getApplicationContext(), Diary.class);
                 //GetDiary d= new GetDiary();
-
+                FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+                String uid=user.getUid();
                 intent.putExtra("pinnumber",list.get(position));
+                intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });
@@ -201,7 +204,6 @@ public class Basic extends AppCompatActivity {
                     Log.d("Ddd",a);
                     list.add(value);
                     adapter.add(a);
-
                 }
                 adapter.notifyDataSetChanged();
                 //listView.setSelection(adapter.getCount()-1);

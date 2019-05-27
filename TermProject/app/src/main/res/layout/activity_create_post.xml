@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일기의 이름입력해주세요"
+        android:id="@+id/postNameText"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/postNameText"
+        android:id="@+id/postNameEditText"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/postEditText"
+        android:layout_below="@+id/postNameEditText"
+        android:layout_alignLeft="@+id/postNameText"
+        android:lines="5"
+        android:scrollbars="vertical"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/postImage"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/imageadd"
+        android:layout_below="@+id/postEditText"
+        android:layout_above="@+id/postConfirmButton"
+
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postConfirmButton"
+        android:src="@drawable/addbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="#ffffff"
+        />
+</RelativeLayout>

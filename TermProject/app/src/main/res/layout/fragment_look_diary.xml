@@ -6,12 +6,23 @@
     android:orientation="vertical"
     tools:context=".LookDiary">
 
-    <ListView
-        android:id="@+id/diaryList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:divider="#ffcc22"
-        android:dividerHeight="1.5dp" />
+        <ListView
+            android:id="@+id/diaryList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:divider="#ffcc22"
+            android:dividerHeight="1.5dp"
+            android:scrollbars="horizontal"
+            android:layout_weight="9"
+            />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일기 쓰기"
+        android:id="@+id/createPost"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        />
 
 </LinearLayout>
