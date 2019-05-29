@@ -1,71 +1,65 @@
 package com.app.termproject;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-public class SearchingPIN extends DialogFragment implements View.OnClickListener {
-    private static final String TAG = "LoginFragment";
-    private static final String ARG_DIALOG_MAIN_MSG = "Login message";
-    EditText editText;
+public class SearchingPIN extends Dialog implements View.OnClickListener {
+    private EditText editText;
+    private Button positiveButton;
+    private Button negativeButton;
+    private Context context;
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference ;
 
-    public static SearchingPIN newInstance(String m) {
-        Bundle bundle = new Bundle();
-        bundle.putString(ARG_DIALOG_MAIN_MSG, m);
-        SearchingPIN fragment = new SearchingPIN();
-        fragment.setArguments(bundle);
-        return fragment;
+    public SearchingPIN(Context context){
+        super(context);
+        this.context=context;
     }
 
-    public void onCreate(Bundle s) {
-        super.onCreate(s);
+    private SearchingPINListener searchingPINListener;
 
+    interface SearchingPINListener{
+        void onPositiveClicked(String pin);
+        void onNegativeClicked();
     }
 
-    public Dialog onCreateDialog(Bundle s) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        builder.setView(inflater.inflate(R.layout.fragment_searching, null)).setPositiveButton("검색", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface d, int w) {
-                String pinNumber = editText.getText().toString();
-                dismissDialog();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(255, 237, 21, 96)));
-
-        alert.show();
-        return alert;
+    public void setDialogListener(SearchingPINListener searchingPINListener){
+        this.searchingPINListener=searchingPINListener;
     }
 
-    private void dismissDialog()
-    {
-        this.dismiss();
+
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_searching);
+
+        positiveButton=findViewById(R.id.positiveButton);
+        negativeButton=findViewById(R.id.negativeButton);
+        editText=findViewById(R.id.pinNum);
+
+        positiveButton.setOnClickListener(this);
+        negativeButton.setOnClickListener(this);
     }
 
-    public void onClick(View v) {
+    @Override
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.positiveButton:
+                String pin=editText.getText().toString();
 
+                searchingPINListener.onPositiveClicked(pin);
+                dismiss();
+                break;
+            case R.id.negativeButton:
+                cancel();
+                break;
+        }
     }
-
 }

@@ -76,12 +76,13 @@ public class LookDiary extends Fragment {
         if(bundle!=null)
         {
             pinnumber=bundle.getString("pinnumber");
-            uid=bundle.getString("uid");
+
             Log.d("pinnumber",pinnumber);
-            Log.d("pinnumber",uid);
+
         }
 
         view=inflater.inflate(R.layout.fragment_look_diary, container, false);
+
         /*listView=view.findViewById(R.id.diaryList);
         // 리스트를 생성한다.
         list1 = new ArrayList<>();
@@ -104,12 +105,12 @@ public class LookDiary extends Fragment {
                startActivityForResult(i,11);
            }
         });
-
+        ((Diary)getActivity()).getPostInformation(0);
 
 
         // 검색에 사용할 데이터을 미리 저장한다.
-        settingList();
-        getImage();
+        //settingList();
+        //getImage();
         //getImage();
         // 리스트의 모든 데이터를 arraylist에 복사한다.// list 복사본을 만든다.
         /*arraylist1 = new ArrayList<String>();
@@ -158,6 +159,23 @@ public class LookDiary extends Fragment {
             Glide.with(view.getContext()).load(uri).into(imageView);
         }
     }
+    public void show(ArrayList<ArrayList<String>> groupList)
+    {
+        ArrayList<String>postName= groupList.get(0);
+        ArrayList<String>postContent= groupList.get(1);
+        ArrayList<String>uri= groupList.get(2);
+        ArrayList<String>latitude= groupList.get(3);
+        ArrayList<String>longitude= groupList.get(4);
+        for(int i=0;i<postName.size();i++)
+        {
+            Log.d("cccc",postName.get(i));
+            Log.d("cccc",postContent.get(i));
+            Log.d("cccc",uri.get(i));
+            Log.d("cccc",latitude.get(i));
+            Log.d("cccc",longitude.get(i));
+        }
+    }
+
 }
     // 검색에 사용될 데이터를 리스트에 추가한다.
 

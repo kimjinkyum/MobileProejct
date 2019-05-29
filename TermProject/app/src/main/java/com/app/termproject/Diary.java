@@ -2,78 +2,148 @@ package com.app.termproject;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
 
-public class Diary extends AppCompatActivity  {
+public class Diary extends AppCompatActivity {
 
     LookMap lookMap;
     LookDiary lookDiary;
-    LookPhoto lookPhoto;
+    LookPIN lookPhoto;
     ListView listView;
     FrameLayout frameLayout;
-    String diaryPinNumber;
-    String uid;
+    String pinnumber;
+    ArrayList<ArrayList<String>> groupList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_diary);
 
-
         lookMap = new LookMap();
         lookDiary=new LookDiary();
-        lookPhoto=new LookPhoto();
+        lookPhoto=new LookPIN();
         //listView=findViewById(R.id.diaryList);
         frameLayout=findViewById(R.id.contentContainer);
-        Intent passIntent=getIntent();
-        diaryPinNumber=passIntent.getStringExtra("pinnumber");
-        uid=passIntent.getStringExtra("uid");
-        Bundle bundle=new Bundle();
-        bundle.putString("pinnumber",diaryPinNumber);
-        bundle.putString("uid",uid);
-        lookDiary.setArguments(bundle);
+        groupList=new ArrayList<>();
+
+        //앞에서 보낸 pinnumber 가져오기
+        Intent intent=getIntent();
+        Bundle bundle =intent.getExtras();
+        pinnumber = bundle.getString("pinnumber");
+        Bundle bundle2=new Bundle();
+        bundle2.putString("pinnumber",pinnumber);
+
+        lookDiary.setArguments(bundle2);
+        //Toast.makeText(getApplicationContext(), string+"가 선택되었습니다.", Toast.LENGTH_SHORT).show();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer,lookDiary).commit();
 
-        BottomBar bottomBar = findViewById(R.id.bottombar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+        BottomNavigationView bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId) {
-                    /*case R.id.tabPhoto:
-                    {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.menu_diary:
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
-                        break;
-                    }*/
-                    case R.id.tabPhoto:{
+
+                        return true;
+                    case R.id.menu_photo:
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
-                        Bundle bundle= new Bundle();
-                        bundle.putString("name",diaryPinNumber);
-                        lookPhoto.setArguments(bundle);
-                        break;
-                    }
-                    /*
-                    case R.id.tabMap:{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookMap).commit();
-                        break;
-                    }*/
+
+                        return true;
+                    case R.id.menu_map:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookMap).commit();
+
+                        return true;
                 }
+                return false;
+            }
+        });
+
+    }
+
+    /*디비 읽어오는 함순데 그 map하고 diary일때 다르니까 index==0일때는 Diary한테 보내는거고 index==1일떄는 map에게*/
+    public void getPostInformation(final int index)
+    {
+        int count=0;
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference;
+        databaseReference = firebaseDatabase.getReference("diary").child(pinnumber);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String>postNameList=new ArrayList<>();
+                ArrayList<String>postContentList=new ArrayList<>();
+                ArrayList<String>latitudeList=new ArrayList<>();
+                ArrayList<String>longitudeList=new ArrayList<>();
+                ArrayList<String>uriList=new ArrayList<>();
+
+                groupList.clear();
+                for (DataSnapshot message : dataSnapshot.getChildren())
+                {
+                    Log.d("ccc", message.getKey());
+                    String value = message.getKey();
+                    if(!value.equals("diaryname"))
+                    {
+                        String postName = dataSnapshot.child(value).child("postName").getValue().toString();
+                        postNameList.add(postName);
+                        postContentList.add(dataSnapshot.child(value).child("content").getValue().toString());
+                        latitudeList.add((dataSnapshot.child(value).child("latitude").getValue().toString()));
+                        longitudeList.add((dataSnapshot.child(value).child("longitude").getValue().toString()));
+                        uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
+                        //adapter.add(diaryname);
+                    }
+                    //list.add(value);
+                    //adapter.add(diaryname);
+                }
+                groupList.add(postNameList);
+                groupList.add(postContentList);
+                groupList.add(uriList);
+                groupList.add(latitudeList);
+                groupList.add(longitudeList);
+                if (index==0)
+                {
+                    lookDiary.show(groupList);
+                }
+                else if(index==1)
+                {
+                    lookMap.show(groupList);
+                }
+                //adapter.notifyDataSetChanged();
+                //listView.setSelection(adapter.getCount()-1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
+
 }

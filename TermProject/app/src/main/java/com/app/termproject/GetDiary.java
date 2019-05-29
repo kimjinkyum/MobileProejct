@@ -21,7 +21,7 @@ public class GetDiary {
     public String email;
     public String diary_name;
     public String uid;
-    public boolean is;
+    public boolean is=false;
     private DatabaseReference firebaseDatabase;
 
     public GetDiary() {
@@ -57,6 +57,15 @@ public class GetDiary {
         this.email = email;
     }
 
+    public boolean pinCheck(){
+        final DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("diary");
+        if(databaseReference.getKey().equals(pinnumber)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public void isPin()
     {
         final DatabaseReference databaseReference;
@@ -74,7 +83,6 @@ public class GetDiary {
                         diary_name=dataSnapshot.child(message.getKey()).child("diaryname").getValue().toString();
                         Log.d("co","in");
                         is=true;
-                        writeOld(uid,email,pinnumber);
                         break;
                     }
                     else {
@@ -102,9 +110,9 @@ public class GetDiary {
             Log.d("ddd","in write old");
         }
         else
-            {
-                Log.d("ddd","out write old");
-            }
+        {
+            Log.d("ddd","out write old");
+        }
     }
 
     public void set(String uid, String pinnumber,String diary_name) {
@@ -127,7 +135,7 @@ public class GetDiary {
         update.put("/diary/" + pinnumber, value);
         update.put("/user-diary/" +uid+ "/" + pinnumber,value);
         firebaseDatabase.updateChildren(update);
+
     }
 
 }
-

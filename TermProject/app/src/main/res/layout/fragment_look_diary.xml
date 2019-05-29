@@ -7,15 +7,15 @@
     android:orientation="vertical"
     tools:context=".LookDiary">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="일기 쓰기"
-            android:id="@+id/createPost"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일기 쓰기"
+        android:id="@+id/createPost"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
 
-             />
+        />
 
     <ImageView
         android:layout_width="wrap_content"

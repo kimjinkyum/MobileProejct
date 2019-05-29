@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_diary"
+        android:icon="@drawable/diary"
+        android:title="Diary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_photo"
+        android:icon="@drawable/photo"
+        android:title="Photo"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_map"
+        android:icon="@drawable/ic_nearby"
+        android:title="Map"
+        app:showAsAction="ifRoom" />
+</menu>
