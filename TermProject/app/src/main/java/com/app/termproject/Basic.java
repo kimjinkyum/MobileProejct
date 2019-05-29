@@ -195,6 +195,7 @@ public class Basic extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 adapter.clear();
+                list.clear();
                 for(DataSnapshot message: dataSnapshot.getChildren())
                 {
                     //Log.d("ddd", message.child(message.getKey()).getValue().toString());

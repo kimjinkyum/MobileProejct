@@ -3,12 +3,15 @@
 
     <tabs>
         <tab
-            id="@+id/tabDiary"
+           android:id="@+id/tabDiary"
             android:icon="@drawable/diary" />
         <tab
+
             id="@+id/tabPhoto"
             android:icon="@drawable/photo" />
+
         <tab
+
             id="@+id/tabMap"
             android:icon="@drawable/ic_nearby" />
     </tabs>

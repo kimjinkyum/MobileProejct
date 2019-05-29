@@ -16,7 +16,9 @@ import android.widget.Toast;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
-public class Diary extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class Diary extends AppCompatActivity  {
 
     LookMap lookMap;
     LookDiary lookDiary;
@@ -25,7 +27,6 @@ public class Diary extends AppCompatActivity {
     FrameLayout frameLayout;
     String diaryPinNumber;
     String uid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class Diary extends AppCompatActivity {
         lookMap = new LookMap();
         lookDiary=new LookDiary();
         lookPhoto=new LookPhoto();
-        listView=findViewById(R.id.diaryList);
+        //listView=findViewById(R.id.diaryList);
         frameLayout=findViewById(R.id.contentContainer);
         Intent passIntent=getIntent();
         diaryPinNumber=passIntent.getStringExtra("pinnumber");
@@ -44,10 +45,7 @@ public class Diary extends AppCompatActivity {
         Bundle bundle=new Bundle();
         bundle.putString("pinnumber",diaryPinNumber);
         bundle.putString("uid",uid);
-
         lookDiary.setArguments(bundle);
-
-
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer,lookDiary).commit();
@@ -57,25 +55,23 @@ public class Diary extends AppCompatActivity {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
-                    case R.id.tabDiary:
-                        {
-                            Bundle bundle=new Bundle();
-                            bundle.putString("pinnumber",diaryPinNumber);
-                            bundle.putString("uid",uid);
-
-                            lookDiary.setArguments(bundle);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
-
+                    /*case R.id.tabPhoto:
+                    {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
                         break;
-                    }
+                    }*/
                     case R.id.tabPhoto:{
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
+                        Bundle bundle= new Bundle();
+                        bundle.putString("name",diaryPinNumber);
+                        lookPhoto.setArguments(bundle);
                         break;
                     }
+                    /*
                     case R.id.tabMap:{
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookMap).commit();
                         break;
-                    }
+                    }*/
                 }
             }
         });

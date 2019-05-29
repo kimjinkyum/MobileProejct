@@ -1,5 +1,6 @@
 package com.app.termproject;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,13 +45,13 @@ public class GetPost
         result.put("latitude",latitude);
         return result;
     }
-    public void writeNewPost(String uid,String pinnumber, String postName,String uri, String contentPost,double longitude,double latitude)
+    public void writeNewPost(String uid, String pinnumber, String postName, String uri, String contentPost, double longitude, double latitude)
     {
 
         Log.d("confirm",pinnumber);
         String key=firebaseDatabase.child("diary").child(pinnumber).push().getKey();
         Log.d("confirm",key);
-        GetPost p=new GetPost(pinnumber,postName,uid,uri,contentPost,longitude,latitude);
+        GetPost p=new GetPost();
         Map<String,Object> value=toMap();
         Map<String,Object> update=new HashMap<>();
         update.put("/diary/"+pinnumber+"/"+key, value);

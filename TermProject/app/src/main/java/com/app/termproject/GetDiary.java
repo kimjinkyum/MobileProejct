@@ -127,7 +127,6 @@ public class GetDiary {
         update.put("/diary/" + pinnumber, value);
         update.put("/user-diary/" +uid+ "/" + pinnumber,value);
         firebaseDatabase.updateChildren(update);
-
     }
 
 }

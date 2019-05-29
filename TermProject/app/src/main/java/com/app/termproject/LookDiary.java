@@ -1,12 +1,17 @@
 package com.app.termproject;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +19,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,15 +45,23 @@ public class LookDiary extends Fragment {
     Button postButton;
     String pinnumber;
     String uid;
-    private List<String> list1;
-    private List<String> list2;// 데이터를 넣은 리스트변수
+    ImageView imageView;
+
+    private ArrayList<String> list1;
+    private ArrayList<String> list2;// 데이터를 넣은 리스트변수
     private ListView listView;
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
     private ArrayList<String> arraylist1;
     private ArrayList<String> arraylist2;
     private ArrayAdapter<String>adapterPost;
     private ArrayList<String>listPost;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference ;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter recycleAdapter;
+    String file;
     public LookDiary() {
         // Required empty public constructor
     }
@@ -57,14 +80,19 @@ public class LookDiary extends Fragment {
             Log.d("pinnumber",pinnumber);
             Log.d("pinnumber",uid);
         }
+
         view=inflater.inflate(R.layout.fragment_look_diary, container, false);
-        listView=view.findViewById(R.id.diaryList);
+        /*listView=view.findViewById(R.id.diaryList);
         // 리스트를 생성한다.
-        list1 = new ArrayList<String>();
-        list2 = new ArrayList<String>();
-        listPost=new ArrayList<String>();
+        list1 = new ArrayList<>();
+        list2 = new ArrayList<>();
+        listPost=new ArrayList<>();
+        adapter = new SearchAdapter(list1,list2, view.getContext());
         adapterPost=new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1);
         listView.setAdapter(adapterPost);
+
+        */
+        imageView=view.findViewById(R.id.postImageView);
         postButton=view.findViewById(R.id.createPost);
         postButton.setOnClickListener(new View.OnClickListener()
         {
@@ -73,14 +101,16 @@ public class LookDiary extends Fragment {
                Intent i=new Intent(view.getContext(),CreatePost.class);
                i.putExtra("pinnumber",pinnumber);
                i.putExtra("uid",uid);
-               startActivity(i);
+               startActivityForResult(i,11);
            }
         });
 
 
 
         // 검색에 사용할 데이터을 미리 저장한다.
-        //settingList();
+        settingList();
+        getImage();
+        //getImage();
         // 리스트의 모든 데이터를 arraylist에 복사한다.// list 복사본을 만든다.
         /*arraylist1 = new ArrayList<String>();
         arraylist1.addAll(list1);
@@ -93,7 +123,7 @@ public class LookDiary extends Fragment {
         // 리스트뷰에 아답터를 연결한다.
         listView.setAdapter(adapter);*/
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //넘기기
@@ -106,51 +136,29 @@ public class LookDiary extends Fragment {
                 startActivity(intent);
 
             }
-        });
+        });*/
 
         // Inflate the layout for this fragment
         return view;
     }
-
-
-    public void createDB(String postName, String postContent, String filePath)
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        //String pinnumber, String post_name, String uid,String uri, String contentPost,float longitude, float latitude
+        super.onActivityResult(requestCode,resultCode,data);
+        String postNameText=data.getStringExtra("postName");
+        String download=data.getStringExtra("uri");
+        String postContentText=data.getStringExtra("postContent");
+        GetPost post=new GetPost(uid,pinnumber,postNameText,download,postContentText,3.14,3.14);;
+        post.writeNewPost(uid,pinnumber,postNameText,download.toString(),postContentText,3.14,3.14);
+    }
 
-        GetPost post=new GetPost(pinnumber,postName,uid,filePath,postContent,3.14,3.14);
-        post.writeNewPost(pinnumber,postName,uid,filePath,postContent,3.14,3.14);
+    private void getImage() {
+        if (file != null) {
+            Uri uri = Uri.parse(file);
+            Log.d("newPost",uri.toString());
+            Glide.with(view.getContext()).load(uri).into(imageView);
+        }
     }
 }
     // 검색에 사용될 데이터를 리스트에 추가한다.
-    /*private void settingList()
-    {
-        list1.add("박지현");
-        list1.add("수지");
-        list1.add("남태현");
-        list1.add("하성운");
-        list1.add("크리스탈");
-        list1.add("강승윤");
-        list1.add("손나은");
-        list1.add("남주혁");
-        list1.add("루이");
-        list1.add("진영");
-        list1.add("슬기");
-        list1.add("이해인");
-        list1.add("고원희");
-        list1.add("설리");
-        list2.add("공명");
-        list2.add("김예림");
-        list2.add("혜리");
-        list2.add("웬디");
-        list2.add("박혜수");
-        list2.add("카이");
-        list2.add("진세연");
-        list2.add("동호");
-        list2.add("박세완");
-        list2.add("도희");
-        list2.add("창모");
-        list2.add("허영지");
-        list2.add("이상웅");
-        list2.add("노웅기");
-    }*/
+
 
