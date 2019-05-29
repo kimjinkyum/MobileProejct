@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.zip.Inflater;
 
 
 public class Basic extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class Basic extends AppCompatActivity {
     private DatabaseReference databaseReference;
     LinearLayout con;
     ListView diaryView;
-
+    private String num;
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -60,6 +61,7 @@ public class Basic extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_basic);
+
         createButton = findViewById(R.id.createDiary);
         con = findViewById(R.id.container);
         diaryView = findViewById(R.id.diaryView);
@@ -139,7 +141,7 @@ public class Basic extends AppCompatActivity {
                             notFound.show(getSupportFragmentManager(), "dialog");
 
                         } else { //찾으면
-                            Toast.makeText(getApplicationContext(), "꺼져", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
                         }
 
                     }

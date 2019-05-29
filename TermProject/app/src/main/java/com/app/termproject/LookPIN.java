@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LookPhoto extends Fragment {
+public class LookPIN extends Fragment {
 
 
-    public LookPhoto() {
+    public LookPIN() {
         // Required empty public constructor
     }
 
@@ -23,7 +23,7 @@ public class LookPhoto extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return (ViewGroup)inflater.inflate(R.layout.fragment_look_photo, container, false);
+        return (ViewGroup)inflater.inflate(R.layout.fragment_get_my_pinnum, container, false);
     }
 
 }
