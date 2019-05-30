@@ -52,7 +52,7 @@ public class SearchAdapter extends BaseAdapter {
 
             viewHolder.img = (ImageView) convertView.findViewById(R.id.diaryImageView);
             viewHolder.name = (TextView) convertView.findViewById(R.id.diaryName);
-            viewHolder.date = (TextView) convertView.findViewById(R.id.diaryDate);
+            //viewHolder.date = (TextView) convertView.findViewById(R.id.diaryDate);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

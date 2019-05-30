@@ -10,6 +10,12 @@
         android:text="일기의 이름입력해주세요"
         android:id="@+id/postNameText"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="날짜 선택"
+        android:id="@+id/postDateButton"
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +32,7 @@
         android:lines="5"
         android:scrollbars="vertical"
         />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

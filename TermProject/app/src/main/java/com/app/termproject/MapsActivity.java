@@ -9,14 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-/*
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-*/
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,10 +26,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 
-public class MapsActivity extends FragmentActivity //implements OnMapReadyCallback
-{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-/*
+
     private GoogleMap mMap;
 
 
@@ -51,20 +42,25 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
     double lat;
     double lng;
     String[] markedCities;
-  */
+    /*
+    reverseGeoHandler reHandler;
+    geoHandler geoHan;
+    */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
 
-       /* infoWindow = getLayoutInflater().inflate(R.layout.info, null);
+        infoWindow = getLayoutInflater().inflate(R.layout.info, null);
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
+        mapFragment.getMapAsync(this);
     }
 
 
@@ -77,7 +73,7 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    /*@Override
+    @Override
     public void onMapReady(GoogleMap googleMap) {
 
 
@@ -93,11 +89,51 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
 
 
 
+        /*
+        city = null;
+        lat = 0;
+        lng = 0;
+        reHandler = new reverseGeoHandler();
+        geoHan = new geoHandler();
+        GetAddress reverseGeo = new GetAddress(37, 127,
+                reHandler);
+        reverseGeo.start();
+        while(city == null)
+        {
+            continue;
+        }
+        GetCity getCity = new GetCity(city, geoHan);
+        getCity.start();
+        while((lat == 0) && (lng == 0))
+        {
+            continue;
+        }
+        //마커찍기
+        // 여기 시간대를 좀 안 벌리니 이상한 곳에 좌표 찍히더라? 너무 빨리 마커찍으면 안 되는건가
+        // 왠지 여기 로그캣 지우면 이상한 곳에 점 찍히더라
+        Log.d("marker", "lat:" + lat);
+        Log.d("marker", "lng:" + lng);
+        LatLng target = new LatLng(lat, lng);
+        mMap.addMarker(new MarkerOptions().position(target).title("target"));
+        //그 후 city lat lng 초기화 null, 0으로
+        city = null;
+        lat = 0;
+        lng = 0;
+        */
 
 
 
 
 
+
+
+        /*
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-40, 160);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Sydney"));
+        LatLng next = new LatLng(-33, 150);
+        mMap.addMarker(new MarkerOptions().position(next).title("next"));
+        */
 
 
         mMap.setInfoWindowAdapter(new CustomInfoAdapter());
@@ -122,6 +158,8 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 7));
 
 
+        // Toast.makeText(this, "Toast onMapReady2", Toast.LENGTH_LONG).show();
+
 
     }
 
@@ -131,6 +169,10 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
         city = null;
         lat = 0;
         lng = 0;
+        /*
+        reHandler = new reverseGeoHandler();
+        geoHan = new geoHandler();
+        */
 
 
         Log.d("progress", "beforeGeo");
@@ -143,7 +185,13 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
             Log.e("userError", "Exception", e);
         }
 
-
+        /*
+        while(true)
+        {
+            if (city != null)
+                break;
+        }
+        */
 
 
         try {
@@ -153,7 +201,13 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
         } catch (Exception e) {
             Log.e("userError", "Exception", e);
         }
-
+        /*
+        while(true)
+        {
+            if ((lat != 0) && (lng != 0))
+                break;
+        }
+        */
         Log.d("progress", "geoDone");
 
         //마커찍기
@@ -205,6 +259,20 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
 
 
 
+/*
+    public class reverseGeoHandler extends Handler{
+        public void handleMessage(Message msg) {
+            city = msg.getData().getString("city");
+        }
+    }
+    public class geoHandler extends Handler{
+        public void handleMessage(Message msg) {
+            lat = msg.getData().getDouble("lat");
+            lng = msg.getData().getDouble("lng");
+        }
+    }
+*/
+
 
     public class GetCity extends Thread {
         String city;
@@ -249,17 +317,43 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
                 JSONObject clsItem2 = (JSONObject) clsItem.get("geometry");
                 JSONObject clsItem3 = (JSONObject) clsItem2.get("location");
 
-
+                    /*
+            JSONArray arrAddress = clsItem.getJSONArray( "geometry" );
+            JSONObject clsAddress = (JSONObject)arrAddress.get(2);
+            */
                 Log.d("latlng", clsItem3.getString("lat"));
                 Log.d("latlng", clsItem3.getString("lng"));
 
 
+                /*
+                Bundle data = new Bundle();
+                data.putDouble("lat", Double.parseDouble(clsItem3.getString( "lat" )));
+                data.putDouble("lng", Double.parseDouble(clsItem3.getString( "lng" )));
+                Message msg = handler.obtainMessage();
+                msg.setData(data);
+                handler.sendMessage(msg);
+                */
 
                 lat = Double.parseDouble(clsItem3.getString("lat"));
                 lng = Double.parseDouble(clsItem3.getString("lng"));
 
 
 
+            /*
+            int iCount = arrResults.length( );
+            for( int i = 0; i < iCount; ++i )
+            {
+                JSONObject clsItem = (JSONObject)arrResults.get( i );
+                JSONArray arrAddress = clsItem.getJSONArray( "geometry" );
+                int iAddressCount = arrAddress.length( );
+                for( int j = 0; j < iAddressCount; ++j )
+                {
+                    JSONObject clsAddress = (JSONObject)arrAddress.get( j );
+                    Log.d( "lat", clsAddress.getString( "location" ) );
+                    // Toast.makeText(this, clsAddress.getString( "long_name" ), Toast.LENGTH_LONG).show();
+                }
+            }
+            */
 
             } catch (Exception e) {
                 Log.e("ConnectionError", "Exception", e);
@@ -316,18 +410,39 @@ public class MapsActivity extends FragmentActivity //implements OnMapReadyCallba
                 JSONObject clsAddress = (JSONObject) arrAddress.get(3);
                 Log.d("address", clsAddress.getString("long_name"));
 
+                /*
+                Bundle data = new Bundle();
+                data.putString("city", clsAddress.getString( "long_name" ));
+                Message msg = reHan.obtainMessage();
+                msg.setData(data);
+                reHan.sendMessage(msg);
+                */
 
                 city = clsAddress.getString("long_name");
 
 
-
+            /*
+            int iCount = arrResults.length( );
+            for( int i = 0; i < iCount; ++i )
+            {
+                JSONObject clsItem = (JSONObject)arrResults.get( i );
+                JSONArray arrAddress = clsItem.getJSONArray( "address_components" );
+                int iAddressCount = arrAddress.length( );
+                for( int j = 0; j < iAddressCount; ++j )
+                {
+                    JSONObject clsAddress = (JSONObject)arrAddress.get( j );
+                    Log.d( "address", clsAddress.getString( "long_name" ) );
+                    // Toast.makeText(this, clsAddress.getString( "long_name" ), Toast.LENGTH_LONG).show();
+                }
+            }
+            */
             } catch (Exception e) {
                 Log.e("ConnectionError", "Exception", e);
             } finally {
                 if (clsConn != null) clsConn.disconnect();
             }
         }
-    }*/
+    }
 
 
 }

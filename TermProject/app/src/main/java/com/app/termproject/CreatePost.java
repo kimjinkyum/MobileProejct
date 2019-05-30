@@ -1,9 +1,15 @@
 package com.app.termproject;
 
+
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -11,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,10 +46,13 @@ public class CreatePost extends AppCompatActivity {
     EditText postContent;
     String postContentText;
     ImageButton postConfirmButton;
+    Button postDateButton;
     private Uri filePath;
     String postNameText;
     String file;
+    DatePickerDialog dialog;
     String filename;
+    float[] latlng = new float[2];
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -53,6 +64,9 @@ public class CreatePost extends AppCompatActivity {
         postContent=findViewById(R.id.postEditText);
         postName=findViewById(R.id.postNameEditText);
         postConfirmButton=findViewById(R.id.postConfirmButton);
+        postDateButton=findViewById(R.id.postDateButton);
+        dialog=new DatePickerDialog(getApplicationContext(),listener,2019,05,31);
+
         image=findViewById(R.id.postImage);
         image.setOnClickListener(new View.OnClickListener()
         {
@@ -66,6 +80,7 @@ public class CreatePost extends AppCompatActivity {
             }
 
         });
+
         postConfirmButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
@@ -84,7 +99,12 @@ public class CreatePost extends AppCompatActivity {
             }
         });
     }
-
+    private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            Toast.makeText(getApplicationContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
+        }
+    };
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
@@ -104,6 +124,40 @@ public class CreatePost extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+    public void getExif(Uri uri)
+    {
+
+        boolean isDone;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            Log.d("latlng","k");
+            Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
+            cursor.moveToNext();
+            Log.d("latlng","k");
+            String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+            cursor.close();
+            Log.d("latlng","k");
+            ExifInterface exif = new ExifInterface(path);
+
+            isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
+            if(isDone)
+            {
+                Log.d("latlng", latlng[0] + " " + latlng[1]);
+            }
+            else
+            {
+                Log.d("latlng","no");
+            }
+            // latlng[0] : 위도
+            // latlng[1] : 경도
+            // mView.setText(latlng[0] + " " + latlng[1]);
+            // showExif(exif);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void uploadFile() {
@@ -132,12 +186,14 @@ public class CreatePost extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful())
                     {   Log.d("Upload", "ins");
+                        //getExif(task.getResult());
+
                         Intent i=new Intent();
                         i.putExtra("uri",task.getResult().toString());
                         i.putExtra("postName",postNameText);
                         i.putExtra("postContent",postContentText);
-                        i.putExtra("latitude",3.14);
-                        i.putExtra("longitude",3.14);
+                        //i.putExtra("latitude",latlng[0]);
+                        //i.putExtra("longitude",latlng[1]);
                         setResult(11,i);
                         finish();
                     /*Intent i= getIntent();

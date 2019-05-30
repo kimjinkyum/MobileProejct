@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LookDiary">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/createPost"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -14,16 +20,5 @@
         android:id="@+id/createPost"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-
         />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/postImageView"
-        android:layout_above="@id/createPost"
-        android:src="@drawable/small_logo"
-        />
-
-
 </RelativeLayout>

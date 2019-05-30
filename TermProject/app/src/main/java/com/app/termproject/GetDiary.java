@@ -41,10 +41,7 @@ public class GetDiary {
         this.pinnumber=pinnumber;
         Log.d("ddd",this.pinnumber);
     }
-    public void setUid(String uid)
-    {
-        this.uid=uid;
-    }
+
     public GetDiary(String uid, String email, String pinnumber, String diary_name) {
         this.uid = uid;
         this.pinnumber = pinnumber;

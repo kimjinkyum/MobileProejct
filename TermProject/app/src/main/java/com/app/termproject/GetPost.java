@@ -17,14 +17,14 @@ public class GetPost
     public String uid;
     public String uri;
     public String contentPost;
-    public double longitude;
-    public double latitude;
+    public float longitude;
+    public float latitude;
     private DatabaseReference firebaseDatabase;
     public GetPost()
     {
         firebaseDatabase= FirebaseDatabase.getInstance().getReference();
     }
-    public GetPost(String uid,String pinnumber, String postName,String uri, String contentPost,double longitude,double latitude)
+    public GetPost(String uid,String pinnumber, String postName,String uri, String contentPost,float latitude,float longitude)
     {
         firebaseDatabase= FirebaseDatabase.getInstance().getReference();
         this.pinnumber=pinnumber;
@@ -45,7 +45,7 @@ public class GetPost
         result.put("latitude",latitude);
         return result;
     }
-    public void writeNewPost(String uid, String pinnumber, String postName, String uri, String contentPost, double longitude, double latitude)
+    public void writeNewPost(String uid, String pinnumber, String postName, String uri, String contentPost, float latitude,float longitude)
     {
 
         Log.d("confirm",pinnumber);
