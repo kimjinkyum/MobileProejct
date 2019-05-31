@@ -95,8 +95,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lng = 0;
         reHandler = new reverseGeoHandler();
         geoHan = new geoHandler();
-
-
         GetAddress reverseGeo = new GetAddress(37, 127,
                 reHandler);
         reverseGeo.start();
@@ -110,16 +108,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             continue;
         }
-
         //마커찍기
-
         // 여기 시간대를 좀 안 벌리니 이상한 곳에 좌표 찍히더라? 너무 빨리 마커찍으면 안 되는건가
         // 왠지 여기 로그캣 지우면 이상한 곳에 점 찍히더라
         Log.d("marker", "lat:" + lat);
         Log.d("marker", "lng:" + lng);
         LatLng target = new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(target).title("target"));
-
         //그 후 city lat lng 초기화 null, 0으로
         city = null;
         lat = 0;
@@ -136,10 +131,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-40, 160);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Sydney"));
-
-
-
-
         LatLng next = new LatLng(-33, 150);
         mMap.addMarker(new MarkerOptions().position(next).title("next"));
         */
@@ -199,7 +190,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             if (city != null)
                 break;
-
         }
         */
 
@@ -275,7 +265,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             city = msg.getData().getString("city");
         }
     }
-
     public class geoHandler extends Handler{
         public void handleMessage(Message msg) {
             lat = msg.getData().getDouble("lat");
@@ -356,13 +345,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 JSONObject clsItem = (JSONObject)arrResults.get( i );
                 JSONArray arrAddress = clsItem.getJSONArray( "geometry" );
-
-
                 int iAddressCount = arrAddress.length( );
                 for( int j = 0; j < iAddressCount; ++j )
                 {
                     JSONObject clsAddress = (JSONObject)arrAddress.get( j );
-
                     Log.d( "lat", clsAddress.getString( "location" ) );
                     // Toast.makeText(this, clsAddress.getString( "long_name" ), Toast.LENGTH_LONG).show();
                 }
@@ -441,13 +427,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 JSONObject clsItem = (JSONObject)arrResults.get( i );
                 JSONArray arrAddress = clsItem.getJSONArray( "address_components" );
-
-
                 int iAddressCount = arrAddress.length( );
                 for( int j = 0; j < iAddressCount; ++j )
                 {
                     JSONObject clsAddress = (JSONObject)arrAddress.get( j );
-
                     Log.d( "address", clsAddress.getString( "long_name" ) );
                     // Toast.makeText(this, clsAddress.getString( "long_name" ), Toast.LENGTH_LONG).show();
                 }
@@ -460,6 +443,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
 
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class LookPIN extends Fragment {
 
     private TextView textView;
+
     public LookPIN() {
         // Required empty public constructor
     }
