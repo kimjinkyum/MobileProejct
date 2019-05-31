@@ -51,7 +51,7 @@ public class Basic extends AppCompatActivity {
 
         createButton = findViewById(R.id.createDiary);
         list = new ArrayList<>();
-        nameList=new ArrayList<>();
+        nameList = new ArrayList<>();
 
         int[] img = new int[]{
                 R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton};

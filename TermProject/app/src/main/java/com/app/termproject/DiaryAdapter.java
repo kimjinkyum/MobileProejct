@@ -44,7 +44,7 @@ public class DiaryAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = inflate.inflate(R.layout.list_diary, parent,false);
+            convertView = inflate.inflate(R.layout.diarylist, parent,false);
 
             viewHolder = new ViewHolder();
 //            viewHolder.iv = (ImageView) convertView.findViewById(R.id.imageView1);

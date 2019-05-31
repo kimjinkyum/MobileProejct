@@ -19,7 +19,6 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="#FF82AC"
-        android:layout_below="@+id/container"
         app:menu="@menu/bottombar_menu"/>
 
 
