@@ -31,7 +31,7 @@ public class Diary extends AppCompatActivity {
 
     LookMap lookMap;
     LookDiary lookDiary;
-    LookPIN lookPhoto;
+    LookPIN lookPIN;
     ListView listView;
     FrameLayout frameLayout;
     String pinnumber;
@@ -45,7 +45,7 @@ public class Diary extends AppCompatActivity {
 
         lookMap = new LookMap();
         lookDiary = new LookDiary();
-        lookPhoto = new LookPIN();
+        lookPIN = new LookPIN();
         frameLayout = findViewById(R.id.contentContainer);
         groupList = new ArrayList<>();
 
@@ -57,6 +57,7 @@ public class Diary extends AppCompatActivity {
         bundle2.putString("pinnumber", pinnumber);
 
         lookDiary.setArguments(bundle2);
+        lookPIN.setArguments(bundle2);
         //Toast.makeText(getApplicationContext(), string+"가 선택되었습니다.", Toast.LENGTH_SHORT).show();
 
 
@@ -73,7 +74,7 @@ public class Diary extends AppCompatActivity {
 
                         return true;
                     case R.id.menu_photo:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookPhoto).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookPIN).commit();
 
                         return true;
                     case R.id.menu_map:
@@ -86,59 +87,62 @@ public class Diary extends AppCompatActivity {
 
         });
     }
-        /*디비 읽어오는 함순데 그 map하고 diary일때 다르니까 index==0일때는 Diary한테 보내는거고 index==1일떄는 map에게*/
-        public void getPostInformation ( final int index)
-        {
-            int count = 0;
 
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference;
-            databaseReference = firebaseDatabase.getReference("diary").child(pinnumber);
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<String> postNameList = new ArrayList<>();
-                    ArrayList<String> postContentList = new ArrayList<>();
-                    ArrayList<String> latitudeList = new ArrayList<>();
-                    ArrayList<String> longitudeList = new ArrayList<>();
-                    ArrayList<String> uriList = new ArrayList<>();
+    /*디비 읽어오는 함순데 그 map하고 diary일때 다르니까 index==0일때는 Diary한테 보내는거고 index==1일떄는 map에게*/
+    public void getPostInformation(final int index) {
+        int count = 0;
 
-                    groupList.clear();
-                    for (DataSnapshot message : dataSnapshot.getChildren()) {
-                        Log.d("ccc", message.getKey());
-                        String value = message.getKey();
-                        if (!value.equals("diaryname")) {
-                            String postName = dataSnapshot.child(value).child("postName").getValue().toString();
-                            postNameList.add(postName);
-                            postContentList.add(dataSnapshot.child(value).child("content").getValue().toString());
-                            latitudeList.add((dataSnapshot.child(value).child("latitude").getValue().toString()));
-                            longitudeList.add((dataSnapshot.child(value).child("longitude").getValue().toString()));
-                            uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
-                            //adapter.add(diaryname);
-                        }
-                        //list.add(value);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference;
+        databaseReference = firebaseDatabase.getReference("diary").child(pinnumber);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> postNameList = new ArrayList<>();
+                ArrayList<String> postContentList = new ArrayList<>();
+                ArrayList<String> latitudeList = new ArrayList<>();
+                ArrayList<String> longitudeList = new ArrayList<>();
+                ArrayList<String> uriList = new ArrayList<>();
+
+                groupList.clear();
+                for (DataSnapshot message : dataSnapshot.getChildren()) {
+                    Log.d("ccc", message.getKey());
+                    String value = message.getKey();
+                    if (!value.equals("diaryname")) {
+                        String postName = dataSnapshot.child(value).child("postName").getValue().toString();
+                        postNameList.add(postName);
+                        postContentList.add(dataSnapshot.child(value).child("content").getValue().toString());
+                        latitudeList.add((dataSnapshot.child(value).child("latitude").getValue().toString()));
+                        longitudeList.add((dataSnapshot.child(value).child("longitude").getValue().toString()));
+                        uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
                         //adapter.add(diaryname);
                     }
-                    groupList.add(postNameList);
-                    groupList.add(postContentList);
-                    groupList.add(uriList);
-                    groupList.add(latitudeList);
-                    groupList.add(longitudeList);
-                    if (index == 0) {
-                        lookDiary.show(groupList);
-                    } else if (index == 1) {
-                        lookMap.show(groupList);
-                    }
-                    //adapter.notifyDataSetChanged();
-                    //listView.setSelection(adapter.getCount()-1);
+                    //list.add(value);
+                    //adapter.add(diaryname);
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                groupList.add(postNameList);
+                groupList.add(postContentList);
+                groupList.add(uriList);
+                groupList.add(latitudeList);
+                groupList.add(longitudeList);
+                if (index == 0) {
+                    lookDiary.show(groupList);
+                } else if (index == 1) {
+                    lookMap.show(groupList);
                 }
-            });
+                //adapter.notifyDataSetChanged();
+                //listView.setSelection(adapter.getCount()-1);
+            }
 
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
+    public ArrayList<ArrayList<String>> getGroupList(){
+        return this.groupList;
+    }
+
+}

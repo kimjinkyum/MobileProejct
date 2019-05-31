@@ -23,6 +23,7 @@
         android:id="@+id/getPinNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_below="@+id/text"
         android:layout_alignLeft="@+id/text"
         android:layout_marginTop="20dp"
