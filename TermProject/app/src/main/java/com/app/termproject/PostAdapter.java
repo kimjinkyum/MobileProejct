@@ -2,6 +2,7 @@ package com.app.termproject;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
@@ -22,11 +23,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     Context context;
     List<PostListItem> items;
     int item_layout;
+    private ItemClick onItemClickListener;
     public PostAdapter(Context context, List<PostListItem> items, int item_layout) {
         this.context=context;
         this.items=items;
         this.item_layout=item_layout;
     }
+    public interface ItemClick
+    {
+        public void onClick(View view, int posistion);
+    }
+    public PostAdapter(ItemClick itemClick)
+    {
+        this.onItemClickListener=itemClick;
+}
     public PostAdapter()
     {
 
@@ -40,7 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final PostListItem item=items.get(position);
 
 
@@ -49,7 +59,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,item.getTitle(),Toast.LENGTH_SHORT).show();
+                Intent i=new Intent(context,DiaryDetail.class);
+                i.putExtra("name",item.getTitle());
+                i.putExtra("uri",item.getImage());
+                i.putExtra("content",item.getContent());
+                i.putExtra("key",item.getPostKey());
+                i.putExtra("pinnumber",item.getPinnumber());
+                context.startActivity(i);
+
             }
         });
     }
@@ -58,12 +75,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public int getItemCount() {
         return this.items.size();
     }
-    public void clear()
-    {
-        int size=this.items.size();
-        items.clear();
-        notifyItemRangeRemoved(0,size);
-    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView title;

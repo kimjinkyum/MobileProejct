@@ -1,9 +1,7 @@
-package com.app.termproject;
+package com.app.termproject.DB;
 
-import android.net.Uri;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,6 +17,7 @@ public class GetPost
     public String contentPost;
     public float longitude;
     public float latitude;
+    public String address;
     private DatabaseReference firebaseDatabase;
     public GetPost()
     {

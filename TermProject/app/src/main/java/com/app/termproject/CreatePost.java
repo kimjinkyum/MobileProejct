@@ -2,6 +2,8 @@ package com.app.termproject;
 
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.view.MotionEvent;
 import android.widget.DatePicker;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -10,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
+
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -24,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.app.termproject.DB.GetPost;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,35 +41,32 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CreatePost extends AppCompatActivity {
-    String pinnumber;
+
     ImageView image;
     EditText postName;
     EditText postContent;
     String postContentText;
     ImageButton postConfirmButton;
-    Button postDateButton;
+    Button postDate;
     private Uri filePath;
-    String postNameText;
-    String file;
-    DatePickerDialog dialog;
+    String postNameText;;
     String filename;
-    float[] latlng = new float[2];
+
+  float[] latlng = new float[2];
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_create_post);
-        Intent passIntent= getIntent();
-        pinnumber=passIntent.getStringExtra("pinnumber");
         postContent=findViewById(R.id.postEditText);
         postName=findViewById(R.id.postNameEditText);
         postConfirmButton=findViewById(R.id.postConfirmButton);
-        postDateButton=findViewById(R.id.postDateButton);
-        dialog=new DatePickerDialog(getApplicationContext(),listener,2019,05,31);
+        postDate=findViewById(R.id.postDate);
 
         image=findViewById(R.id.postImage);
         image.setOnClickListener(new View.OnClickListener()
@@ -81,31 +82,21 @@ public class CreatePost extends AppCompatActivity {
 
         });
 
+
+
         postConfirmButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
                postNameText=postName.getText().toString();
                postContentText=postContent.getText().toString();
-                /*추후에 postName, postContentText 안썼을때 그 팝업창 띄우는거 추가 예정
-                * */
-
-                //Intent passIntent= getIntent();
-                //String uid=passIntent.getStringExtra("uid");
-                //Log.d("confirm",uid);
                 uploadFile();
-                //createPost(postNameText,postContentText,pinnumber,uid);
-               //finish();
+
             }
         });
+
     }
-    private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            Toast.makeText(getApplicationContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
-        }
-    };
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
         if(requestCode == 0 && resultCode == RESULT_OK){
@@ -124,20 +115,20 @@ public class CreatePost extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        //getExif(filePath);
     }
+
     public void getExif(Uri uri)
     {
 
         boolean isDone;
         try {
             String[] proj = { MediaStore.Images.Media.DATA };
-            Log.d("latlng","k");
             Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
             cursor.moveToNext();
-            Log.d("latlng","k");
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
             cursor.close();
-            Log.d("latlng","k");
             ExifInterface exif = new ExifInterface(path);
 
             isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
@@ -160,16 +151,17 @@ public class CreatePost extends AppCompatActivity {
 
     }
 
+
+
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
         if (filePath != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
-            filename= pinnumber+formatter.format(now)+".png";
+            filename= formatter.format(now)+".png";
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
             final StorageReference imageRef = storageRef.child("images/"+filename);
-            Log.d("Upload",pinnumber);
             Log.d("Upload",filename);
             UploadTask uploadTask = imageRef.putFile(filePath);
             Task<Uri> uriTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -186,8 +178,6 @@ public class CreatePost extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful())
                     {   Log.d("Upload", "ins");
-                        //getExif(task.getResult());
-
                         Intent i=new Intent();
                         i.putExtra("uri",task.getResult().toString());
                         i.putExtra("postName",postNameText);
@@ -196,16 +186,6 @@ public class CreatePost extends AppCompatActivity {
                         //i.putExtra("longitude",latlng[1]);
                         setResult(11,i);
                         finish();
-                    /*Intent i= getIntent();
-                        String uid=i.getStringExtra("uid");
-                        Uri download=task.getResult();
-                        Log.d("Upload", "ins");
-
-                        GetPost post=new GetPost(uid,pinnumber,postNameText,download.toString(),postContentText,3.14,3.14);
-                        Log.d("Upload","post");
-                        post.writeNewPost(uid,pinnumber,postNameText,download.toString(),postContentText,3.14,3.14);
-                        setResult(11);
-*/
                     }
                     else
                         {
@@ -213,9 +193,7 @@ public class CreatePost extends AppCompatActivity {
                         }
                 }
             });
-
-
-
         }
     }
+
 }

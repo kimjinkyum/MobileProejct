@@ -4,35 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="일기의 이름입력해주세요"
-        android:id="@+id/postNameText"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="날짜 선택"
-        android:id="@+id/postDateButton"
-        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/postNameText"
         android:id="@+id/postNameEditText"
+        android:layout_alignParentLeft="true"
+        android:hint="제목"
         />
 
+    <Button
+        android:id="@+id/postDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/postNameEditText"
+        android:visibility="visible" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/postEditText"
-        android:layout_below="@+id/postNameEditText"
-        android:layout_alignLeft="@+id/postNameText"
+        android:layout_below="@+id/postDate"
         android:lines="5"
         android:scrollbars="vertical"
+        android:hint="내용"
         />
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

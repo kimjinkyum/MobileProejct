@@ -27,5 +27,20 @@
         android:layout_below="@+id/textView1"
         android:text="Artist"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제하기"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/postDeleteButton"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="편집하기"
+        android:layout_alignTop="@+id/postDeleteButton"
+        android:layout_toLeftOf="@+id/postDeleteButton"
+        android:id="@+id/postEditButton"
+        />
 </RelativeLayout>
