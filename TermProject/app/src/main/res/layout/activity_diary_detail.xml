@@ -15,7 +15,18 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageView1"
         android:text="Title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="visible"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView1"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/textView2"
@@ -25,8 +36,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
+        android:layout_above="@id/postDeleteButton"
         android:text="Artist"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+  <EditText
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:hint="dksljfakjd;ljkkkkkkk"
+      android:layout_alignTop="@+id/textView2"
+      android:id="@+id/editText2"
+      android:visibility="gone"
+      />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,9 +59,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="편집하기"
+        android:text="편집 완료"
         android:layout_alignTop="@+id/postDeleteButton"
         android:layout_toLeftOf="@+id/postDeleteButton"
         android:id="@+id/postEditButton"
+        android:visibility="gone"
         />
 </RelativeLayout>

@@ -28,6 +28,7 @@ public class LookMap extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         Intent intent= new Intent(getActivity(), com.app.termproject.MapsActivity.class);
         startActivity(intent);
 
@@ -49,5 +50,4 @@ public class LookMap extends Fragment {
             Log.d("cccc",longitude.get(i));
         }
     }
-
 }

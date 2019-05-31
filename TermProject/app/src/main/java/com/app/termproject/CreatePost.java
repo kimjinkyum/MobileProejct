@@ -182,6 +182,7 @@ public class CreatePost extends AppCompatActivity {
                         i.putExtra("uri",task.getResult().toString());
                         i.putExtra("postName",postNameText);
                         i.putExtra("postContent",postContentText);
+                        i.putExtra("fileName",filename);
                         //i.putExtra("latitude",latlng[0]);
                         //i.putExtra("longitude",latlng[1]);
                         setResult(11,i);

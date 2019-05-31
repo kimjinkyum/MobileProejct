@@ -104,6 +104,7 @@ public class Diary extends AppCompatActivity {
                 ArrayList<String>longitudeList=new ArrayList<>();
                 ArrayList<String>uriList=new ArrayList<>();
                 ArrayList<String>postKey=new ArrayList<>();
+                ArrayList<String>fileName=new ArrayList<>();
 
                 groupList.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren())
@@ -119,6 +120,8 @@ public class Diary extends AppCompatActivity {
                         latitudeList.add((dataSnapshot.child(value).child("latitude").getValue().toString()));
                         longitudeList.add((dataSnapshot.child(value).child("longitude").getValue().toString()));
                         uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
+                        fileName.add(dataSnapshot.child(value).child("fileName").getValue().toString());
+
                         //adapter.add(diaryname);
                     }
                     //list.add(value);
@@ -130,12 +133,14 @@ public class Diary extends AppCompatActivity {
                 groupList.add(latitudeList);
                 groupList.add(longitudeList);
                 groupList.add(postKey);
+                groupList.add(fileName);
                 if (index==0)
                 {
                     lookDiary.show(groupList);
                 }
                 else if(index==1)
                 {
+                    lookMap.show(groupList);
 
                 }
                 //adapter.notifyDataSetChanged();
