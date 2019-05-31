@@ -3,11 +3,12 @@ package com.app.termproject;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ public class Diary extends AppCompatActivity {
 
     LookMap lookMap;
     LookDiary lookDiary;
-    LookPhoto lookPhoto;
+    LookPIN lookPhoto;
     ListView listView;
     FrameLayout frameLayout;
 
@@ -31,7 +32,7 @@ public class Diary extends AppCompatActivity {
 
         lookMap = new LookMap();
         lookDiary=new LookDiary();
-        lookPhoto=new LookPhoto();
+        lookPhoto=new LookPIN();
         listView=findViewById(R.id.diaryList);
         frameLayout=findViewById(R.id.contentContainer);
 
@@ -45,26 +46,27 @@ public class Diary extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer,lookDiary).commit();
 
-        BottomBar bottomBar = findViewById(R.id.bottombar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+        BottomNavigationView bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId) {
-                    case R.id.tabDiary:
-                        {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.menu_diary:
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookDiary).commit();
-                        break;
-                    }
-                    case R.id.tabPhoto:{
+
+                        return true;
+                    case R.id.menu_photo:
                         getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
-                        break;
-                    }
-                    case R.id.tabMap:{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, lookMap).commit();
-                        break;
-                    }
+
+                        return true;
+                    case R.id.menu_map:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookMap).commit();
+
+                        return true;
                 }
+                return false;
             }
         });
+
     }
 }

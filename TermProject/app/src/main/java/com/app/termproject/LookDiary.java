@@ -42,6 +42,7 @@ public class LookDiary extends Fragment {
         list1 = new ArrayList<String>();
         list2 = new ArrayList<String>();
 
+
         // 검색에 사용할 데이터을 미리 저장한다.
         settingList();
 

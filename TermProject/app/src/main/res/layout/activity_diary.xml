@@ -9,16 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/contentContainer"
-        android:layout_above="@+id/bottombar">
+        android:layout_above="@+id/bottomNavigationView">
 
     </FrameLayout>
 
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/bottombar"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="#FF82AC"
-        app:bb_tabXmlResource="@xml/bottombar_tab" />
+        android:layout_below="@+id/container"
+        app:menu="@menu/bottombar_menu"/>
+
 
 </RelativeLayout>
