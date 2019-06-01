@@ -65,19 +65,7 @@ public class LookDiary extends Fragment {
         recyclerView=view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
        cardView=view.findViewById(R.id.cardview);
-        //adapter.setItems(postitem);
-        //이름하고 uri
-        //adapter = new SearchAdapter(groupPostList.get(0),groupPostList.get(2), view.getContext());
-        /*listView=view.findViewById(R.id.diaryList);
-        // 리스트를 생성한다.
-        list1 = new ArrayList<>();
-        list2 = new ArrayList<>();
-        listPost=new ArrayList<>();
 
-        adapterPost=new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1);
-        listView.setAdapter(adapterPost);
-
-        */
         postButton=view.findViewById(R.id.createPost);
 
         postButton.setOnClickListener(new View.OnClickListener()
@@ -105,10 +93,10 @@ public class LookDiary extends Fragment {
         String postContentText=data.getStringExtra("postContent");
         String fileName=data.getStringExtra("fileName");
         String date=data.getStringExtra("date");
-        //float latitude=data.getFloatExtra("latitude",0);
-        //float longitude=data.getFloatExtra("longitude",0);
-        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,3,3,fileName,date);
-        post.writeNewPost(pinnumber,postNameText,download,postContentText,3,3,fileName,date);
+        float latitude=data.getFloatExtra("latitude",0);
+        float longitude=data.getFloatExtra("longitude",0);
+        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,latitude,longitude,fileName,date);
+        post.writeNewPost(pinnumber,postNameText,download,postContentText,latitude,longitude,fileName,date);
     }
 
     private void getImage() {

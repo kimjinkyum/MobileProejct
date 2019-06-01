@@ -25,10 +25,6 @@
 
         <activity android:name=".MapsActivity"/>
         <activity android:name=".CreatePost" />
-        <activity
-            android:name=".AddTest"
-            android:label="@string/title_activity_add_test"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DiaryDetail" />
         <activity
             android:name=".Diary"
