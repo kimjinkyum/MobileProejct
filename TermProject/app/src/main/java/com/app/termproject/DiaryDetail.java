@@ -45,11 +45,11 @@ public class DiaryDetail extends AppCompatActivity
     String pinnumber;
     String key;
     String filename,originalFileName;
-    String nameEdit,contentEdit,imageEdit,original;
+    String nameEdit,contentEdit,imageEdit,original,date;
     ImageView iv;
     Uri filePath;
     int flag=1;
-    TextView diaryTitle,diaryContent;
+    TextView diaryTitle,diaryContent,diaryDate;
     EditText title, content;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,6 +60,7 @@ public class DiaryDetail extends AppCompatActivity
         diaryContent = (TextView)findViewById(R.id.textView2);
         title=findViewById(R.id.editText1);
         iv = (ImageView)findViewById(R.id.imageView1);
+        diaryDate=(TextView)findViewById(R.id.textView3);
         content=findViewById(R.id.editText2);
         deleteButton=findViewById(R.id.postDeleteButton);
         editButton=findViewById(R.id.postEditButton);
@@ -72,8 +73,12 @@ public class DiaryDetail extends AppCompatActivity
         original=intent.getStringExtra("uri");
         originalFileName=intent.getStringExtra("fileName");
         pinnumber=intent.getStringExtra("pinnumber");
+        date=intent.getStringExtra("date");
+
         diaryTitle.setText(nameEdit);
-        diaryContent.setText(contentEdit);;
+        diaryContent.setText(contentEdit);
+        diaryDate.setText(date);
+
 
          Glide.with(getApplicationContext()).load(original).into(iv);
          diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
@@ -125,6 +130,7 @@ public class DiaryDetail extends AppCompatActivity
 
                 if (flag==1)
                 {
+
                     String name=title.getText().toString();
                     if (name.length()>0)
                     {
@@ -135,10 +141,9 @@ public class DiaryDetail extends AppCompatActivity
                     {
                         contentEdit=conten;
                     }
-
-                    GetPost post=new GetPost(pinnumber,nameEdit,original,contentEdit,3,3,originalFileName);
-                    post.writeNewPost(pinnumber,nameEdit,original,contentEdit,3,3,originalFileName);
-
+                    delete();
+                    GetPost post=new GetPost(pinnumber,nameEdit,original,contentEdit,3,3,originalFileName,date);
+                    post.writeNewPost(pinnumber,nameEdit,original,contentEdit,3,3,originalFileName,date);
 
                 }
                 else
@@ -231,8 +236,8 @@ public class DiaryDetail extends AppCompatActivity
                             contentEdit=conten;
                         }
                         delete();
-                        GetPost post=new GetPost(pinnumber,nameEdit,imageEdit,contentEdit,3,3,filename);
-                        post.writeNewPost(pinnumber,nameEdit,imageEdit,contentEdit,3,3,filename);
+                        GetPost post=new GetPost(pinnumber,nameEdit,imageEdit,contentEdit,3,3,filename,date);
+                        post.writeNewPost(pinnumber,nameEdit,imageEdit,contentEdit,3,3,filename,date);
                         //i.putExtra("latitude",latlng[0]);
                         //i.putExtra("longitude",latlng[1]);
                     }

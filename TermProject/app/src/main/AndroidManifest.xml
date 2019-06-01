@@ -21,8 +21,9 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAIOKyyEy92A_eaxB4fBMEU6YwqtK-vYfU" />
 
+        <activity android:name=".MapsActivity"/>
         <activity android:name=".CreatePost" />
         <activity
             android:name=".AddTest"

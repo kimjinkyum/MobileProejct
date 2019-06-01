@@ -93,34 +93,6 @@ public class LookDiary extends Fragment {
         ((Diary)getActivity()).getPostInformation(0);
         items=new ArrayList<>();
 
-        // 검색에 사용할 데이터을 미리 저장한다.
-        //settingList();
-        //getImage();
-        //getImage();
-        // 리스트의 모든 데이터를 arraylist에 복사한다.// list 복사본을 만든다.
-        /*arraylist1 = new ArrayListString>();
-        arraylist1.addAll(list1);<
-        arraylist2=new ArrayList<String>();
-        arraylist2.addAll(list2);
-
-        // 리스트에 연동될 아답터를 생성한다.
-        adapter = new SearchAdapter(list1,list2, view.getContext());
-        // 리스트뷰에 아답터를 연결한다.
-        listView.setAdapter(adapter);*/
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //넘기기
-                Toast.makeText(getContext(),"눌렀어요",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),DiaryDetail.class);
-                intent.putExtra("name",list1.get(position));
-                intent.putExtra("date",list2.get(position));
-                //image를 보낸다.
-//                intent.putExtra("name",list1.get(position));
-                startActivity(intent);
-
-            }
-        });*/
 
         // Inflate the layout for this fragment
         return view;
@@ -132,10 +104,11 @@ public class LookDiary extends Fragment {
         String download=data.getStringExtra("uri");
         String postContentText=data.getStringExtra("postContent");
         String fileName=data.getStringExtra("fileName");
+        String date=data.getStringExtra("date");
         //float latitude=data.getFloatExtra("latitude",0);
         //float longitude=data.getFloatExtra("longitude",0);
-        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,3,3,fileName);
-        post.writeNewPost(pinnumber,postNameText,download,postContentText,3,3,fileName);
+        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,3,3,fileName,date);
+        post.writeNewPost(pinnumber,postNameText,download,postContentText,3,3,fileName,date);
     }
 
     private void getImage() {
@@ -157,6 +130,8 @@ public class LookDiary extends Fragment {
             ArrayList<String> longitude = groupList.get(4);
             ArrayList<String>postKey=groupList.get(5);
             ArrayList<String>fileName=groupList.get(6);
+            ArrayList<String>date=groupList.get(7);
+
             groupPostList.add(postName);
             groupPostList.add(postContent);
             groupPostList.add(uri);
@@ -164,9 +139,10 @@ public class LookDiary extends Fragment {
             groupPostList.add(longitude);
             groupPostList.add(postKey);
             groupPostList.add(fileName);
+            groupPostList.add(date);
             for (int i = 0; i < postName.size(); i++)
             {
-                PostListItem a=new PostListItem(uri.get(i),postName.get(i),postContent.get(i),postKey.get(i),pinnumber,fileName.get(i));
+                PostListItem a=new PostListItem(uri.get(i),postName.get(i),postContent.get(i),postKey.get(i),pinnumber,fileName.get(i),date.get(i));
                 items.add(a);
             }
             groupList.clear();

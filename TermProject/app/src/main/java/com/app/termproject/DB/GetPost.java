@@ -17,6 +17,7 @@ public class GetPost {
     public float longitude;
     public float latitude;
     public String fileName;
+    public String date;
     private DatabaseReference firebaseDatabase;
 
     public GetPost() {
@@ -24,7 +25,7 @@ public class GetPost {
     }
 
 
-    public GetPost(String pinnumber, String postName, String uri, String contentPost, float latitude, float longitude, String fileName) {
+    public GetPost(String pinnumber, String postName, String uri, String contentPost, float latitude, float longitude, String fileName,String date) {
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         this.pinnumber = pinnumber;
         this.postName = postName;
@@ -33,6 +34,7 @@ public class GetPost {
         this.longitude = longitude;
         this.latitude = latitude;
         this.fileName = fileName;
+        this.date=date;
     }
     public void setPostName(String name) {
         this.postName = name;
@@ -50,10 +52,11 @@ public class GetPost {
         result.put("longitude", longitude);
         result.put("latitude", latitude);
         result.put("fileName", fileName);
+        result.put("date",date);
         return result;
     }
 
-    public void writeNewPost( String pinnumber, String postName, String uri, String contentPost, float latitude,float longitude,String filename)
+    public void writeNewPost( String pinnumber, String postName, String uri, String contentPost, float latitude,float longitude,String filename,String date)
     {
 
         Log.d("confirm",pinnumber);

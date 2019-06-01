@@ -26,6 +26,8 @@ public class LookMap extends Fragment {
 
     public LookMap() {
         // Required empty public constructor
+        //arrayLists = new ArrayList<ArrayList<String>>();
+
     }
 
 
@@ -35,13 +37,14 @@ public class LookMap extends Fragment {
 
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_look_map, container, false);
-        ((Diary) getActivity()).getPostInformation(1);
-
+        //((Diary) getActivity()).getPostInformation(1);
+        /*
         Log.d("aaa",arrayLists.size()+"");
 
         uri = arrayLists.get(2);
         latitude = arrayLists.get(3);
         longitude = arrayLists.get(4);
+        */
         Intent intent = new Intent(getActivity(), MapsActivity.class);
         startActivity(intent);
         return view;

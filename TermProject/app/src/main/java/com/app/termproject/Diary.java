@@ -26,6 +26,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Diary extends AppCompatActivity {
 
@@ -104,7 +105,7 @@ public class Diary extends AppCompatActivity {
                 ArrayList<String>uriList=new ArrayList<>();
                 ArrayList<String>postKey=new ArrayList<>();
                 ArrayList<String>fileName=new ArrayList<>();
-
+                ArrayList<String>date=new ArrayList<>();
                 groupList.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren())
                 {
@@ -120,7 +121,7 @@ public class Diary extends AppCompatActivity {
                         longitudeList.add((dataSnapshot.child(value).child("longitude").getValue().toString()));
                         uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
                         fileName.add(dataSnapshot.child(value).child("fileName").getValue().toString());
-
+                        date.add(dataSnapshot.child(value).child("date").getValue().toString());
                         //adapter.add(diaryname);
                     }
                     //list.add(value);
@@ -133,6 +134,7 @@ public class Diary extends AppCompatActivity {
                 groupList.add(longitudeList);
                 groupList.add(postKey);
                 groupList.add(fileName);
+                groupList.add(date);
                 if (index==0)
                 {
                     lookDiary.show(groupList);
@@ -153,6 +155,10 @@ public class Diary extends AppCompatActivity {
             }
         });
 
+    }
+    public void sort()
+    {
+        ArrayList<String> date=new ArrayList();
     }
 
 }

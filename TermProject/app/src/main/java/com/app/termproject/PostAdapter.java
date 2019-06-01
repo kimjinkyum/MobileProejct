@@ -66,6 +66,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 i.putExtra("key",item.getPostKey());
                 i.putExtra("pinnumber",item.getPinnumber());
                 i.putExtra("fileName",item.getFileName());
+                i.putExtra("date",item.getDate());
                 context.startActivity(i);
 
             }

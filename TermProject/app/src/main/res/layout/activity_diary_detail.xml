@@ -21,33 +21,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText1"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageView1"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
         android:visibility="gone"
         />
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
-        android:layout_above="@id/postDeleteButton"
-        android:text="Artist"
+        android:layout_marginTop="20dp"
+        android:text="날짜"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-  <EditText
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:hint="dksljfakjd;ljkkkkkkk"
-      android:layout_alignTop="@+id/textView2"
-      android:id="@+id/editText2"
-      android:visibility="gone"
-      />
-
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/postDeleteButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView3"
+        android:text="Artist"
+        android:lines="5"
+        android:scrollbars="vertical"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText1"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:scrollbars="vertical"
+        android:lines="5"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,5 +73,7 @@
         android:layout_toLeftOf="@+id/postDeleteButton"
         android:id="@+id/postEditButton"
         android:visibility="gone"
+
         />
+
 </RelativeLayout>
