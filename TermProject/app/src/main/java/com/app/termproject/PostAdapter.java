@@ -53,9 +53,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final PostListItem item=items.get(position);
 
+        String year;
+        String month;
+        String day;
+        String date;
+        String dateChanged;
+
 
         Glide.with(holder.itemView.getContext()).load(item.getImage()).into(holder.image);
         holder.title.setText(item.getTitle());
+        holder.date.setText(item.getDate());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +87,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView title;
+        TextView title,date;
         CardView cardview;
 
         public ViewHolder(View itemView) {
@@ -88,6 +95,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             image=(ImageView)itemView.findViewById(R.id.image);
             title=(TextView)itemView.findViewById(R.id.title);
             cardview=(CardView)itemView.findViewById(R.id.cardview);
+            date=(TextView)itemView.findViewById(R.id.date);
         }
 
     }

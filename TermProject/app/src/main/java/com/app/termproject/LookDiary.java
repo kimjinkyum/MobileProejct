@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class LookDiary extends Fragment {
     View view;
-    Button postButton;
+    android.support.design.widget.FloatingActionButton postButton;
     String pinnumber;
     String uid;
     ArrayList<ArrayList<String>> groupPostList;
