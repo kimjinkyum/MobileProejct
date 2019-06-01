@@ -13,7 +13,6 @@
         android:layout_centerHorizontal="true"
 
         android:layout_marginTop="80dp"
-        android:text="다이어리 네임"
         android:fontFamily="@font/font2"
         android:textSize="14pt"
         android:id="@+id/pinNumText1"

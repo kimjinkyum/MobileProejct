@@ -3,6 +3,7 @@ package com.app.termproject;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -331,6 +332,9 @@ public class CreatePost extends AppCompatActivity {
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
         if (filePath != null) {
+            final ProgressDialog progressDialog=new ProgressDialog(this);
+            progressDialog.setTitle("업로드 중");
+            progressDialog.show();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
             filename = formatter.format(now) + ".png";
@@ -338,19 +342,9 @@ public class CreatePost extends AppCompatActivity {
             StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
             final StorageReference imageRef = storageRef.child("images/" + filename);
 
-
             try {
                 Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 bmp = resize(getApplicationContext(), filePath, 1000);
-
-
-
-
-
-
-
-
-
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                 byte[] data = baos.toByteArray();
@@ -370,6 +364,7 @@ public class CreatePost extends AppCompatActivity {
 
                         if(task.isSuccessful())
                         {   Log.d("Upload", "ins");
+                            progressDialog.dismiss();
                             Intent i=new Intent();
                             i.putExtra("uri",task.getResult().toString());
                             i.putExtra("postName",postNameText);
@@ -387,7 +382,6 @@ public class CreatePost extends AppCompatActivity {
                 });
             }
             catch (Exception e) {}
-
             //uploading the image
             //UploadTask uploadTask2 = childRef2.putBytes(data);
             /*

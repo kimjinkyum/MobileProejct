@@ -36,7 +36,7 @@ public class Basic extends AppCompatActivity {
 
     NotFound notFound;
     FloatingActionButton createButton;
-    ArrayList<String> list;
+    ArrayList<String> list,list1;
     ArrayList<String> nameList;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference;
@@ -52,6 +52,7 @@ public class Basic extends AppCompatActivity {
 
         createButton = findViewById(R.id.createDiary);
         list = new ArrayList<>();
+        list1 = new ArrayList<>();
         nameList = new ArrayList<>();
 
         int[] img = new int[]{
@@ -96,8 +97,8 @@ public class Basic extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Diary.class);
 
                 //GetDiary d= new GetDiary();
-
                 intent.putExtra("pinnumber", list.get(position));
+                intent.putExtra("name",list1.get(position));
                 startActivity(intent);
             }
         });
@@ -199,7 +200,8 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 diaryAdapter.clear();
-//                list.clear();
+                list.clear();
+                list1.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren()) {
                     //Log.d("ddd", message.child(message.getKey()).getValue().toString());
                     Log.d("ddd", message.getKey());
@@ -207,6 +209,7 @@ public class Basic extends AppCompatActivity {
                     String diaryname = dataSnapshot.child(value).child("diaryname").getValue().toString();
                     Log.d("Ddd", diaryname);
                     list.add(value);
+                    list1.add(diaryname);
                     nameList.add(diaryname);
 
                 }
