@@ -331,7 +331,8 @@ public class CreatePost extends AppCompatActivity {
 
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
-        if (filePath != null) {
+        if (filePath != null)
+        {
             final ProgressDialog progressDialog=new ProgressDialog(this);
             progressDialog.setTitle("업로드 중");
             progressDialog.show();
@@ -409,6 +410,19 @@ public class CreatePost extends AppCompatActivity {
 
 
         }
+        else
+            {
+                Intent i=new Intent();
+                i.putExtra("uri","https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/images%2Fbasic%20image.png?alt=media&token=d594ba53-6d78-46f4-a8e1-023a886abb0b");
+                i.putExtra("postName",postNameText);
+                i.putExtra("postContent",postContentText);
+                i.putExtra("fileName","basic image");
+                i.putExtra("date",date);
+                i.putExtra("latitude",latlng[0]);
+                i.putExtra("longitude",latlng[1]);
+                setResult(11, i);
+                finish();
+            }
     }
 
 

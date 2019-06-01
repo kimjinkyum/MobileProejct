@@ -144,7 +144,7 @@ public class Basic extends AppCompatActivity {
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
                         getDiary.isPin();
-//                        getDiary.writeOld(uid,email,pin);
+//                       getDiary.writeOld(uid,email,pin);
 //                        getDiary.isPin();
 //                        if (getDiary.isPin())
 //                        {
