@@ -53,6 +53,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final PostListItem item=items.get(position);
 
+
+        if (getItemCount() == 0) {
+            return;
+        }
+
+
         String year;
         String month;
         String day;
