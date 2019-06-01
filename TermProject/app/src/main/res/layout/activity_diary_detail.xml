@@ -15,17 +15,65 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageView1"
         android:text="Title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="visible"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText1"
+        android:layout_below="@+id/imageView1"
+        android:visibility="gone"
+        />
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
-        android:text="Artist"
+        android:layout_marginTop="20dp"
+        android:text="날짜"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/postDeleteButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView3"
+        android:text="Artist"
+        android:lines="5"
+        android:scrollbars="vertical"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText1"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:scrollbars="vertical"
+        android:lines="5"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제하기"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/postDeleteButton"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="편집 완료"
+        android:layout_alignTop="@+id/postDeleteButton"
+        android:layout_toLeftOf="@+id/postDeleteButton"
+        android:id="@+id/postEditButton"
+        android:visibility="gone"
+
+        />
 
 </RelativeLayout>

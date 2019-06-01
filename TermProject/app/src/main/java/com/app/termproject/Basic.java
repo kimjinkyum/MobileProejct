@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.app.termproject.DB.GetDiary;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -73,7 +74,6 @@ public class Basic extends AppCompatActivity {
                         1);
             }
         }
-
         showDiaryList();
 
         createButton.show();
@@ -187,6 +187,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 diaryAdapter.clear();
+//                list.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren()) {
                     //Log.d("ddd", message.child(message.getKey()).getValue().toString());
                     Log.d("ddd", message.getKey());

@@ -62,10 +62,11 @@ public class SignupActivity extends AppCompatActivity {
         signupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = signupIdText.getText().toString();
-                String name = signupNameText.getText().toString();
-                String password = signupPasswordText.getText().toString();
-                joinStart(id, name, password);
+                String id=signupIdText.getText().toString();
+                String name=signupNameText.getText().toString();
+                String password=signupPasswordText.getText().toString();
+                joinStart(id,name,password);
+                //checkSignup();
 
             }
         });
