@@ -14,60 +14,49 @@ public class CreateDiary extends Dialog implements View.OnClickListener {
     String string;
 
 
-    public CreateDiary(Context context){
+    public CreateDiary(Context context) {
         super(context);
-        this.context=context;
+        this.context = context;
     }
 
     private CreateDiary.CreateDiaryListener createDiaryistener;
 
-    interface CreateDiaryListener{
+    interface CreateDiaryListener {
         void onButtonClicked(String str);
     }
 
-    public void setDialogListener(CreateDiary.CreateDiaryListener createDiaryListener){
-        this.createDiaryistener=createDiaryListener;
+    public void setDialogListener(CreateDiary.CreateDiaryListener createDiaryListener) {
+        this.createDiaryistener = createDiaryListener;
     }
 
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_creatediary);
 
-        textInputLayout=findViewById(R.id.textLayout);
-        button=findViewById(R.id.button);
-        editText=findViewById(R.id.edit1);
+        textInputLayout = findViewById(R.id.textLayout);
+        button = findViewById(R.id.button);
+        editText = findViewById(R.id.edit1);
 
         textInputLayout.setCounterEnabled(true);
         textInputLayout.setCounterMaxLength(8);
-
-        if(editText.length()<=8){
-            hideMessage();
-        }else{
-            showMessage();
-        }
-
+        textInputLayout.setErrorEnabled(true);
         button.setOnClickListener(this);
 
 
     }
 
     @Override
-    public void onClick(View v){
-        if(v.getId()==R.id.button){
-            String createName=editText.getText().toString();
-            createDiaryistener.onButtonClicked(createName);
-            dismiss();
+    public void onClick(View v) {
+        if (v.getId() == R.id.button) {
+            String createName = editText.getText().toString();
+            if (createName.length() <= 8) {
+                createDiaryistener.onButtonClicked(createName);
+                dismiss();
+            }
+
         }
 
     }
 
-    private void showMessage(){
-        textInputLayout.setErrorEnabled(true);
-        textInputLayout.setError("너무 길어여~");
-    }
-    private void hideMessage(){
-        textInputLayout.setErrorEnabled(false);
-        textInputLayout.setError(null);
-    }
 }
