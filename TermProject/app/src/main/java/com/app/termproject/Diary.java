@@ -157,9 +157,13 @@ public class Diary extends AppCompatActivity {
         });
 
     }
-    public void sort()
+    /*
+    public ArrayList<ArrayList<String>> getInfo()
     {
+        if(groupList.size() != 0)
+        return this.groupList;
         ArrayList<String> date=new ArrayList();
     }
+    */
 
 }
