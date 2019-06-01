@@ -134,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public View getInfoWindow(Marker marker) {
 
             Picasso.with(getApplicationContext()).load(inputUri.get(Integer.valueOf
-                    (marker.getTitle()))).placeholder(R.drawable.ic_launcher_foreground)
+                    (marker.getTitle()))).placeholder(R.drawable.loading)
                     .into((ImageView)infoWindow.findViewById(R.id.image), new MarkerCallback((marker)));
 
 
