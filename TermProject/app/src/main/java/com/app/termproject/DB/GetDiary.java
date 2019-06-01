@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,25 +40,34 @@ public class GetDiary {
     }
 
     public GetDiary(String uid, String email, String pinnumber, String diary_name) {
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         this.uid = uid;
         this.pinnumber = pinnumber;
         this.diary_name = diary_name;
         this.email = email;
     }
     public GetDiary(String uid, String email, String pinnumber) {
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         this.uid = uid;
         this.pinnumber = pinnumber;
         this.email = email;
     }
+    public GetDiary( String pinnumber) {
+        this.pinnumber = pinnumber;
+
+    }
 
     public boolean pinCheck(){
         final DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("diary");
-        if(databaseReference.getKey().equals(pinnumber)){
+        /*if(databaseReference.getKey())
+        {
+            Log.d("pin","correct pin");
             return true;
         }
         else{
             return false;
-        }
+        }*/
+        return true;
     }
     public void isPin()
     {
@@ -76,6 +86,7 @@ public class GetDiary {
                         diary_name=dataSnapshot.child(message.getKey()).child("diaryname").getValue().toString();
                         Log.d("co","in");
                         is=true;
+                        writeOld(uid,email,pinnumber);
                         break;
                     }
                     else {
@@ -93,20 +104,16 @@ public class GetDiary {
 
     public void writeOld(String uid, String email, String pin)
     {
-        isPin();
-        if(this.is) {
-            GetDiary d = new GetDiary(uid, email, pin, diary_name);
+            GetDiary d = new GetDiary(uid, email, pin, this.diary_name);
             Map<String, Object> update = new HashMap<>();
-            Map<String, Object> value = toMap();
-            update.put("/user-diary/" + this.uid + "/" + pinnumber, value);
+
+            Log.d("ddd",uid+" "+email+" "+pin+" "+this.diary_name);
+        Map<String, Object> value = toMap();
+            update.put("/user-diary/" + uid + "/" + pin, value);
             firebaseDatabase.updateChildren(update);
-            Log.d("ddd","in write old");
-        }
-        else
-        {
-            Log.d("ddd","out write old");
-        }
-    }
+            Log.d("ddd", "in write old");
+
+            }
 
     public void set(String uid, String pinnumber,String diary_name) {
         this.uid = uid;
@@ -130,5 +137,6 @@ public class GetDiary {
         firebaseDatabase.updateChildren(update);
 
     }
+
 
 }

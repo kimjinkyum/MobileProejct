@@ -320,7 +320,6 @@ public class CreatePost extends AppCompatActivity {
             else
                 {
                     enteraddress();
-
                 Log.d("latlng", "no");
             }
         }

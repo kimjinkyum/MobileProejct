@@ -31,6 +31,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,6 +121,13 @@ public class SignupActivity extends AppCompatActivity {
                     }
                 } else {
                     currentUser = mAuth.getCurrentUser();
+                    DatabaseReference firebaseDatabase;
+                    firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+                    HashMap<String, Object> result = new HashMap<>();
+                    result.put("name",name);
+                    Map<String, Object> update = new HashMap<>();
+                    update.put("/user/"+currentUser.getUid()+"/",result);
+                    firebaseDatabase.updateChildren(update);
 //                    Toast.makeText(SignupActivity.this, "가입성공" + name + currentUser.getEmail(), Toast.LENGTH_LONG).show();
                     alertSuccess = AlertSuccess.newInstance("null");
                     alertSuccess.show(getSupportFragmentManager(),"");
