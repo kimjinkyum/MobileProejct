@@ -23,11 +23,18 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    ArrayList<String> inputLat;
+    ArrayList<String> inputLng;
+    ArrayList<String> inputUri;
+
 
 
     private GoogleMap mMap;
@@ -51,6 +58,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+        inputLat = (ArrayList<String>) getIntent().getSerializableExtra("lat");
+        inputLng = (ArrayList<String>) getIntent().getSerializableExtra("lng");
+        inputUri = (ArrayList<String>) getIntent().getSerializableExtra("uri");
+        Log.d("intent", inputLat.get(0));
+        Log.d("intent", inputLng.get(0));
+        Log.d("intent", inputUri.get(0));
+
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
@@ -445,5 +466,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+
 
 }
