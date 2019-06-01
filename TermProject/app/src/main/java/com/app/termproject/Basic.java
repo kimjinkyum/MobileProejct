@@ -139,7 +139,7 @@ public class Basic extends AppCompatActivity {
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
 //                        getDiary.isPin();
-                        if (getDiary.pinCheck()) {
+                        if (!getDiary.pinCheck()) {
                             notFound = NotFound.newInstance("null");
                             notFound.show(getSupportFragmentManager(), "dialog");
 

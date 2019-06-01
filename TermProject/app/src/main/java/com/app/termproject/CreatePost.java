@@ -64,7 +64,6 @@ public class CreatePost extends AppCompatActivity {
         postContent=findViewById(R.id.postEditText);
         postName=findViewById(R.id.postNameEditText);
         postConfirmButton=findViewById(R.id.postConfirmButton);
-        postDateButton=findViewById(R.id.postDateButton);
         dialog=new DatePickerDialog(getApplicationContext(),listener,2019,05,31);
 
         image=findViewById(R.id.postImage);
