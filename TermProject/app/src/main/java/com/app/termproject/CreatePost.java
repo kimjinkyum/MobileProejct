@@ -89,6 +89,8 @@ public class CreatePost extends AppCompatActivity {
         postDate = findViewById(R.id.postDate);
         weather=findViewById(R.id.weather);
 
+        registerForContextMenu(weather);
+
         Calendar c = Calendar.getInstance();
         cYear = c.get(Calendar.YEAR);
         cMonth = c.get(Calendar.MONTH);
