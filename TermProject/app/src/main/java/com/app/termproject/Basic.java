@@ -107,6 +107,7 @@ public class Basic extends AppCompatActivity {
                 //GetDiary d= new GetDiary();
                 intent.putExtra("pinnumber", list.get(position));
                 intent.putExtra("name",list1.get(position));
+                Log.d("down","basic intent");
                 startActivity(intent);
             }
         });

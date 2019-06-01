@@ -9,6 +9,7 @@ public class PostListItem
     String pinnumber;
     String fileName;
     String date;
+    String weather;
 
     String getImage(){
         return this.image;
@@ -21,8 +22,8 @@ public class PostListItem
     String getPinnumber(){return this.pinnumber;}
     String getFileName(){return this.fileName;}
     String getDate(){return this.date;}
-
-    PostListItem(String image, String title,String content,String postKey,String pinnumber,String fileName,String date){
+    String getWeather(){return this.weather;}
+    PostListItem(String image, String title,String content,String postKey,String pinnumber,String fileName,String date,String weather){
         this.image=image;
         this.title=title;
         this.content=content;
@@ -30,7 +31,7 @@ public class PostListItem
         this.pinnumber=pinnumber;
         this.fileName=fileName;
         this.date=date;
-
+        this.weather=weather;
     }
 
 }

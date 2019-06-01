@@ -18,6 +18,7 @@ public class GetPost {
     public float latitude;
     public String fileName;
     public String date;
+    public String weather;
     private DatabaseReference firebaseDatabase;
 
     public GetPost() {
@@ -25,7 +26,7 @@ public class GetPost {
     }
 
 
-    public GetPost(String pinnumber, String postName, String uri, String contentPost, float latitude, float longitude, String fileName,String date) {
+    public GetPost(String pinnumber, String postName, String uri, String contentPost, float latitude, float longitude, String fileName,String date,String weather) {
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         this.pinnumber = pinnumber;
         this.postName = postName;
@@ -35,6 +36,7 @@ public class GetPost {
         this.latitude = latitude;
         this.fileName = fileName;
         this.date=date;
+        this.weather=weather;
     }
     public void setPostName(String name) {
         this.postName = name;
@@ -53,10 +55,11 @@ public class GetPost {
         result.put("latitude", latitude);
         result.put("fileName", fileName);
         result.put("date",date);
+        result.put("weather",weather);
         return result;
     }
 
-    public void writeNewPost( String pinnumber, String postName, String uri, String contentPost, float latitude,float longitude,String filename,String date)
+    public void writeNewPost( String pinnumber, String postName, String uri, String contentPost, float latitude,float longitude,String filename,String date,String weather)
     {
 
         Log.d("confirm",pinnumber);

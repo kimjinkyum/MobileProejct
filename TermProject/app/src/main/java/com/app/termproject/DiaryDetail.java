@@ -59,7 +59,7 @@ public class DiaryDetail extends AppCompatActivity
     String pinnumber;
     String key;
     String filename,originalFileName;
-    String nameEdit,contentEdit,imageEdit,original,date;
+    String nameEdit,contentEdit,imageEdit,original,date,weather;
     ImageView iv;
     Uri filePath;
     int flag=1;
@@ -83,9 +83,8 @@ public class DiaryDetail extends AppCompatActivity
         content=findViewById(R.id.editText2);
         deleteButton=findViewById(R.id.postDeleteButton);
         editButton=findViewById(R.id.postEditButton);
-
+        editButton.hide();
         final Intent intent = getIntent(); // 보내온 Intent를 얻는다
-
         nameEdit=intent.getStringExtra("name");
         contentEdit=intent.getStringExtra("content") ;
         key=intent.getStringExtra("key");
@@ -93,7 +92,9 @@ public class DiaryDetail extends AppCompatActivity
         originalFileName=intent.getStringExtra("fileName");
         pinnumber=intent.getStringExtra("pinnumber");
         date=intent.getStringExtra("date");
+        weather=intent.getStringExtra("weather");
 
+        
         diaryTitle.setText(nameEdit);
         diaryContent.setText(contentEdit);
         diaryDate.setText(date);
@@ -103,7 +104,7 @@ public class DiaryDetail extends AppCompatActivity
          diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
              @Override
              public boolean onLongClick(View v)
-             {editButton.setVisibility(View.VISIBLE);
+             {editButton.show();
                  diaryTitle.setVisibility(View.INVISIBLE);
                  title.setVisibility(View.VISIBLE);
                  Log.d("editDairy",nameEdit);
@@ -114,7 +115,7 @@ public class DiaryDetail extends AppCompatActivity
          {
              public boolean onLongClick(View v)
              {
-                 editButton.setVisibility(View.VISIBLE);
+                 editButton.show();
                  diaryContent.setVisibility(View.INVISIBLE);
                  content.setVisibility(View.VISIBLE);
 
@@ -127,7 +128,7 @@ public class DiaryDetail extends AppCompatActivity
          {
              @Override
              public boolean onLongClick(View v) {
-                 editButton.setVisibility(View.VISIBLE);
+                 editButton.show();
                  Intent intent1 = new Intent();
                  intent1.setType("image/*");
                  intent1.setAction(Intent.ACTION_GET_CONTENT);
@@ -161,8 +162,8 @@ public class DiaryDetail extends AppCompatActivity
                         contentEdit=conten;
                     }
                     delete();
-                    GetPost post=new GetPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date);
-                    post.writeNewPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date);
+                    GetPost post=new GetPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date,weather);
+                    post.writeNewPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date,weather);
 
                 }
                 else
@@ -430,8 +431,8 @@ public class DiaryDetail extends AppCompatActivity
                                 contentEdit = conten;
                             }
                             delete();
-                            GetPost post = new GetPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date);
-                            post.writeNewPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date);
+                            GetPost post = new GetPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date,weather);
+                            post.writeNewPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date,weather);
                             //i.putExtra("latitude",latlng[0]);
                             //i.putExtra("longitude",latlng[1]);
                             progressDialog.dismiss();

@@ -86,8 +86,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 i.putExtra("pinnumber",item.getPinnumber());
                 i.putExtra("fileName",item.getFileName());
                 i.putExtra("date",item.getDate());
+                i.putExtra("weather",item.getWeather());
                 context.startActivity(i);
-
             }
         });
     }
