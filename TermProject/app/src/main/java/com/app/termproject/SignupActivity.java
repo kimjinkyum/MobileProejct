@@ -59,7 +59,18 @@ public class SignupActivity extends AppCompatActivity {
                 String id=signupIdText.getText().toString();
                 String name=signupNameText.getText().toString();
                 String password=signupPasswordText.getText().toString();
-                joinStart(id,name,password);
+                if (id.length() == 0 || name.length() == 0 || password.length() == 0) {
+                    ALERT alert = new ALERT(SignupActivity.this,"모든 항목을 입력해주세요~");
+                    alert.setDialogListener(new ALERT.ALERTListener() {
+                        @Override
+                        public void onButtonClicked() {
+                        }
+                    });
+                    alert.show();
+                }
+                else {
+                    joinStart(id,name,password);
+                }
                 //checkSignup();
 
             }
