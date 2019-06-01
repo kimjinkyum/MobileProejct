@@ -113,56 +113,64 @@ public class Basic extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                AlertCancel alert = new AlertCancel(Basic.this,"다이어리를 정말 삭제 하세요??\n 신중히 선택해주세요~");
-                alert.setDialogListener(new AlertCancel.AlertCancelListener() {
-                    public void onPositiveClicked()
-                    {
-                        Log.d("delete","in");
-                        final String pinnumber=list.get(position);
-                        Log.d("delete",pinnumber);
-                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                        final Query databaseReference;
-                        databaseReference = firebaseDatabase.getReference("user-diary");
-                        databaseReference.addValueEventListener(new ValueEventListener()
-                        {
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                for (DataSnapshot message : dataSnapshot.getChildren())
-                                {
-                                    String key=message.getKey();
-                                    Log.d("user",key);
-                                    for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
-                                    {
-
-                                        String key1=message1.getKey();
-                                        if(key1.equals(pinnumber))
-                                        {
-                                            DatabaseReference databaseReference = firebaseDatabase.getReference("diary-user").child(key).child(key1);
-                                            Log.d("delete",databaseReference.getKey());
-                                            databaseReference.removeValue();
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-                        DatabaseReference databaseReference1 = firebaseDatabase.getReference("diary").child(pinnumber);
-                        databaseReference1.removeValue();
-
-                    }
-
+                ALERT alert = new ALERT(Basic.this,"SSS\nSSS");
+                alert.setDialogListener(new ALERT.ALERTListener() {
                     @Override
-                    public void onNegativeClicked()
-                    {
+                    public void onButtonClicked() {
 
                     }
                 });
-
                 alert.show();
+//                final AlertCancel alert = new AlertCancel(Basic.this,"다이어리를 정말 삭제 하세요??\n 신중히 선택해주세요~");
+//                alert.setDialogListener(new AlertCancel.AlertCancelListener() {
+//                    public void onPositiveClicked()
+//                    {
+//                        Log.d("delete","in");
+//                        final String pinnumber=list.get(position);
+//                        Log.d("delete",pinnumber);
+//                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//                        final Query databaseReference;
+//                        databaseReference = firebaseDatabase.getReference("user-diary");
+//                        databaseReference.addValueEventListener(new ValueEventListener()
+//                        {
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                                for (DataSnapshot message : dataSnapshot.getChildren())
+//                                {
+//                                    String key=message.getKey();
+//                                    Log.d("user",key);
+//                                    for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
+//                                    {
+//
+//                                        String key1=message1.getKey();
+//                                        if(key1.equals(pinnumber))
+//                                        {
+//                                            DatabaseReference databaseReference = firebaseDatabase.getReference("diary-user").child(key).child(key1);
+//                                            Log.d("delete",databaseReference.getKey());
+//                                            databaseReference.removeValue();
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//                        DatabaseReference databaseReference1 = firebaseDatabase.getReference("diary").child(pinnumber);
+//                        databaseReference1.removeValue();
+//
+//                    }
+//
+//                    @Override
+//                    public void onNegativeClicked()
+//                    {
+//
+//                    }
+//                });
+//
+//                alert.show();
 
                 return true;
             }
