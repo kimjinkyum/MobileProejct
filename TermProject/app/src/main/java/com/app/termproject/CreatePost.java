@@ -1,10 +1,14 @@
 package com.app.termproject;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -48,6 +52,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class CreatePost extends AppCompatActivity {
 
@@ -303,20 +308,6 @@ public class CreatePost extends AppCompatActivity {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void getExif(Uri uri) {
 
         String fileRealPath = getPath(getApplicationContext(), filePath);
@@ -328,44 +319,15 @@ public class CreatePost extends AppCompatActivity {
             }
             else
                 {
+                    enteraddress();
+
                 Log.d("latlng", "no");
             }
-            // latlng[0] : 위도
-            // latlng[1] : 경도
-            // mView.setText(latlng[0] + " " + latlng[1]);
-            // showExif(exif);
         }
         catch(Exception e){  }
 
 
-
-        /*
-        boolean isDone;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-            cursor.moveToNext();
-            String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-            cursor.close();
-            ExifInterface exif = new ExifInterface(path);
-
-            isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
-            if (isDone) {
-                Log.d("latlng", latlng[0] + " " + latlng[1]);
-            } else {
-                Log.d("latlng", "no");
-            }
-            // latlng[0] : 위도
-            // latlng[1] : 경도
-            // mView.setText(latlng[0] + " " + latlng[1]);
-            // showExif(exif);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show();
-        }
-        */
-
-    }
+}
 
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
@@ -398,8 +360,8 @@ public class CreatePost extends AppCompatActivity {
                         i.putExtra("postContent",postContentText);
                         i.putExtra("fileName",filename);
                         i.putExtra("date",date);
-                        //i.putExtra("latitude",latlng[0]);
-                        //i.putExtra("longitude",latlng[1]);
+                        i.putExtra("latitude",latlng[0]);
+                        i.putExtra("longitude",latlng[1]);
                         setResult(11, i);
                         finish();
                     } else {
@@ -408,6 +370,49 @@ public class CreatePost extends AppCompatActivity {
                 }
             });
         }
+    }
+    public void getLat(String str)
+    {
+        final Geocoder geocoder = new Geocoder(this);
+        List<Address> list = null;
+
+        try {
+            list = geocoder.getFromLocationName(
+                    str, // 지역 이름
+                    10); // 읽을 개수
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
+        }
+
+        if (list != null) {
+            if (list.size() == 0) {
+                Toast.makeText(this,"없음",Toast.LENGTH_LONG).show();
+            }
+            else
+                {
+                    latlng[0]=(float)list.get(0).getLatitude();
+                    latlng[1]=(float)list.get(0).getLongitude();
+                    Toast.makeText(this,list.get(0).getLatitude()+" "+list.get(0).getLongitude(),Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    public void enteraddress()
+    {
+        final EditText editText=new EditText(this);
+        AlertDialog.Builder builder= new AlertDialog.Builder(this);
+        builder.setTitle("장소가 없습니다");
+        builder.setMessage("장소를 입력해주세요!");
+        builder.setView(editText);
+        builder.setPositiveButton("입력",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        getLat(editText.getText().toString());
+                        //Toast.makeText(getApplicationContext(),editText.getText().toString() ,Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.show();
+
     }
 
 }
