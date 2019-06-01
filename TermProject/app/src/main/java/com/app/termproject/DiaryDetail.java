@@ -2,6 +2,7 @@ package com.app.termproject;
 
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -375,6 +376,12 @@ public class DiaryDetail extends AppCompatActivity
         //업로드할 파일이 있으면 수행
         Log.d("Upload",filePath.toString());
         if (filePath != null) {
+            final ProgressDialog progressDialog=new ProgressDialog(this, R.style.MyAlertDialogStyle);
+            progressDialog.setTitle("열심히 업로드 중이에요!\n잠시만 기다려주세요");
+
+            progressDialog.show();
+
+
             Log.d("Upload",filePath.toString());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
@@ -427,6 +434,7 @@ public class DiaryDetail extends AppCompatActivity
                             post.writeNewPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date);
                             //i.putExtra("latitude",latlng[0]);
                             //i.putExtra("longitude",latlng[1]);
+                            progressDialog.dismiss();
                         } else {
                             Log.d("fileUpload", "fail");
                         }

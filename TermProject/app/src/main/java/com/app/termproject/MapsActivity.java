@@ -34,9 +34,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         inputLat = (ArrayList<String>) getIntent().getSerializableExtra("lat");
         inputLng = (ArrayList<String>) getIntent().getSerializableExtra("lng");
         inputUri = (ArrayList<String>) getIntent().getSerializableExtra("uri");
-        Log.d("intent", inputLat.get(0));
-        Log.d("intent", inputLng.get(0));
-        Log.d("intent", inputUri.get(0));
 
 
         /*
