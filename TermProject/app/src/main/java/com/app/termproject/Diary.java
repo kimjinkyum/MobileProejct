@@ -31,8 +31,7 @@ public class Diary extends AppCompatActivity {
 
     LookMap lookMap;
     LookDiary lookDiary;
-    LookPIN lookPhoto;
-    ListView listView;
+    LookPIN lookPIN;
     FrameLayout frameLayout;
     String pinnumber;
     ArrayList<ArrayList<String>> groupList;
@@ -45,7 +44,7 @@ public class Diary extends AppCompatActivity {
 
         lookMap = new LookMap();
         lookDiary=new LookDiary();
-        lookPhoto=new LookPIN();
+        lookPIN = new LookPIN();
         //listView=findViewById(R.id.diaryList);
         frameLayout=findViewById(R.id.contentContainer);
         groupList=new ArrayList<>();
@@ -56,7 +55,7 @@ public class Diary extends AppCompatActivity {
         pinnumber = bundle.getString("pinnumber");
         Bundle bundle2=new Bundle();
         bundle2.putString("pinnumber",pinnumber);
-
+        lookPIN.setArguments(bundle2);
         lookDiary.setArguments(bundle2);
         //Toast.makeText(getApplicationContext(), string+"가 선택되었습니다.", Toast.LENGTH_SHORT).show();
 
@@ -73,7 +72,7 @@ public class Diary extends AppCompatActivity {
 
                         return true;
                     case R.id.menu_photo:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPhoto).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,lookPIN).commit();
 
                         return true;
                     case R.id.menu_map:

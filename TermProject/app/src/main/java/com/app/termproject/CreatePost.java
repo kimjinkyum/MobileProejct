@@ -150,9 +150,6 @@ public class CreatePost extends AppCompatActivity {
         }
 
     }
-
-
-
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
         if (filePath != null) {
