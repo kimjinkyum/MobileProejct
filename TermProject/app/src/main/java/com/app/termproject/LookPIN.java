@@ -53,7 +53,6 @@ public class LookPIN extends Fragment {
         textView.setText(pinnumber);
         userView=view.findViewById(R.id.pinNumText5);
         nameText.setText(name+"의 정보!");
-
         getUser();
         return view;
     }
@@ -125,6 +124,4 @@ public class LookPIN extends Fragment {
             }
         });
     }
-
-
 }

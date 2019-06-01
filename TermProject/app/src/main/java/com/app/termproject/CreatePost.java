@@ -56,7 +56,7 @@ import java.util.List;
 
 public class CreatePost extends AppCompatActivity {
 
-    ImageView image;
+    ImageView image,weather;
     EditText postName;
     EditText postContent;
     EditText viewDate;
@@ -87,13 +87,21 @@ public class CreatePost extends AppCompatActivity {
         postConfirmButton = findViewById(R.id.postConfirmButton);
         viewDate = findViewById(R.id.viewDate);
         postDate = findViewById(R.id.postDate);
+        weather=findViewById(R.id.weather);
+
         Calendar c = Calendar.getInstance();
         cYear = c.get(Calendar.YEAR);
         cMonth = c.get(Calendar.MONTH);
         cDay = c.get(Calendar.DAY_OF_MONTH);
 
+        weather.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
 
 
+            }
+        });
         image = findViewById(R.id.postImage);
         image.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
