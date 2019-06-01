@@ -77,14 +77,22 @@ public class Basic extends AppCompatActivity {
         showDiaryList();
 
         createButton.show();
+
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CreateDiary createDiary = new CreateDiary(Basic.this);
+                createDiary.setDialogListener(new CreateDiary.CreateDiaryListener() {
+                    @Override
+                    public void onButtonClicked(String k) {
+                        createDB(k);
+                    }
+                });
+                createDiary.show();
 
-
-                Intent intent = new Intent(Basic.this, CreateDiary.class);
-
-                startActivityForResult(intent, 1);
+//                Intent intent = new Intent(Basic.this, CreateDiary.class);
+//
+//                startActivityForResult(intent, 1);
 
             }
         });
@@ -104,16 +112,16 @@ public class Basic extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
-        {
-            return;
-        }
-        String name = data.getStringExtra("diary_name");
-        createDB(name);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (data == null)
+//        {
+//            return;
+//        }
+//        String name = data.getStringExtra("diary_name");
+//        createDB(name);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,49 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:background="@color/font_color"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/white">
+        android:layout_margin="10dp"
+        android:background="#ffffff">
+
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textChange"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="추가하실래요?"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/font3"
             android:gravity="center"
+            android:lines="2"
             android:textColor="@color/font_color"
-            android:id="@+id/question"
-            android:textSize="50dp"
-            android:fontFamily="@font/font3"/>
+            android:textSize="20dp" />
 
         <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/negativeButton"
-            android:layout_below="@id/question"
-            android:layout_marginTop="20dp"
+            android:layout_below="@+id/textChange"
             android:layout_alignParentRight="true"
-            android:textColor="@color/font_color"
-            android:text="취 소"
+            android:background="#ffffff"
             android:fontFamily="@font/font3"
-            android:background="@android:color/white"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/positiveButton"
-            android:layout_below="@id/question"
-            android:layout_marginTop="20dp"
-            android:layout_toLeftOf="@+id/negativeButton"
-            android:textColor="@color/font_color"
-            android:text="예~얍"
-            android:fontFamily="@font/font3"
-            android:background="@android:color/white"/>
+            android:text="OK"
+            android:textColor="@color/font_color" />
 
     </RelativeLayout>
 </LinearLayout>

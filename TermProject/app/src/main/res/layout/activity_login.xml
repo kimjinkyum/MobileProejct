@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/smallLogo"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="30dp"
         android:text="ID"
         android:textSize="25dp"
@@ -48,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/idText"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:text="Password"
         android:textSize="25dp"
@@ -74,30 +73,34 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <ImageButton
+    <Button
         android:id="@+id/loginButton"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@id/passwordTextLayout"
         android:layout_alignLeft="@id/passwordTextLayout"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
+        android:text="로그인"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:background="@color/background"
-        android:src="@drawable/log_in"
-        android:textStyle="bold" />
+        android:textColor="@color/font_color"/>
 
-    <ImageButton
+    <Button
         android:id="@+id/signupButton"
-        android:layout_width="110dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@id/passwordTextLayout"
         android:layout_alignTop="@id/loginButton"
+        android:layout_marginLeft="75dp"
         android:layout_alignRight="@id/passwordTextLayout"
-        android:layout_marginLeft="90dp"
         android:layout_marginRight="30dp"
         android:layout_toRightOf="@id/loginButton"
+        android:text="로그아웃"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:background="@color/background"
-        android:src="@drawable/signup"
-        android:textStyle="bold" />
+        android:textColor="@color/font_color"/>
 
 </RelativeLayout>

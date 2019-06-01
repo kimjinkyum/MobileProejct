@@ -1,38 +1,73 @@
 package com.app.termproject;
 
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
-public class CreateDiary extends AppCompatActivity {
-    Button button;
-    EditText diaryName;
+public class CreateDiary extends Dialog implements View.OnClickListener {
+    private android.support.design.widget.TextInputEditText editText;
+    private Button button;
+    private Context context;
+    private android.support.design.widget.TextInputLayout textInputLayout;
+    String string;
+
+
+    public CreateDiary(Context context){
+        super(context);
+        this.context=context;
+    }
+
+    private CreateDiary.CreateDiaryListener createDiaryistener;
+
+    interface CreateDiaryListener{
+        void onButtonClicked(String str);
+    }
+
+    public void setDialogListener(CreateDiary.CreateDiaryListener createDiaryListener){
+        this.createDiaryistener=createDiaryListener;
+    }
+
+
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_creatediary);
+
+        textInputLayout=findViewById(R.id.textLayout);
+        button=findViewById(R.id.button);
+        editText=findViewById(R.id.edit1);
+
+        textInputLayout.setCounterEnabled(true);
+        textInputLayout.setCounterMaxLength(8);
+
+        if(editText.length()<=8){
+            hideMessage();
+        }else{
+            showMessage();
+        }
+
+        button.setOnClickListener(this);
+
+
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creatediary);
+    public void onClick(View v){
+        if(v.getId()==R.id.button){
+            String createName=editText.getText().toString();
+            createDiaryistener.onButtonClicked(createName);
+            dismiss();
+        }
 
-        diaryName = findViewById(R.id.diaryName);
-        button = findViewById(R.id.checkDiary);
+    }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                String name = diaryName.getText().toString();
-                Log.d("co", name);
-                i.putExtra("diary_name", name);
-                setResult(RESULT_OK, i);
-                finish();
-            }
-        });
-
-
-        //받은 다이어리 이름을 DB에 저장할 것
+    private void showMessage(){
+        textInputLayout.setErrorEnabled(true);
+        textInputLayout.setError("너무 길어여~");
+    }
+    private void hideMessage(){
+        textInputLayout.setErrorEnabled(false);
+        textInputLayout.setError(null);
     }
 }
