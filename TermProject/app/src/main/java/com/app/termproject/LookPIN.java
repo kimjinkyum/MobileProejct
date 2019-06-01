@@ -60,12 +60,7 @@ public class LookPIN extends Fragment {
     {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final Query databaseReference;
-        final Query databaseReference1;
-
-
-
         databaseReference = firebaseDatabase.getReference("user-diary");
-        user.clear();
         databaseReference.addValueEventListener(new ValueEventListener()
         {
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -80,7 +75,6 @@ public class LookPIN extends Fragment {
                         String key1=message1.getKey();
                         if(key1.equals(pinnumber))
                         {
-                            user.add(key);
                             getUserName(key);
                         }
                     }

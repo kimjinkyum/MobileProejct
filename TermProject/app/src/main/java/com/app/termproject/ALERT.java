@@ -38,14 +38,13 @@ public class ALERT extends Dialog implements View.OnClickListener {
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textChange);
         textView.setText(string);
-
         button.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.button){
-
+        if(v.getId()==R.id.button)
+        {
             alertListener.onButtonClicked();
             dismiss();
         }

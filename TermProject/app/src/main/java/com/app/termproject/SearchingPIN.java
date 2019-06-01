@@ -30,20 +30,16 @@ public class SearchingPIN extends Dialog implements View.OnClickListener {
         void onPositiveClicked(String pin);
         void onNegativeClicked();
     }
-
     public void setDialogListener(SearchingPINListener searchingPINListener){
         this.searchingPINListener=searchingPINListener;
     }
 
-
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_searchingpin);
-
         positiveButton=findViewById(R.id.positiveButton);
         negativeButton=findViewById(R.id.negativeButton);
         editText=findViewById(R.id.pinNum);
-
         positiveButton.setOnClickListener(this);
         negativeButton.setOnClickListener(this);
     }
