@@ -22,7 +22,8 @@
         android:lines="1"
         android:textColor="@color/color_sun_flower"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="@font/font3"/>
 
 
 

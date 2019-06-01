@@ -38,7 +38,7 @@ public class SearchingPIN extends Dialog implements View.OnClickListener {
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_searching);
+        setContentView(R.layout.fragment_searchingpin);
 
         positiveButton=findViewById(R.id.positiveButton);
         negativeButton=findViewById(R.id.negativeButton);

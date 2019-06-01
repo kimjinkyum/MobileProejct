@@ -7,17 +7,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="다이어리 이름을 적어주세요" />
+        android:text="다이어리 이름을 적어주세요"
+        android:fontFamily="@font/font3"/>
 
     <EditText
         android:id="@+id/diaryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Ex) 홍길동의 신나는 여행 일기" />
+        android:hint="Ex) 홍길동의 신나는 여행 일기"
+        android:fontFamily="@font/font3"/>
 
     <Button
         android:id="@+id/checkDiary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="확인" />
+        android:text="확인"
+        android:fontFamily="@font/font3"/>
 </LinearLayout>

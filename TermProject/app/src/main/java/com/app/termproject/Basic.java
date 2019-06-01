@@ -127,11 +127,11 @@ public class Basic extends AppCompatActivity {
 
                 //수정!!
             case R.id.searchingPIN:
-                SearchingPIN searchingPIN = new SearchingPIN(this);
+                final SearchingPIN searchingPIN = new SearchingPIN(this);
                 searchingPIN.setDialogListener(new SearchingPIN.SearchingPINListener() {
                     @Override
                     public void onPositiveClicked(String pin) {
-                        Toast.makeText(getApplicationContext(), pin, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), pin, Toast.LENGTH_SHORT).show();
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = user.getUid();
@@ -139,14 +139,13 @@ public class Basic extends AppCompatActivity {
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
 //                        getDiary.isPin();
-                        if (!getDiary.pinCheck()) {
+                        if (getDiary.pinCheck()) {
                             notFound = NotFound.newInstance("null");
                             notFound.show(getSupportFragmentManager(), "dialog");
 
                         } else { //찾으면
-                            Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
-                        }
 
+                        }
                     }
 
                     @Override
