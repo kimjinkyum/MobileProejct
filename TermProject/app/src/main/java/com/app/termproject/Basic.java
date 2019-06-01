@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -90,7 +91,6 @@ public class Basic extends AppCompatActivity {
                     }
                 });
                 createDiary.show();
-
 //                Intent intent = new Intent(Basic.this, CreateDiary.class);
 //
 //                startActivityForResult(intent, 1);
@@ -101,13 +101,70 @@ public class Basic extends AppCompatActivity {
         diaryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("kk", list.get(position));
                 Intent intent = new Intent(getApplicationContext(), Diary.class);
 
                 //GetDiary d= new GetDiary();
                 intent.putExtra("pinnumber", list.get(position));
                 intent.putExtra("name",list1.get(position));
                 startActivity(intent);
+            }
+        });
+        diaryView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertCancel alert = new AlertCancel(Basic.this,"다이어리를 정말 삭제 하세요??\n 신중히 선택해주세요~");
+                alert.setDialogListener(new AlertCancel.AlertCancelListener() {
+                    public void onPositiveClicked()
+                    {
+                        Log.d("delete","in");
+                        final String pinnumber=list.get(position);
+                        Log.d("delete",pinnumber);
+                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                        final Query databaseReference;
+                        databaseReference = firebaseDatabase.getReference("user-diary");
+                        databaseReference.addValueEventListener(new ValueEventListener()
+                        {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot message : dataSnapshot.getChildren())
+                                {
+                                    String key=message.getKey();
+                                    Log.d("user",key);
+                                    for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
+                                    {
+
+                                        String key1=message1.getKey();
+                                        if(key1.equals(pinnumber))
+                                        {
+                                            DatabaseReference databaseReference = firebaseDatabase.getReference("diary-user").child(key).child(key1);
+                                            Log.d("delete",databaseReference.getKey());
+                                            databaseReference.removeValue();
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        DatabaseReference databaseReference1 = firebaseDatabase.getReference("diary").child(pinnumber);
+                        databaseReference1.removeValue();
+
+                    }
+
+                    @Override
+                    public void onNegativeClicked()
+                    {
+
+                    }
+                });
+
+                alert.show();
+
+                return true;
             }
         });
 
@@ -222,6 +279,7 @@ public class Basic extends AppCompatActivity {
 
                 }
                 diaryAdapter.notifyDataSetChanged();
+
                 //listView.setSelection(adapter.getCount()-1);
             }
 
