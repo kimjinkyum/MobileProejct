@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,21 +41,15 @@ import java.util.Random;
 public class Basic extends AppCompatActivity {
 
     NotFound notFound;
-    ImageButton createButton;
+    FloatingActionButton createButton;
     ArrayList<String> list;
-    ArrayAdapter<String> adapter;
+    ArrayList<String> nameList;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference;
-    LinearLayout con;
-    ListView diaryView;
-    private String num;
+    GridView diaryView;
+    DiaryAdapter diaryAdapter;
 
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            Intent intent = new Intent(Basic.this, Diary.class);
-            startActivity(intent);
-        }
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +67,24 @@ public class Basic extends AppCompatActivity {
             }
         }
         createButton = findViewById(R.id.createDiary);
-        con = findViewById(R.id.container);
-        diaryView = findViewById(R.id.diaryView);
         list = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        diaryView.setAdapter(adapter);
+        nameList=new ArrayList<>();
 
-//        Sub_Basic sub;
+        int[] img = new int[]{
+                R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton};
+
+
+        // 커스텀 아답타 생성
+        diaryAdapter = new DiaryAdapter(this, nameList);
+        diaryView = findViewById(R.id.diaryView);
+
+        diaryView.setAdapter(diaryAdapter);  // 커스텀 아답타를 GridView 에 적용
+
+
 
         showDiaryList();
 
+        createButton.show();
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,14 +139,13 @@ public class Basic extends AppCompatActivity {
                 searchingPIN.setDialogListener(new SearchingPIN.SearchingPINListener() {
                     @Override
                     public void onPositiveClicked(String pin) {
-                        String k = pin;
-                        Toast.makeText(getApplicationContext(), k, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), pin, Toast.LENGTH_SHORT).show();
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = user.getUid();
                         String email = user.getEmail();
-                        Log.d("ddd", k);
-                        GetDiary getDiary = new GetDiary(uid, email, k);
+                        Log.d("ddd", pin);
+                        GetDiary getDiary = new GetDiary(uid, email, pin);
 //                        getDiary.isPin();
                         if (getDiary.pinCheck()) {
                             notFound = NotFound.newInstance("null");
@@ -192,7 +195,8 @@ public class Basic extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                adapter.clear();
+                diaryAdapter.clear();
+                list.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren()) {
                     //Log.d("ddd", message.child(message.getKey()).getValue().toString());
                     Log.d("ddd", message.getKey());
@@ -200,10 +204,10 @@ public class Basic extends AppCompatActivity {
                     String diaryname = dataSnapshot.child(value).child("diaryname").getValue().toString();
                     Log.d("Ddd", diaryname);
                     list.add(value);
-                    adapter.add(diaryname);
+                    nameList.add(diaryname);
 
                 }
-                adapter.notifyDataSetChanged();
+                diaryAdapter.notifyDataSetChanged();
                 //listView.setSelection(adapter.getCount()-1);
             }
 

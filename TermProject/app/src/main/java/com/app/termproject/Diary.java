@@ -137,6 +137,7 @@ public class Diary extends AppCompatActivity {
                 if (index==0)
                 {
                     lookDiary.show(groupList);
+
                 }
                 else if(index==1)
                 {
@@ -152,6 +153,7 @@ public class Diary extends AppCompatActivity {
 
             }
         });
+
     }
 
 }
