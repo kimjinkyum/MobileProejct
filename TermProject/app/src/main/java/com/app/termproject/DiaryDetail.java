@@ -53,8 +53,8 @@ import java.util.List;
 public class DiaryDetail extends AppCompatActivity
 {
 
-    Button deleteButton;
-    Button editButton;
+    android.support.design.widget.FloatingActionButton deleteButton;
+    android.support.design.widget.FloatingActionButton editButton;
     String pinnumber;
     String key;
     String filename,originalFileName;
