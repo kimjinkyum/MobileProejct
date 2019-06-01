@@ -521,8 +521,20 @@ public class DiaryDetail extends AppCompatActivity
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getLat(editText.getText().toString());
-                        //Toast.makeText(getApplicationContext(),editText.getText().toString() ,Toast.LENGTH_LONG).show();
+                        if (editText.getText().length() == 0) {
+                            ALERT alert = new ALERT(DiaryDetail.this,"장소를 입력해주세요~");
+                            alert.setDialogListener(new ALERT.ALERTListener() {
+                                @Override
+                                public void onButtonClicked() {
+                                    enteraddress();
+                                }
+                            });
+                            alert.show();
+
+                        }
+                        else {
+                            getLat(editText.getText().toString());
+                        }
                     }
                 });
         builder.show();
