@@ -146,8 +146,10 @@ public class Basic extends AppCompatActivity {
                         String email = user.getEmail();
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
+                        getDiary.isPin();
+                        //getDiary.writeOld(uid,email,pin);
 //                        getDiary.isPin();
-                        if (getDiary.pinCheck())
+                        /*if (getDiary.isPin())
                         {
                             //notFound = NotFound.newInstance("null");
                             //notFound.show(getSupportFragmentManager(), "dialog");
@@ -158,7 +160,7 @@ public class Basic extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
                             //Log.d("pin", "wrong pin");
                                 //getDiary.writeOld(uid,email,pin);
-                        }
+                        }*/
 
                     }
 

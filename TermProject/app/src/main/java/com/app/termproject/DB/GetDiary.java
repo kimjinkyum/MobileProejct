@@ -40,12 +40,14 @@ public class GetDiary {
     }
 
     public GetDiary(String uid, String email, String pinnumber, String diary_name) {
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         this.uid = uid;
         this.pinnumber = pinnumber;
         this.diary_name = diary_name;
         this.email = email;
     }
     public GetDiary(String uid, String email, String pinnumber) {
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         this.uid = uid;
         this.pinnumber = pinnumber;
         this.email = email;
@@ -57,7 +59,6 @@ public class GetDiary {
 
     public boolean pinCheck(){
         final DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("diary");
-        Log.d("pin",databaseReference.getKey());
         /*if(databaseReference.getKey())
         {
             Log.d("pin","correct pin");
@@ -85,6 +86,7 @@ public class GetDiary {
                         diary_name=dataSnapshot.child(message.getKey()).child("diaryname").getValue().toString();
                         Log.d("co","in");
                         is=true;
+                        writeOld(uid,email,pinnumber);
                         break;
                     }
                     else {
@@ -102,13 +104,16 @@ public class GetDiary {
 
     public void writeOld(String uid, String email, String pin)
     {
-            GetDiary d = new GetDiary(uid, email, pin,this.diary_name);
+            GetDiary d = new GetDiary(uid, email, pin, this.diary_name);
             Map<String, Object> update = new HashMap<>();
-            Map<String, Object> value = toMap();
+
+            Log.d("ddd",uid+" "+email+" "+pin+" "+this.diary_name);
+        Map<String, Object> value = toMap();
             update.put("/user-diary/" + uid + "/" + pin, value);
             firebaseDatabase.updateChildren(update);
             Log.d("ddd", "in write old");
-    }
+
+            }
 
     public void set(String uid, String pinnumber,String diary_name) {
         this.uid = uid;
