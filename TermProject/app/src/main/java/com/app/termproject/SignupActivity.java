@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -51,7 +52,7 @@ public class SignupActivity extends Activity {
                 String name=signupNameText.getText().toString();
                 String password=signupPasswordText.getText().toString();
                 joinStart(id,name,password);
-                checkSignup();
+                //checkSignup();
 
             }
         });
@@ -59,28 +60,33 @@ public class SignupActivity extends Activity {
     /*가입함수*/
     public void joinStart(String id, final String name, String password)
     {
-
+        Log.d("signup","in join");
         mAuth.createUserWithEmailAndPassword(id,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                Log.d("signup","in join");
                 if(!task.isSuccessful())
                 {
-                    try {
+                    try
+                    {
                         throw task.getException();
-                    } catch (FirebaseAuthUserCollisionException e) {
-                        Toast.makeText(SignupActivity.this, "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
+                    }
+                    catch (FirebaseAuthUserCollisionException e)
+                    {Log.d("signup","in join");
+                        Toast.makeText(getApplicationContext(), "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        Toast.makeText(SignupActivity.this, "비밀번호가 간단해요..", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "비밀번호가 간단해요..", Toast.LENGTH_SHORT).show();
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        Toast.makeText(SignupActivity.this, "email 형식에 맞지 않습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "email 형식에 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
-                        Toast.makeText(SignupActivity.this, "에러", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "에러", Toast.LENGTH_LONG).show();
                     }
                 }
                 else
                     {
                         currentUser=mAuth.getCurrentUser();
-                        Toast.makeText(SignupActivity.this,"가입성공"+name+currentUser.getEmail(),Toast.LENGTH_LONG).show();
+                        finish();
                     }
             }
         });
