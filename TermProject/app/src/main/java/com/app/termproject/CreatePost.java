@@ -49,30 +49,45 @@ public class CreatePost extends AppCompatActivity {
     ImageView image;
     EditText postName;
     EditText postContent;
+    EditText viewDate;
     String postContentText;
     ImageButton postConfirmButton;
     Button postDate;
     private Uri filePath;
-    String postNameText;;
+    String postNameText;
     String filename;
 
-  float[] latlng = new float[2];
+    int cYear;
+    int cMonth;
+    int cDay;
+
+    static final int DATE_DIALOG_ID = 0;
+
+
+    float[] latlng = new float[2];
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_create_post);
-        postContent=findViewById(R.id.postEditText);
-        postName=findViewById(R.id.postNameEditText);
-        postConfirmButton=findViewById(R.id.postConfirmButton);
-        postDate=findViewById(R.id.postDate);
+        postContent = findViewById(R.id.postEditText);
+        postName = findViewById(R.id.postNameEditText);
+        postConfirmButton = findViewById(R.id.postConfirmButton);
+        viewDate = findViewById(R.id.viewDate);
+        postDate = findViewById(R.id.postDate);
 
-        image=findViewById(R.id.postImage);
-        image.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+
+        Calendar c = Calendar.getInstance();
+        cYear = c.get(Calendar.YEAR);
+        cMonth = c.get(Calendar.MONTH);
+        cDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+
+        image = findViewById(R.id.postImage);
+        image.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -82,33 +97,52 @@ public class CreatePost extends AppCompatActivity {
 
         });
 
+        postDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog.OnDateSetListener dateSetListener =
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                cYear = year;
+                                cMonth = month;
+                                cDay = dayOfMonth;
+                                updateDisplay();
+                            }
+                        };
+                DatePickerDialog alert=new DatePickerDialog(CreatePost.this, dateSetListener,cYear,cMonth,cDay);
+                alert.show();
+            }
+        });
 
 
-        postConfirmButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-               postNameText=postName.getText().toString();
-               postContentText=postContent.getText().toString();
+        postConfirmButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                postNameText = postName.getText().toString();
+                postContentText = postContent.getText().toString();
                 uploadFile();
 
             }
         });
 
     }
-   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    private void updateDisplay() {
+        viewDate.setText(new StringBuilder().append(cYear).append("년 ").append(cMonth + 1).append("월 ").append(cDay).append("일"));
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
-        if(requestCode == 0 && resultCode == RESULT_OK){
+        if (requestCode == 0 && resultCode == RESULT_OK) {
             filePath = data.getData();
 
-            try
-            {
+            try {
 
                 //Uri 파일을 Bitmap으로 만들어서 ImageView에 집어 넣는다.
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                int height=bitmap.getHeight();
-                int width=bitmap.getWidth();
+                int height = bitmap.getHeight();
+                int width = bitmap.getWidth();
                 //bitmap=Bitmap.createScaledBitmap(bitmap,160,height/(width/160),true);
                 image.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -119,12 +153,11 @@ public class CreatePost extends AppCompatActivity {
         //getExif(filePath);
     }
 
-    public void getExif(Uri uri)
-    {
+    public void getExif(Uri uri) {
 
         boolean isDone;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
+            String[] proj = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
             cursor.moveToNext();
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
@@ -132,13 +165,10 @@ public class CreatePost extends AppCompatActivity {
             ExifInterface exif = new ExifInterface(path);
 
             isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
-            if(isDone)
-            {
+            if (isDone) {
                 Log.d("latlng", latlng[0] + " " + latlng[1]);
-            }
-            else
-            {
-                Log.d("latlng","no");
+            } else {
+                Log.d("latlng", "no");
             }
             // latlng[0] : 위도
             // latlng[1] : 경도
@@ -152,23 +182,21 @@ public class CreatePost extends AppCompatActivity {
     }
 
 
-
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
         if (filePath != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
-            filename= formatter.format(now)+".png";
+            filename = formatter.format(now) + ".png";
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
-            final StorageReference imageRef = storageRef.child("images/"+filename);
-            Log.d("Upload",filename);
+            final StorageReference imageRef = storageRef.child("images/" + filename);
+            Log.d("Upload", filename);
             UploadTask uploadTask = imageRef.putFile(filePath);
-            Task<Uri> uriTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if(!task.isSuccessful())
-                    {
+                    if (!task.isSuccessful()) {
                         throw task.getException();
                     }
                     return imageRef.getDownloadUrl();
@@ -176,21 +204,19 @@ public class CreatePost extends AppCompatActivity {
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful())
-                    {   Log.d("Upload", "ins");
-                        Intent i=new Intent();
-                        i.putExtra("uri",task.getResult().toString());
-                        i.putExtra("postName",postNameText);
-                        i.putExtra("postContent",postContentText);
+                    if (task.isSuccessful()) {
+                        Log.d("Upload", "ins");
+                        Intent i = new Intent();
+                        i.putExtra("uri", task.getResult().toString());
+                        i.putExtra("postName", postNameText);
+                        i.putExtra("postContent", postContentText);
                         //i.putExtra("latitude",latlng[0]);
                         //i.putExtra("longitude",latlng[1]);
-                        setResult(11,i);
+                        setResult(11, i);
                         finish();
+                    } else {
+                        Log.d("fileUpload", "fail");
                     }
-                    else
-                        {
-                            Log.d("fileUpload","fail");
-                        }
                 }
             });
         }
