@@ -155,12 +155,4 @@ public class Diary extends AppCompatActivity {
         });
 
     }
-    public ArrayList<ArrayList<String>> getGroupList() {
-        return this.groupList;
-    }
-    public void sort()
-    {
-        ArrayList<String> date=new ArrayList();
-    }
-
 }

@@ -27,6 +27,8 @@ public class LookMap extends Fragment {
     ArrayList<String> latitude;
     ArrayList<String> longitude;
 
+    int run;
+
     public LookMap() {
         // Required empty public constructor
         //arrayLists = new ArrayList<ArrayList<String>>();
@@ -40,11 +42,13 @@ public class LookMap extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        run = 0;
+
         // Inflate the layout for this fragment
-        view=inflater.inflate(R.layout.fragment_look_map, container, false);
+        // view=inflater.inflate(R.layout.fragment_look_map, container, false);
 
         // this should be executed
-        // ((Diary) getActivity()).getPostInformation(1);
+        ((Diary) getActivity()).getPostInformation(1);
 
         /*
         Log.d("aaa",arrayLists.size()+"");
@@ -55,7 +59,7 @@ public class LookMap extends Fragment {
         */
 
 
-
+        /*
         // test
         uri = new ArrayList<String>();
         uri.add("https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/KakaoTalk_20190531_175626070.jpg?alt=media&token=8e9ff651-340d-474a-9513-349ba2a3cab2");
@@ -66,19 +70,19 @@ public class LookMap extends Fragment {
         longitude = new ArrayList<String>();
         longitude.add("127");
         longitude.add("127");
+        */
 
 
 
 
 
 
-        Intent intent = new Intent(getActivity(), MapsActivity.class);
-        intent.putExtra("lat", latitude);
-        intent.putExtra("lng", longitude);
-        intent.putExtra("uri", uri);
-        startActivity(intent);
+
         return view;
     }
+
+
+
 
     public void show(ArrayList<ArrayList<String>> groupList) {
         //ArrayList<String> postName = groupList.get(0);
@@ -95,6 +99,17 @@ public class LookMap extends Fragment {
             Log.d("cccc", longitude.get(i));
         }
         */
+
+        if (run == 0) {
+            Intent intent = new Intent(getActivity(), MapsActivity.class);
+            intent.putExtra("lat", latitude);
+            intent.putExtra("lng", longitude);
+            intent.putExtra("uri", uri);
+            run = 1;
+            startActivity(intent);
+
+        }
+
     }
 
 
