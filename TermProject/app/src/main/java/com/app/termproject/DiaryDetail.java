@@ -2,6 +2,7 @@ package com.app.termproject;
 
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,8 +54,8 @@ import java.util.List;
 public class DiaryDetail extends AppCompatActivity
 {
 
-    Button deleteButton;
-    Button editButton;
+    android.support.design.widget.FloatingActionButton deleteButton;
+    android.support.design.widget.FloatingActionButton editButton;
     String pinnumber;
     String key;
     String filename,originalFileName;
@@ -375,6 +376,12 @@ public class DiaryDetail extends AppCompatActivity
         //업로드할 파일이 있으면 수행
         Log.d("Upload",filePath.toString());
         if (filePath != null) {
+            final ProgressDialog progressDialog=new ProgressDialog(this, R.style.MyAlertDialogStyle);
+            progressDialog.setTitle("열심히 업로드 중이에요!\n잠시만 기다려주세요");
+
+            progressDialog.show();
+
+
             Log.d("Upload",filePath.toString());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
@@ -427,6 +434,7 @@ public class DiaryDetail extends AppCompatActivity
                             post.writeNewPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date);
                             //i.putExtra("latitude",latlng[0]);
                             //i.putExtra("longitude",latlng[1]);
+                            progressDialog.dismiss();
                         } else {
                             Log.d("fileUpload", "fail");
                         }
@@ -515,8 +523,20 @@ public class DiaryDetail extends AppCompatActivity
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getLat(editText.getText().toString());
-                        //Toast.makeText(getApplicationContext(),editText.getText().toString() ,Toast.LENGTH_LONG).show();
+                        if (editText.getText().length() == 0) {
+                            ALERT alert = new ALERT(DiaryDetail.this,"장소를 입력해주세요~");
+                            alert.setDialogListener(new ALERT.ALERTListener() {
+                                @Override
+                                public void onButtonClicked() {
+                                    enteraddress();
+                                }
+                            });
+                            alert.show();
+
+                        }
+                        else {
+                            getLat(editText.getText().toString());
+                        }
                     }
                 });
         builder.show();

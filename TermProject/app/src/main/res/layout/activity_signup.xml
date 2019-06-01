@@ -15,8 +15,6 @@
         android:src="@drawable/small_logo" />
 
 
-
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/idTextLayout"
         android:layout_width="match_parent"
@@ -25,14 +23,14 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="80dp">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/signupIdText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font3"
             android:hint="아이디 (이메일 형식으로)"
             android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:fontFamily="@font/font3"/>
+            android:inputType="textEmailAddress" />
 
         <ImageView
             android:id="@+id/idConfirmImage"
@@ -40,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/idTextLayout"
             android:layout_alignBottom="@id/idTextLayout"
-            android:layout_toRightOf="@+id/signupIdText"/>
+            android:layout_toRightOf="@+id/signupIdText" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -53,13 +51,13 @@
         android:layout_alignLeft="@id/idTextLayout"
         android:layout_alignRight="@id/idTextLayout">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/signupNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font3"
             android:hint="이름"
-            android:imeOptions="actionNext"
-            android:fontFamily="@font/font3"/>
+            android:imeOptions="actionNext" />
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
@@ -77,18 +75,18 @@
         android:layout_below="@id/nameTextLayout"
         android:layout_alignLeft="@id/nameTextLayout"
         android:layout_alignRight="@id/nameTextLayout"
-        app:passwordToggleEnabled="true"
-        android:fontFamily="@font/font3">
+        android:fontFamily="@font/font3"
+        app:passwordToggleEnabled="true">
 
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/signupPasswordText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font3"
             android:hint="비밀번호"
             android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:fontFamily="@font/font3"/>
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -98,17 +96,17 @@
         android:layout_below="@id/passwordLayout"
         android:layout_alignLeft="@+id/passwordLayout"
         android:layout_alignRight="@id/passwordLayout"
-        app:passwordToggleEnabled="true"
-        android:fontFamily="@font/font3">
+        android:fontFamily="@font/font3"
+        app:passwordToggleEnabled="true">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/signupPasswordConfirmText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font3"
             android:hint="비밀번호 확인"
             android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:fontFamily="@font/font3"/>
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
@@ -124,7 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordLayoutConfirm"
-        android:fontFamily="@font/font3"/>
+        android:fontFamily="@font/font3" />
 
     <ImageButton
         android:id="@+id/signupConfirmButton"

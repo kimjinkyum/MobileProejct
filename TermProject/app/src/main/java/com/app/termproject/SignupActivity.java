@@ -39,7 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     boolean confirmPassword = false;
     boolean confirmID = false;
 
-    EditText signupIdText, signupNameText, signupPasswordText, signupPasswordConfirmText;
+    android.support.design.widget.TextInputEditText signupIdText, signupNameText, signupPasswordText, signupPasswordConfirmText;
     ImageView confirmImage, confirmIdImage;
     ImageButton signupConfirmButton;
     InputMethodManager imm;
@@ -56,10 +56,20 @@ public class SignupActivity extends AppCompatActivity {
         signupConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id=signupIdText.getText().toString();
-                String name=signupNameText.getText().toString();
-                String password=signupPasswordText.getText().toString();
-                joinStart(id,name,password);
+                String id = signupIdText.getText().toString();
+                String name = signupNameText.getText().toString();
+                String password = signupPasswordText.getText().toString();
+                if (id.length() == 0 || name.length() == 0 || password.length() == 0) {
+                    ALERT alert = new ALERT(SignupActivity.this, "모든 항목을 입력해주세요~");
+                    alert.setDialogListener(new ALERT.ALERTListener() {
+                        @Override
+                        public void onButtonClicked() {
+                        }
+                    });
+                    alert.show();
+                } else {
+                    joinStart(id, name, password);
+                }
                 //checkSignup();
 
             }
@@ -93,7 +103,7 @@ public class SignupActivity extends AppCompatActivity {
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthUserCollisionException e) {
-                        ALERT alert = new ALERT(SignupActivity.this,"아이디 중복!!\n다시 입력해주세요~");
+                        ALERT alert = new ALERT(SignupActivity.this, "아이디 중복!!\n다시 입력해주세요~");
                         alert.setDialogListener(new ALERT.ALERTListener() {
                             @Override
                             public void onButtonClicked() {
@@ -101,7 +111,7 @@ public class SignupActivity extends AppCompatActivity {
                         });
                         alert.show();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        ALERT alert = new ALERT(SignupActivity.this,"패스워드 길이 짧아요!!\n영어,숫자 포함하여 입력해주세요~");
+                        ALERT alert = new ALERT(SignupActivity.this, "패스워드 길이 짧아요!!\n영어,숫자 포함하여 입력해주세요~");
                         alert.setDialogListener(new ALERT.ALERTListener() {
                             @Override
                             public void onButtonClicked() {
@@ -110,7 +120,7 @@ public class SignupActivity extends AppCompatActivity {
                         alert.show();
 //                        Toast.makeText(SignupActivity.this, "비밀번호가 간단해요..", Toast.LENGTH_SHORT).show();
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        ALERT alert = new ALERT(SignupActivity.this,"이메일 형식이 아니에요!!\n다시 입력해주세요~");
+                        ALERT alert = new ALERT(SignupActivity.this, "이메일 형식이 아니에요!!\n다시 입력해주세요~");
                         alert.setDialogListener(new ALERT.ALERTListener() {
                             @Override
                             public void onButtonClicked() {
@@ -119,7 +129,7 @@ public class SignupActivity extends AppCompatActivity {
                         alert.show();
 //                        Toast.makeText(SignupActivity.this, "email 형식에 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
-                        ALERT alert = new ALERT(SignupActivity.this,"시스템 에러!!\n조금 있다 시도해주세요~");
+                        ALERT alert = new ALERT(SignupActivity.this, "시스템 에러!!\n조금 있다 시도해주세요~");
                         alert.setDialogListener(new ALERT.ALERTListener() {
                             @Override
                             public void onButtonClicked() {
@@ -133,11 +143,11 @@ public class SignupActivity extends AppCompatActivity {
                     DatabaseReference firebaseDatabase;
                     firebaseDatabase = FirebaseDatabase.getInstance().getReference();
                     HashMap<String, Object> result = new HashMap<>();
-                    result.put("name",name);
+                    result.put("name", name);
                     Map<String, Object> update = new HashMap<>();
-                    update.put("/user/"+currentUser.getUid()+"/",result);
+                    update.put("/user/" + currentUser.getUid() + "/", result);
                     firebaseDatabase.updateChildren(update);
-                    ALERT alert = new ALERT(SignupActivity.this,"가입에 성공!!\nRemember US에 온 걸 환영해~");
+                    ALERT alert = new ALERT(SignupActivity.this, "가입에 성공!!\nRemember US에 온 걸 환영해~");
                     alert.setDialogListener(new ALERT.ALERTListener() {
                         @Override
                         public void onButtonClicked() {

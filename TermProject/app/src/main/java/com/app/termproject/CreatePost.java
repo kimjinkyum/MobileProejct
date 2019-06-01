@@ -13,6 +13,9 @@ import android.location.Geocoder;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -89,19 +92,13 @@ public class CreatePost extends AppCompatActivity {
         postDate = findViewById(R.id.postDate);
         weather=findViewById(R.id.weather);
 
+        registerForContextMenu(weather);
+
         Calendar c = Calendar.getInstance();
         cYear = c.get(Calendar.YEAR);
         cMonth = c.get(Calendar.MONTH);
         cDay = c.get(Calendar.DAY_OF_MONTH);
 
-        weather.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-
-
-            }
-        });
         image = findViewById(R.id.postImage);
         image.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -135,15 +132,61 @@ public class CreatePost extends AppCompatActivity {
 
         postConfirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                postNameText = postName.getText().toString();
-                postContentText = postContent.getText().toString();
-                uploadFile();
+                if (postName.getText().length() == 0 || postContent.getText().length() == 0) {
+                    ALERT alert = new ALERT(CreatePost.this,"제목과 내용을 입력해주세요~");
+                    alert.setDialogListener(new ALERT.ALERTListener() {
+                        @Override
+                        public void onButtonClicked() {
+                        }
+                    });
+                    alert.show();
+                }
+                else {
+                    postNameText = postName.getText().toString();
+                    postContentText = postContent.getText().toString();
+                    uploadFile();
+                }
+
 
             }
         });
 
     }
 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu,v,menuInfo);
+
+        menu.setHeaderTitle("날씨 골라~");
+
+
+        menu.add(0,1,100,"해");
+        menu.add(0,2,100,"눈");
+        menu.add(0,3,100,"구름");
+        menu.add(0,4,100,"비");
+        menu.add(0,5,100,"구름 조금");
+
+    }
+
+    public boolean onContextItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case 1:
+                weather.setImageResource(R.drawable.ic_sunny);
+                return true;
+            case 2:
+                weather.setImageResource(R.drawable.ic_snow);
+                return true;
+            case 3:
+                weather.setImageResource(R.drawable.ic_cloud);
+                return true;
+            case 4:
+                weather.setImageResource(R.drawable.ic_rain);
+                return true;
+            case 5:
+                weather.setImageResource(R.drawable.ic_littlecloud);
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
     private void updateDisplay()
     {
 
@@ -340,8 +383,9 @@ public class CreatePost extends AppCompatActivity {
         //업로드할 파일이 있으면 수행
         if (filePath != null)
         {
-            final ProgressDialog progressDialog=new ProgressDialog(this);
-            progressDialog.setTitle("업로드 중");
+            final ProgressDialog progressDialog=new ProgressDialog(this, R.style.MyAlertDialogStyle);
+            progressDialog.setTitle("열심히 업로드 중이에요!\n잠시만 기다려주세요");
+
             progressDialog.show();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
@@ -509,7 +553,21 @@ public class CreatePost extends AppCompatActivity {
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getLat(editText.getText().toString());
+                        if (editText.getText().length() == 0) {
+                            ALERT alert = new ALERT(CreatePost.this,"장소를 입력해주세요~");
+                            alert.setDialogListener(new ALERT.ALERTListener() {
+                                @Override
+                                public void onButtonClicked() {
+                                    enteraddress();
+                                }
+                            });
+                            alert.show();
+
+                        }
+                        else {
+                            getLat(editText.getText().toString());
+                        }
+
                         //Toast.makeText(getApplicationContext(),editText.getText().toString() ,Toast.LENGTH_LONG).show();
                     }
                 });

@@ -53,16 +53,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final PostListItem item=items.get(position);
 
+
+        if (getItemCount() == 0) {
+            return;
+        }
+
+
         String year;
         String month;
         String day;
         String date;
         String dateChanged;
 
+        date=item.getDate();
+        year=date.substring(0,4);
+        month=date.substring(4,6);
+        day=date.substring(6,8);
+
+        dateChanged=year+"년 "+month+"월 "+day + "일";
 
         Glide.with(holder.itemView.getContext()).load(item.getImage()).into(holder.image);
         holder.title.setText(item.getTitle());
-        holder.date.setText(item.getDate());
+        holder.date.setText(dateChanged);
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
