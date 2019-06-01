@@ -47,6 +47,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -338,37 +339,73 @@ public class CreatePost extends AppCompatActivity {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
             final StorageReference imageRef = storageRef.child("images/" + filename);
-            Log.d("Upload", filename);
-            UploadTask uploadTask = imageRef.putFile(filePath);
-            Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return imageRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
 
-                    if(task.isSuccessful())
-                    {   Log.d("Upload", "ins");
-                        Intent i=new Intent();
-                        i.putExtra("uri",task.getResult().toString());
-                        i.putExtra("postName",postNameText);
-                        i.putExtra("postContent",postContentText);
-                        i.putExtra("fileName",filename);
-                        i.putExtra("date",date);
-                        i.putExtra("latitude",latlng[0]);
-                        i.putExtra("longitude",latlng[1]);
-                        setResult(11, i);
-                        finish();
-                    } else {
-                        Log.d("fileUpload", "fail");
+
+            try {
+                Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                byte[] data = baos.toByteArray();
+                Log.d("Upload", filename);
+                UploadTask uploadTask = imageRef.putBytes(data);
+                Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return imageRef.getDownloadUrl();
                     }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+
+                        if(task.isSuccessful())
+                        {   Log.d("Upload", "ins");
+                            Intent i=new Intent();
+                            i.putExtra("uri",task.getResult().toString());
+                            i.putExtra("postName",postNameText);
+                            i.putExtra("postContent",postContentText);
+                            i.putExtra("fileName",filename);
+                            i.putExtra("date",date);
+                            i.putExtra("latitude",latlng[0]);
+                            i.putExtra("longitude",latlng[1]);
+                            setResult(11, i);
+                            finish();
+                        } else {
+                            Log.d("fileUpload", "fail");
+                        }
+                    }
+                });
+            }
+            catch (Exception e) {}
+
+            //uploading the image
+            //UploadTask uploadTask2 = childRef2.putBytes(data);
+            /*
+            uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(Profilepic.this, "Upload successful", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(Profilepic.this, "Upload Failed -> " + e, Toast.LENGTH_LONG).show();
                 }
             });
+            */
+
+
+
+
+
+
+
+
+
+
+
         }
     }
     public void getLat(String str)
