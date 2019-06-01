@@ -88,6 +88,13 @@ public class LookDiary extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode,resultCode,data);
+
+
+        if (data == null) {
+            return;
+        }
+
+
         String postNameText=data.getStringExtra("postName");
         String download=data.getStringExtra("uri");
         String postContentText=data.getStringExtra("postContent");

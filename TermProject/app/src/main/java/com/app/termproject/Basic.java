@@ -107,6 +107,10 @@ public class Basic extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null)
+        {
+            return;
+        }
         String name = data.getStringExtra("diary_name");
         createDB(name);
     }
