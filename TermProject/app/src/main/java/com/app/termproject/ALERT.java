@@ -2,36 +2,28 @@ package com.app.termproject;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ALERT extends Dialog implements View.OnClickListener {
     private TextView textView;
-    private Button positiveButton;
-    private Button negativeButton;
+    private Button button;
     private Context context;
+    String string;
 
-
-    public ALERT(Context context) {
+    public ALERT(Context context,String string) {
         super(context);
         this.context = context;
+        this.string=string;
     }
 
     private ALERT.ALERTListener alertListener;
 
     interface ALERTListener {
-        void onPositiveClicked();
-        void onNegativeClicked();
+        void onButtonClicked();
     }
 
     public void setDialogListener(ALERT.ALERTListener alertListener) {
@@ -43,24 +35,19 @@ public class ALERT extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_alert);
 
-        positiveButton = findViewById(R.id.positiveButton);
-        negativeButton=findViewById(R.id.negativeButton);
-        textView = findViewById(R.id.text);
+        button = findViewById(R.id.button);
+        textView = findViewById(R.id.textChange);
+        textView.setText(string);
 
-        positiveButton.setOnClickListener(this);
-        negativeButton.setOnClickListener(this);
+        button.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.positiveButton:
-                alertListener.onPositiveClicked();
-                dismiss();
-                break;
-            case R.id.negativeButton:
-                cancel();
-                break;
+        if(v.getId()==R.id.button){
+
+            alertListener.onButtonClicked();
+            dismiss();
         }
     }
 }

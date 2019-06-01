@@ -2,9 +2,7 @@ package com.app.termproject;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -12,17 +10,13 @@ import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.SupportErrorDialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -51,11 +45,6 @@ public class SignupActivity extends AppCompatActivity {
     InputMethodManager imm;
     private FirebaseAuth mAuth;    //로그인 모튤 변수
     private FirebaseUser currentUser;//현재꺼
-    AlertID alertID;
-    AlertPassword alertPassword;
-    AlertError alertError;
-    AlertEmail alertEmail;
-    AlertSuccess alertSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,20 +93,40 @@ public class SignupActivity extends AppCompatActivity {
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthUserCollisionException e) {
-                        alertID = AlertID.newInstance("null");
-                        alertID.show(getSupportFragmentManager(),"AlertID");
+                        ALERT alert = new ALERT(SignupActivity.this,"아이디 중복!!\n다시 입력해주세요~");
+                        alert.setDialogListener(new ALERT.ALERTListener() {
+                            @Override
+                            public void onButtonClicked() {
+                            }
+                        });
+                        alert.show();
                     } catch (FirebaseAuthWeakPasswordException e) {
+                        ALERT alert = new ALERT(SignupActivity.this,"패스워드 길이 짧아요!!\n영어,숫자 포함하여 입력해주세요~");
+                        alert.setDialogListener(new ALERT.ALERTListener() {
+                            @Override
+                            public void onButtonClicked() {
+                            }
+                        });
+                        alert.show();
 //                        Toast.makeText(SignupActivity.this, "비밀번호가 간단해요..", Toast.LENGTH_SHORT).show();
-                        alertPassword = AlertPassword.newInstance("null");
-                        alertPassword.show(getSupportFragmentManager(),"");
                     } catch (FirebaseAuthInvalidCredentialsException e) {
+                        ALERT alert = new ALERT(SignupActivity.this,"이메일 형식이 아니에요!!\n다시 입력해주세요~");
+                        alert.setDialogListener(new ALERT.ALERTListener() {
+                            @Override
+                            public void onButtonClicked() {
+                            }
+                        });
+                        alert.show();
 //                        Toast.makeText(SignupActivity.this, "email 형식에 맞지 않습니다.", Toast.LENGTH_SHORT).show();
-                        alertEmail = AlertEmail.newInstance("null");
-                        alertEmail.show(getSupportFragmentManager(),"");
                     } catch (Exception e) {
+                        ALERT alert = new ALERT(SignupActivity.this,"시스템 에러!!\n조금 있다 시도해주세요~");
+                        alert.setDialogListener(new ALERT.ALERTListener() {
+                            @Override
+                            public void onButtonClicked() {
+                            }
+                        });
+                        alert.show();
 //                        Toast.makeText(SignupActivity.this, "에러", Toast.LENGTH_LONG).show();
-                        alertError = AlertError.newInstance("null");
-                        alertError.show(getSupportFragmentManager(),"");
                     }
                 } else {
                     currentUser = mAuth.getCurrentUser();
@@ -128,9 +137,15 @@ public class SignupActivity extends AppCompatActivity {
                     Map<String, Object> update = new HashMap<>();
                     update.put("/user/"+currentUser.getUid()+"/",result);
                     firebaseDatabase.updateChildren(update);
+                    ALERT alert = new ALERT(SignupActivity.this,"가입에 성공!!\nRemember US에 온 걸 환영해~");
+                    alert.setDialogListener(new ALERT.ALERTListener() {
+                        @Override
+                        public void onButtonClicked() {
+                            finish();
+                        }
+                    });
+                    alert.show();
 //                    Toast.makeText(SignupActivity.this, "가입성공" + name + currentUser.getEmail(), Toast.LENGTH_LONG).show();
-                    alertSuccess = AlertSuccess.newInstance("null");
-                    alertSuccess.show(getSupportFragmentManager(),"");
 
                 }
             }

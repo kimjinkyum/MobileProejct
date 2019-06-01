@@ -163,11 +163,10 @@ public class CreatePost extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            getExif(filePath);
         }
 
-
-
-        getExif(filePath);
     }
 
 
@@ -345,9 +344,9 @@ public class CreatePost extends AppCompatActivity {
 
             try {
                 Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                bmp = resize(getApplicationContext(), filePath, 1000);
+                bmp = resize(getApplicationContext(), filePath, 250);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                 byte[] data = baos.toByteArray();
                 Log.d("Upload", filename);
                 UploadTask uploadTask = imageRef.putBytes(data);
