@@ -28,6 +28,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends Activity {
 
@@ -86,6 +91,13 @@ public class SignupActivity extends Activity {
                 else
                     {
                         currentUser=mAuth.getCurrentUser();
+                        DatabaseReference firebaseDatabase;
+                        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+                        HashMap<String, Object> result = new HashMap<>();
+                        result.put("name",name);
+                        Map<String, Object> update = new HashMap<>();
+                        update.put("/user/"+currentUser.getUid()+"/",result);
+                        firebaseDatabase.updateChildren(update);
                         finish();
                     }
             }

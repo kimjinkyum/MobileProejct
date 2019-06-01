@@ -147,12 +147,17 @@ public class Basic extends AppCompatActivity {
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
 //                        getDiary.isPin();
-                        if (getDiary.pinCheck()) {
-                            notFound = NotFound.newInstance("null");
-                            notFound.show(getSupportFragmentManager(), "dialog");
+                        if (getDiary.pinCheck())
+                        {
+                            //notFound = NotFound.newInstance("null");
+                            //notFound.show(getSupportFragmentManager(), "dialog");
+                            Log.d("pin", "correct pin");
 
-                        } else { //찾으면
-                            Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
+                        } else
+                            { //찾으면
+                            //Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
+                            //Log.d("pin", "wrong pin");
+                                //getDiary.writeOld(uid,email,pin);
                         }
 
                     }
@@ -182,6 +187,7 @@ public class Basic extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         String email = user.getEmail();
+        String name=user.getDisplayName();
         String diary_pin = Integer.toString(randomDiaryPinNumber());
         GetDiary d = new GetDiary();
         d.set(uid, diary_pin, diary_name);

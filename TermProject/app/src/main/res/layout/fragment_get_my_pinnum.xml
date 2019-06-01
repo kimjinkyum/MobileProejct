@@ -8,39 +8,72 @@
     android:background="@color/background">
 
     <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="당신의 PIN NUMBER는"
-        android:textColor="@color/color_wisteria"
-        android:textSize="20dp"
-        android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/getPinNum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_below="@+id/text"
-        android:layout_alignLeft="@+id/text"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/color_wet_asphalt"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
+        android:layout_marginTop="80dp"
+        android:text="다이어리 네임"
+        android:fontFamily="@font/font2"
+        android:textSize="14pt"
+        android:id="@+id/pinNumText1"
+        android:textColor="#1D3259"
+        />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@id/getPinNum"
-        android:layout_below="@+id/getPinNum"
-        android:gravity="right"
-        android:text="입니다"
-        android:textColor="@color/color_wisteria"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:text= "다이어리 공유 번호!!"
+        android:fontFamily="@font/font2"
+        android:layout_centerHorizontal="true"
+        android:textSize="12pt"
+        android:id="@+id/pinNumText2"
+        android:layout_below="@+id/pinNumText1"
+        android:textColor="#1D3259"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공유 하고 싶은 친구에게만 보내주세요~"
+        android:layout_below="@id/pinNumText2"
+        android:fontFamily="@font/font3"
+        android:textSize="6pt"
+        android:layout_alignLeft="@id/pinNumText2"
+        android:id="@+id/pinNumText3"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text= "12345678"
+        android:fontFamily="@font/font2"
+        android:textSize="12pt"
+        android:layout_below="@+id/pinNumText3"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/getPinNum"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"
 
+        ></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="같이 참여 중인 친구"
+        android:fontFamily="@font/font2"
+        android:textSize="12pt"
+        android:textColor="#1D3259"
+        android:layout_below="@+id/getPinNum"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/pinNumText4"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/pinNumText4"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/font2"
+        android:textSize="12pt"
+        android:textColor="#000000"
+        android:id="@+id/pinNumText5"
+        />
 </RelativeLayout>
