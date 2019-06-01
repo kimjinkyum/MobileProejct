@@ -3,6 +3,7 @@ package com.app.termproject;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -329,7 +330,11 @@ public class CreatePost extends AppCompatActivity {
 
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
-        if (filePath != null) {
+        if (filePath != null)
+        {
+            final ProgressDialog progressDialog=new ProgressDialog(this);
+            progressDialog.setTitle("업로드 중");
+            progressDialog.show();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
             filename = formatter.format(now) + ".png";
@@ -337,19 +342,9 @@ public class CreatePost extends AppCompatActivity {
             StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
             final StorageReference imageRef = storageRef.child("images/" + filename);
 
-
             try {
                 Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 bmp = resize(getApplicationContext(), filePath, 250);
-
-
-
-
-
-
-
-
-
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                 byte[] data = baos.toByteArray();
@@ -369,6 +364,7 @@ public class CreatePost extends AppCompatActivity {
 
                         if(task.isSuccessful())
                         {   Log.d("Upload", "ins");
+                            progressDialog.dismiss();
                             Intent i=new Intent();
                             i.putExtra("uri",task.getResult().toString());
                             i.putExtra("postName",postNameText);
@@ -386,7 +382,6 @@ public class CreatePost extends AppCompatActivity {
                 });
             }
             catch (Exception e) {}
-
             //uploading the image
             //UploadTask uploadTask2 = childRef2.putBytes(data);
             /*
@@ -414,6 +409,19 @@ public class CreatePost extends AppCompatActivity {
 
 
         }
+        else
+            {
+                Intent i=new Intent();
+                i.putExtra("uri","https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/images%2Fbasic%20image.png?alt=media&token=d594ba53-6d78-46f4-a8e1-023a886abb0b");
+                i.putExtra("postName",postNameText);
+                i.putExtra("postContent",postContentText);
+                i.putExtra("fileName","basic image");
+                i.putExtra("date",date);
+                i.putExtra("latitude",latlng[0]);
+                i.putExtra("longitude",latlng[1]);
+                setResult(11, i);
+                finish();
+            }
     }
 
 

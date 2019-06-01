@@ -55,8 +55,10 @@ public class Diary extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         pinnumber = bundle.getString("pinnumber");
+        String name=bundle.getString("name");
         Bundle bundle2 = new Bundle();
         bundle2.putString("pinnumber", pinnumber);
+        bundle2.putString("name",name);
         lookDiary.setArguments(bundle2);
         lookPIN.setArguments(bundle2);
         //Toast.makeText(getApplicationContext(), string+"가 선택되었습니다.", Toast.LENGTH_SHORT).show();

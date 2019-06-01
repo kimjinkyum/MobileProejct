@@ -179,8 +179,11 @@ public class DiaryDetail extends AppCompatActivity
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
-        final StorageReference imageRef = storageRef.child("images/"+originalFileName);
-        imageRef.delete();
+        if(!originalFileName.equals("basic image"))
+        {
+            final StorageReference imageRef = storageRef.child("images/" + originalFileName);
+            imageRef.delete();
+        }
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference;
         databaseReference = firebaseDatabase.getReference("diary").child(pinnumber).child(key);
