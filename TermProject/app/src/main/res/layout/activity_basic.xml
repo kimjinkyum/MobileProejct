@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:background="@color/background">
 
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <GridView
+        android:id="@+id/diaryView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:columnWidth="100dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:verticalSpacing="10dp" />
 
-        android:layout_weight="9">
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp">
 
-        <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/diaryView"
-                android:layout_width="match_parent"
-                android:layout_height="600dp">
-
-            </ListView>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <ImageButton
-        android:id="@+id/createDiary"
-        android:layout_below="@+id/diaryView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/addbutton"
-        android:background="@color/background"/>
-
-</LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/createDiary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:background="@color/background"
+            android:src="@drawable/addbutton" />
+    </FrameLayout>
+</RelativeLayout>

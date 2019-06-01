@@ -181,7 +181,6 @@ public class CreatePost extends AppCompatActivity {
 
     }
 
-
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
         if (filePath != null) {
@@ -204,12 +203,14 @@ public class CreatePost extends AppCompatActivity {
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Log.d("Upload", "ins");
-                        Intent i = new Intent();
-                        i.putExtra("uri", task.getResult().toString());
-                        i.putExtra("postName", postNameText);
-                        i.putExtra("postContent", postContentText);
+
+                    if(task.isSuccessful())
+                    {   Log.d("Upload", "ins");
+                        Intent i=new Intent();
+                        i.putExtra("uri",task.getResult().toString());
+                        i.putExtra("postName",postNameText);
+                        i.putExtra("postContent",postContentText);
+                        i.putExtra("fileName",filename);
                         //i.putExtra("latitude",latlng[0]);
                         //i.putExtra("longitude",latlng[1]);
                         setResult(11, i);

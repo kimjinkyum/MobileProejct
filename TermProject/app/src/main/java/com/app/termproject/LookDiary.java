@@ -131,10 +131,11 @@ public class LookDiary extends Fragment {
         String postNameText=data.getStringExtra("postName");
         String download=data.getStringExtra("uri");
         String postContentText=data.getStringExtra("postContent");
+        String fileName=data.getStringExtra("fileName");
         //float latitude=data.getFloatExtra("latitude",0);
         //float longitude=data.getFloatExtra("longitude",0);
-        GetPost post=new GetPost(uid,pinnumber,postNameText,download,postContentText,3,3);
-        post.writeNewPost(uid,pinnumber,postNameText,download,postContentText,3,3);
+        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,3,3,fileName);
+        post.writeNewPost(pinnumber,postNameText,download,postContentText,3,3,fileName);
     }
 
     private void getImage() {
@@ -155,15 +156,17 @@ public class LookDiary extends Fragment {
             ArrayList<String> latitude = groupList.get(3);
             ArrayList<String> longitude = groupList.get(4);
             ArrayList<String>postKey=groupList.get(5);
+            ArrayList<String>fileName=groupList.get(6);
             groupPostList.add(postName);
             groupPostList.add(postContent);
             groupPostList.add(uri);
             groupPostList.add(latitude);
             groupPostList.add(longitude);
             groupPostList.add(postKey);
+            groupPostList.add(fileName);
             for (int i = 0; i < postName.size(); i++)
             {
-                PostListItem a=new PostListItem(uri.get(i),postName.get(i),postContent.get(i),postKey.get(i),pinnumber);
+                PostListItem a=new PostListItem(uri.get(i),postName.get(i),postContent.get(i),postKey.get(i),pinnumber,fileName.get(i));
                 items.add(a);
             }
             groupList.clear();
