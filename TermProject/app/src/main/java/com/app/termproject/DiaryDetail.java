@@ -51,19 +51,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class DiaryDetail extends AppCompatActivity
-{
+public class DiaryDetail extends AppCompatActivity {
 
     android.support.design.widget.FloatingActionButton deleteButton;
     android.support.design.widget.FloatingActionButton editButton;
     String pinnumber;
     String key;
-    String filename,originalFileName;
-    String nameEdit,contentEdit,imageEdit,original,date;
+    String filename, originalFileName;
+    String nameEdit, contentEdit, imageEdit, original, date;
     ImageView iv;
     Uri filePath;
-    int flag=1;
-    TextView diaryTitle,diaryContent,diaryDate;
+    int flag = 1;
+    TextView diaryTitle, diaryContent, diaryDate;
     EditText title, content;
 
 
@@ -71,117 +70,105 @@ public class DiaryDetail extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_detail);
-        diaryTitle= (TextView)findViewById(R.id.textView1);
-        diaryContent = (TextView)findViewById(R.id.textView2);
-        title=findViewById(R.id.editText1);
-        iv = (ImageView)findViewById(R.id.imageView1);
-        diaryDate=(TextView)findViewById(R.id.textView3);
-        content=findViewById(R.id.editText2);
-        deleteButton=findViewById(R.id.postDeleteButton);
-        editButton=findViewById(R.id.postEditButton);
+        diaryTitle = (TextView) findViewById(R.id.textView1);
+        diaryContent = (TextView) findViewById(R.id.textView2);
+        title = findViewById(R.id.editText1);
+        iv = (ImageView) findViewById(R.id.imageView1);
+        diaryDate = (TextView) findViewById(R.id.textView3);
+        content = findViewById(R.id.editText2);
+        deleteButton = findViewById(R.id.postDeleteButton);
+        editButton = findViewById(R.id.postEditButton);
+        editButton.hide();
 
         final Intent intent = getIntent(); // 보내온 Intent를 얻는다
 
-        nameEdit=intent.getStringExtra("name");
-        contentEdit=intent.getStringExtra("content") ;
-        key=intent.getStringExtra("key");
-        original=intent.getStringExtra("uri");
-        originalFileName=intent.getStringExtra("fileName");
-        pinnumber=intent.getStringExtra("pinnumber");
-        date=intent.getStringExtra("date");
+        nameEdit = intent.getStringExtra("name");
+        contentEdit = intent.getStringExtra("content");
+        key = intent.getStringExtra("key");
+        original = intent.getStringExtra("uri");
+        originalFileName = intent.getStringExtra("fileName");
+        pinnumber = intent.getStringExtra("pinnumber");
+        date = intent.getStringExtra("date");
 
         diaryTitle.setText(nameEdit);
         diaryContent.setText(contentEdit);
         diaryDate.setText(date);
 
 
-         Glide.with(getApplicationContext()).load(original).into(iv);
-         diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
-             @Override
-             public boolean onLongClick(View v)
-             {editButton.setVisibility(View.VISIBLE);
-                 diaryTitle.setVisibility(View.INVISIBLE);
-                 title.setVisibility(View.VISIBLE);
-                 Log.d("editDairy",nameEdit);
-                 return true;
-             }
-         });
-         diaryContent.setOnLongClickListener(new View.OnLongClickListener()
-         {
-             public boolean onLongClick(View v)
-             {
-                 editButton.setVisibility(View.VISIBLE);
-                 diaryContent.setVisibility(View.INVISIBLE);
-                 content.setVisibility(View.VISIBLE);
+        Glide.with(getApplicationContext()).load(original).into(iv);
+        diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                editButton.show();
+                diaryTitle.setVisibility(View.INVISIBLE);
+                title.setVisibility(View.VISIBLE);
+                Log.d("editDairy", nameEdit);
+                return true;
+            }
+        });
+        diaryContent.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                editButton.show();
+                diaryContent.setVisibility(View.INVISIBLE);
+                content.setVisibility(View.VISIBLE);
 
-                 Log.d("editDairy",contentEdit);
-                 return true;
-             }
-         });
+                Log.d("editDairy", contentEdit);
+                return true;
+            }
+        });
 
-         iv.setOnLongClickListener(new View.OnLongClickListener()
-         {
-             @Override
-             public boolean onLongClick(View v) {
-                 editButton.setVisibility(View.VISIBLE);
-                 Intent intent1 = new Intent();
-                 intent1.setType("image/*");
-                 intent1.setAction(Intent.ACTION_GET_CONTENT);
-                 startActivityForResult(Intent.createChooser(intent1, "이미지를 선택하세요."), 0);
-                 return true;
-             }
-         });
-        deleteButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        iv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                editButton.show();
+                Intent intent1 = new Intent();
+                intent1.setType("image/*");
+                intent1.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent1, "이미지를 선택하세요."), 0);
+                return true;
+            }
+        });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 delete();
             }
         });
 
-        editButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v){
+        editButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
-                if (flag==1)
-                {
+                if (flag == 1) {
 
-                    String name=title.getText().toString();
-                    if (name.length()>0)
-                    {
-                        nameEdit=name;
+                    String name = title.getText().toString();
+                    if (name.length() > 0) {
+                        nameEdit = name;
                     }
-                    String conten=content.getText().toString();
-                    if(conten.length()>0)
-                    {
-                        contentEdit=conten;
+                    String conten = content.getText().toString();
+                    if (conten.length() > 0) {
+                        contentEdit = conten;
                     }
                     delete();
-                    GetPost post=new GetPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date);
-                    post.writeNewPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date);
+                    GetPost post = new GetPost(pinnumber, nameEdit, original, contentEdit, latlng[0], latlng[1], originalFileName, date);
+                    post.writeNewPost(pinnumber, nameEdit, original, contentEdit, latlng[0], latlng[1], originalFileName, date);
+
+                } else {
+
+                    uploadFile();
 
                 }
-                else
-                    {
-
-                        uploadFile();
-
-                    }
 
             }
         });
     }
-    public void delete()
-    {
+
+    public void delete() {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
-        if(!originalFileName.equals("basic image"))
-        {
+        if (!originalFileName.equals("basic image")) {
             final StorageReference imageRef = storageRef.child("images/" + originalFileName);
             imageRef.delete();
         }
@@ -196,22 +183,20 @@ public class DiaryDetail extends AppCompatActivity
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
-        if(requestCode == 0 && resultCode == RESULT_OK){
+        if (requestCode == 0 && resultCode == RESULT_OK) {
             filePath = data.getData();
-            try
-            {
+            try {
                 //Uri 파일을 Bitmap으로 만들어서 ImageView에 집어 넣는다.
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                int height=bitmap.getHeight();
-                int width=bitmap.getWidth();
+                int height = bitmap.getHeight();
+                int width = bitmap.getWidth();
                 //bitmap=Bitmap.createScaledBitmap(bitmap,160,height/(width/160),true);
                 iv.setImageBitmap(bitmap);
 
-                flag=0;
+                flag = 0;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -220,13 +205,14 @@ public class DiaryDetail extends AppCompatActivity
         }
 
     }
+
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and
      * other file-based ContentProviders.
      *
      * @param context The context.
-     * @param uri The Uri to query.
+     * @param uri     The Uri to query.
      * @author paulburke
      */
     public static String getPath(final Context context, final Uri uri) {
@@ -272,7 +258,7 @@ public class DiaryDetail extends AppCompatActivity
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -295,9 +281,9 @@ public class DiaryDetail extends AppCompatActivity
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
@@ -348,51 +334,43 @@ public class DiaryDetail extends AppCompatActivity
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
     public void getExif(Uri uri) {
 
         String fileRealPath = getPath(getApplicationContext(), filePath);
-        try{
+        try {
             ExifInterface exif = new ExifInterface(fileRealPath);
             boolean isDone = exif.getLatLong(latlng);  // 성공적으로 읽을 시 true 리턴
             if (isDone) {
                 Log.d("latlng", latlng[0] + " " + latlng[1]);
-            }
-            else
-            {
+            } else {
                 enteraddress();
                 Log.d("latlng", "no");
             }
+        } catch (Exception e) {
         }
-        catch(Exception e){  }
 
 
     }
 
 
-
-
-
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
-        Log.d("Upload",filePath.toString());
+        Log.d("Upload", filePath.toString());
         if (filePath != null) {
-            final ProgressDialog progressDialog=new ProgressDialog(this, R.style.MyAlertDialogStyle);
+            final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
             progressDialog.setTitle("열심히 업로드 중이에요!\n잠시만 기다려주세요");
 
             progressDialog.show();
 
 
-            Log.d("Upload",filePath.toString());
+            Log.d("Upload", filePath.toString());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
-            filename= formatter.format(now)+".png";
+            filename = formatter.format(now) + ".png";
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReferenceFromUrl("gs://termproject-12d58.appspot.com/");
-            final StorageReference imageRef = storageRef.child("images/"+filename);
-
-
-
-
+            final StorageReference imageRef = storageRef.child("images/" + filename);
 
 
             try {
@@ -441,18 +419,14 @@ public class DiaryDetail extends AppCompatActivity
 
                     }
                 });
+            } catch (Exception e) {
             }
-            catch (Exception e) {}
         }
     }
 
 
-
-
-
-
-    private Bitmap resize(Context context,Uri uri,int resize){
-        Bitmap resizeBitmap=null;
+    private Bitmap resize(Context context, Uri uri, int resize) {
+        Bitmap resizeBitmap = null;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         try {
@@ -472,7 +446,7 @@ public class DiaryDetail extends AppCompatActivity
 
             options.inSampleSize = samplesize;
             Bitmap bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options); //3번
-            resizeBitmap=bitmap;
+            resizeBitmap = bitmap;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -481,14 +455,7 @@ public class DiaryDetail extends AppCompatActivity
     }
 
 
-
-
-
-
-
-
-    public void getLat(String str)
-    {
+    public void getLat(String str) {
         final Geocoder geocoder = new Geocoder(this);
         List<Address> list = null;
 
@@ -498,25 +465,23 @@ public class DiaryDetail extends AppCompatActivity
                     10); // 읽을 개수
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
+            Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
         }
 
         if (list != null) {
             if (list.size() == 0) {
-                Toast.makeText(this,"없음",Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                latlng[0]=(float)list.get(0).getLatitude();
-                latlng[1]=(float)list.get(0).getLongitude();
-                Toast.makeText(this,list.get(0).getLatitude()+" "+list.get(0).getLongitude(),Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "없음", Toast.LENGTH_LONG).show();
+            } else {
+                latlng[0] = (float) list.get(0).getLatitude();
+                latlng[1] = (float) list.get(0).getLongitude();
+                Toast.makeText(this, list.get(0).getLatitude() + " " + list.get(0).getLongitude(), Toast.LENGTH_LONG).show();
             }
         }
     }
-    public void enteraddress()
-    {
-        final EditText editText=new EditText(this);
-        AlertDialog.Builder builder= new AlertDialog.Builder(this);
+
+    public void enteraddress() {
+        final EditText editText = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("장소가 없습니다");
         builder.setMessage("장소를 입력해주세요!");
         builder.setView(editText);
@@ -524,7 +489,7 @@ public class DiaryDetail extends AppCompatActivity
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (editText.getText().length() == 0) {
-                            ALERT alert = new ALERT(DiaryDetail.this,"장소를 입력해주세요~");
+                            ALERT alert = new ALERT(DiaryDetail.this, "장소를 입력해주세요~");
                             alert.setDialogListener(new ALERT.ALERTListener() {
                                 @Override
                                 public void onButtonClicked() {
@@ -533,8 +498,7 @@ public class DiaryDetail extends AppCompatActivity
                             });
                             alert.show();
 
-                        }
-                        else {
+                        } else {
                             getLat(editText.getText().toString());
                         }
                     }
@@ -542,11 +506,6 @@ public class DiaryDetail extends AppCompatActivity
         builder.show();
 
     }
-
-
-
-
-
 
 
 }
