@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 public class CreateDiary extends AppCompatActivity {
     Button button;
@@ -16,7 +15,7 @@ public class CreateDiary extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.creatediary);
+        setContentView(R.layout.activity_creatediary);
 
         diaryName = findViewById(R.id.diaryName);
         button = findViewById(R.id.checkDiary);
