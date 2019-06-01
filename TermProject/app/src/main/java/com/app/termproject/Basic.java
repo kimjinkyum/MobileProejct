@@ -1,6 +1,7 @@
 package com.app.termproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -43,14 +44,14 @@ public class Basic extends AppCompatActivity {
     private DatabaseReference databaseReference;
     GridView diaryView;
     DiaryAdapter diaryAdapter;
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_basic);
-
+        mContext=this;
         createButton = findViewById(R.id.createDiary);
         list = new ArrayList<>();
         list1 = new ArrayList<>();
@@ -113,81 +114,53 @@ public class Basic extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                ALERT alert = new ALERT(Basic.this,"SSS\nSSS");
+                ALERT alert = new ALERT(Basic.this,"다이어리를 정말 삭제 할까요?\n신중히 선택해주세요");
                 alert.setDialogListener(new ALERT.ALERTListener() {
                     @Override
-                    public void onButtonClicked() {
+                    public void onButtonClicked()
+                    {
 
+                        final String pinnumber=list.get(position);
+                        Log.d("delete",pinnumber);
+                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                        final Query databaseReference;
+                        databaseReference = firebaseDatabase.getReference("user-diary");
+                        databaseReference.addValueEventListener(new ValueEventListener()
+                        {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot message : dataSnapshot.getChildren())
+                                {
+                                    String key=message.getKey();
+                                    for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
+                                    {
+
+                                        String key1=message1.getKey();
+                                        if(key1.equals(pinnumber))
+                                        {
+                                            DatabaseReference databaseReference = firebaseDatabase.getReference("user-diary").child(key).child(key1);
+                                            databaseReference.removeValue();
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        DatabaseReference databaseReference1 = firebaseDatabase.getReference("diary").child(pinnumber);
+                        databaseReference1.removeValue();
                     }
                 });
                 alert.show();
-//                final AlertCancel alert = new AlertCancel(Basic.this,"다이어리를 정말 삭제 하세요??\n 신중히 선택해주세요~");
-//                alert.setDialogListener(new AlertCancel.AlertCancelListener() {
-//                    public void onPositiveClicked()
-//                    {
-//                        Log.d("delete","in");
-//                        final String pinnumber=list.get(position);
-//                        Log.d("delete",pinnumber);
-//                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//                        final Query databaseReference;
-//                        databaseReference = firebaseDatabase.getReference("user-diary");
-//                        databaseReference.addValueEventListener(new ValueEventListener()
-//                        {
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                                for (DataSnapshot message : dataSnapshot.getChildren())
-//                                {
-//                                    String key=message.getKey();
-//                                    Log.d("user",key);
-//                                    for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
-//                                    {
-//
-//                                        String key1=message1.getKey();
-//                                        if(key1.equals(pinnumber))
-//                                        {
-//                                            DatabaseReference databaseReference = firebaseDatabase.getReference("diary-user").child(key).child(key1);
-//                                            Log.d("delete",databaseReference.getKey());
-//                                            databaseReference.removeValue();
-//                                        }
-//                                    }
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//                        DatabaseReference databaseReference1 = firebaseDatabase.getReference("diary").child(pinnumber);
-//                        databaseReference1.removeValue();
-//
-//                    }
-//
-//                    @Override
-//                    public void onNegativeClicked()
-//                    {
-//
-//                    }
-//                });
-//
-//                alert.show();
-
                 return true;
             }
         });
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (data == null)
-//        {
-//            return;
-//        }
-//        String name = data.getStringExtra("diary_name");
-//        createDB(name);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -217,6 +190,7 @@ public class Basic extends AppCompatActivity {
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
                         getDiary.isPin();
+
 //                       getDiary.writeOld(uid,email,pin);
 //                        getDiary.isPin();
 //                        if (getDiary.isPin())
@@ -243,6 +217,16 @@ public class Basic extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void dialog()
+    {
+        ALERT alert = new ALERT(Basic.this,"번호가 존재하지 않아요!!\n다시 입력해주세요~");
+            alert.setDialogListener(new ALERT.ALERTListener() {
+                @Override
+                public void onButtonClicked() {
+                }
+            });
+            alert.show();
     }
 
     public int randomDiaryPinNumber() {
