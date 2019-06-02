@@ -18,6 +18,6 @@
         android:paddingTop="30dp"
         android:text="안드로이드이이이"
         android:textColor="#1D3259"
-        android:textSize="8pt"
+        android:textSize="10pt"
         android:textStyle="bold" />
 </RelativeLayout>

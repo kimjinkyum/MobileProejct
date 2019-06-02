@@ -175,7 +175,6 @@ public class SignupActivity extends AppCompatActivity {
         signupPasswordConfirmText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         signupPasswordConfirmText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         confirmImage = findViewById(R.id.passwordConfirmImage);
-        confirmIdImage = findViewById(R.id.idConfirmImage);
         signupConfirmButton = findViewById(R.id.signupConfirmButton);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         /*함수 호출*/
@@ -219,14 +218,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String getEmail = signupIdText.getText().toString();
-                if (checkEmail(getEmail)) {
-                    confirmIdImage.setImageResource(R.drawable.checked);
-                    confirmID = true;
-                } else {
-                    confirmIdImage.setImageResource(R.drawable.xmark);
-                    confirmID = false;
-                }
+
 
 
             }

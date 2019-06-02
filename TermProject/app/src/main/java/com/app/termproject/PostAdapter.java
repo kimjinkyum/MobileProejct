@@ -3,6 +3,7 @@ package com.app.termproject;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
@@ -75,6 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Glide.with(holder.itemView.getContext()).load(item.getImage()).into(holder.image);
         holder.title.setText(item.getTitle());
         holder.date.setText(dateChanged);
+        holder.date.setTextColor(Color.BLACK);
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
