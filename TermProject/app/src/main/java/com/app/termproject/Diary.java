@@ -126,7 +126,7 @@ public class Diary extends AppCompatActivity {
                         uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
                         fileName.add(dataSnapshot.child(value).child("fileName").getValue().toString());
                         date.add(dataSnapshot.child(value).child("date").getValue().toString());
-                        weather.add(dataSnapshot.child(value).child("date").getValue().toString());
+                        weather.add(dataSnapshot.child(value).child("weather").getValue().toString());
                         //adapter.add(diaryname);
                     }
                     //list.add(value);

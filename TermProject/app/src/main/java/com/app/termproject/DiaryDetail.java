@@ -94,6 +94,7 @@ public class DiaryDetail extends AppCompatActivity {
         pinnumber=intent.getStringExtra("pinnumber");
         date=intent.getStringExtra("date");
         weather=intent.getStringExtra("weather");
+        Log.d("weather",weather);
         diaryTitle.setText(nameEdit);
         diaryContent.setText(contentEdit);
 
