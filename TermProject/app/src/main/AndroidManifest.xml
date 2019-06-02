@@ -29,11 +29,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAIOKyyEy92A_eaxB4fBMEU6YwqtK-vYfU" />
 
-        <activity android:name=".MapsActivity"/>
-        <activity android:name=".CreatePost"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".DiaryDetail"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".MapsActivity" />
+        <activity
+            android:name=".CreatePost"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DiaryDetail"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Diary"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -46,6 +48,8 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:label="REMEMBER US"

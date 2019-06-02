@@ -10,4 +10,23 @@
     <string name="nameFistTag">[</string>
     <string name="nameLastTag">]</string>
 
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">어서와! 처음이지?</string>
+    <string name="slide_1_desc">어떻게 사용하는지 모르겠지? 알려줄게!!</string>
+
+    <string name="slide_2_title">만들고 싶어요~</string>
+    <string name="slide_2_desc">다이어리 생성 혹은 추억을 생성하고 싶다면\n + 버튼을 누르면 추가되요!</string>
+
+    <string name="slide_3_title">삭제는요?</string>
+    <string name="slide_3_desc">다이어리는 해당 다이어리를 꾸~욱 눌러서!\n 추억은 가위 버튼을 눌러서! </string>
+
+    <string name="slide_4_title">추억 수정도 가능해요~</string>
+    <string name="slide_4_desc">제목,사진,내용부분을 꾸~욱 누르면 버튼이 생기고 수정한 후 버튼을 누르면 수정 완료!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
 </resources>

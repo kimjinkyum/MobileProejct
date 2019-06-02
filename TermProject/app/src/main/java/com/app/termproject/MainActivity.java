@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         timer.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                Intent intent=new Intent(MainActivity.this,WelcomeActivity.class);
                 startActivity(intent);
                 finish();
             }
