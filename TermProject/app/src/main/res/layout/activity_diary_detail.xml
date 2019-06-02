@@ -24,7 +24,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/textView1"
         android:fontFamily="@font/font2"
-        android:text="<"
+        android:text="["
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="visible" />
 
