@@ -145,7 +145,8 @@ public class CreatePost extends AppCompatActivity {
                     });
                     alert.show();
                 }
-                else {
+                else
+                    {
                     postNameText = postName.getText().toString();
                     postContentText = postContent.getText().toString();
                     uploadFile();
@@ -394,8 +395,6 @@ public class CreatePost extends AppCompatActivity {
         {
             final ProgressDialog progressDialog=new ProgressDialog(this, R.style.MyAlertDialogStyle);
             progressDialog.setTitle("열심히 업로드 중이에요!\n잠시만 기다려주세요");
-
-
             progressDialog.show();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
@@ -533,17 +532,12 @@ public class CreatePost extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     public void getLat(String str)
     {
         final Geocoder geocoder = new Geocoder(this);
         List<Address> list = null;
 
+        Log.d("latlng","in");
         try {
             list = geocoder.getFromLocationName(
                     str, // 지역 이름
@@ -554,6 +548,7 @@ public class CreatePost extends AppCompatActivity {
         }
 
         if (list != null) {
+
             if (list.size() == 0)
             {
                 enteraddress();
@@ -561,8 +556,9 @@ public class CreatePost extends AppCompatActivity {
             else
                 {
                     latlng[0]=(float)list.get(0).getLatitude();
-                    latlng[1]=(float)list.get(0).getLongitude();
+                    Log.d("lating",Float.toString(latlng[0]));
 
+                    latlng[1]=(float)list.get(0).getLongitude();
             }
         }
     }
@@ -580,6 +576,8 @@ public class CreatePost extends AppCompatActivity {
 
                 if(address.length()==0)
                     address="temp";
+                Log.d("latlng","in");
+                Log.d("latlng",address);
                 getLat(address);
 
             }
