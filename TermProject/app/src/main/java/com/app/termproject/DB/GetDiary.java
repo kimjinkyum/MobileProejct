@@ -124,7 +124,6 @@ public class GetDiary {
         if(getResult().equals("no")) {
             GetDiary d = new GetDiary(uid, email, pin, this.diary_name);
             Map<String, Object> update = new HashMap<>();
-
             Log.d("ddd", uid + " " + email + " " + pin + " " + this.diary_name);
             Map<String, Object> value = toMap();
             update.put("/user-diary/" + uid + "/" + pin, value);

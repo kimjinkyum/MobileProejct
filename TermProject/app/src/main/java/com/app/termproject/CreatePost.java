@@ -64,6 +64,7 @@ public class CreatePost extends AppCompatActivity {
     EditText postContent;
     EditText viewDate;
     String postContentText;
+    String weatherString="해";
     ImageButton postConfirmButton;
     Button postDate;
     private Uri filePath;
@@ -156,32 +157,34 @@ public class CreatePost extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu,v,menuInfo);
 
-        menu.setHeaderTitle("날씨 골라~");
-
-
+        menu.setHeaderTitle("날씨를 골라주세요~");
         menu.add(0,1,100,"해");
         menu.add(0,2,100,"눈");
         menu.add(0,3,100,"구름");
         menu.add(0,4,100,"비");
         menu.add(0,5,100,"구름 조금");
-
     }
 
     public boolean onContextItemSelected(MenuItem item){
         switch (item.getItemId()){
             case 1:
+                weatherString="해";
                 weather.setImageResource(R.drawable.ic_sunny);
                 return true;
             case 2:
+                weatherString="눈";
                 weather.setImageResource(R.drawable.ic_snow);
                 return true;
             case 3:
+                weatherString="구름";
                 weather.setImageResource(R.drawable.ic_cloud);
                 return true;
             case 4:
+                weatherString="비";
                 weather.setImageResource(R.drawable.ic_rain);
                 return true;
             case 5:
+                weatherString="구름조금";
                 weather.setImageResource(R.drawable.ic_littlecloud);
                 return true;
         }
@@ -429,10 +432,22 @@ public class CreatePost extends AppCompatActivity {
                             i.putExtra("date",date);
                             i.putExtra("latitude",latlng[0]);
                             i.putExtra("longitude",latlng[1]);
+                            i.putExtra("weather",weatherString);
                             setResult(11, i);
                             finish();
-                        } else {
-                            Log.d("fileUpload", "fail");
+                        }else
+                        {
+                            Intent i=new Intent();
+                            i.putExtra("uri","https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/images%2Fbasic%20image.png?alt=media&token=d594ba53-6d78-46f4-a8e1-023a886abb0b");
+                            i.putExtra("postName",postNameText);
+                            i.putExtra("postContent",postContentText);
+                            i.putExtra("fileName","basic image");
+                            i.putExtra("date",date);
+                            i.putExtra("latitude",latlng[0]);
+                            i.putExtra("longitude",latlng[1]);
+                            i.putExtra("weather",weatherString);
+                            setResult(11, i);
+                            finish();
                         }
                     }
                 });

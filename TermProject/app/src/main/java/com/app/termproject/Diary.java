@@ -59,6 +59,7 @@ public class Diary extends AppCompatActivity {
         Bundle bundle2 = new Bundle();
         bundle2.putString("pinnumber", pinnumber);
         bundle2.putString("name",name);
+        Log.d("down","diaryclass");
         lookDiary.setArguments(bundle2);
         lookPIN.setArguments(bundle2);
         //Toast.makeText(getApplicationContext(), string+"가 선택되었습니다.", Toast.LENGTH_SHORT).show();
@@ -94,13 +95,14 @@ public class Diary extends AppCompatActivity {
     /*디비 읽어오는 함순데 그 map하고 diary일때 다르니까 index==0일때는 Diary한테 보내는거고 index==1일떄는 map에게*/
     public void getPostInformation(final int index) {
         int count = 0;
-
+        Log.d("down","getPositionFunction");
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         Query databaseReference;
         databaseReference = firebaseDatabase.getReference("diary").child(pinnumber).orderByChild("date");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
                 ArrayList<String>postNameList=new ArrayList<>();
                 ArrayList<String>postContentList=new ArrayList<>();
                 ArrayList<String>latitudeList=new ArrayList<>();
@@ -109,6 +111,7 @@ public class Diary extends AppCompatActivity {
                 ArrayList<String>postKey=new ArrayList<>();
                 ArrayList<String>fileName=new ArrayList<>();
                 ArrayList<String>date=new ArrayList<>();
+                ArrayList<String>weather=new ArrayList<>();
                 groupList.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren()) {
                     Log.d("ccc", message.getKey());
@@ -123,6 +126,7 @@ public class Diary extends AppCompatActivity {
                         uriList.add(dataSnapshot.child(value).child("uri").getValue().toString());
                         fileName.add(dataSnapshot.child(value).child("fileName").getValue().toString());
                         date.add(dataSnapshot.child(value).child("date").getValue().toString());
+                        weather.add(dataSnapshot.child(value).child("date").getValue().toString());
                         //adapter.add(diaryname);
                     }
                     //list.add(value);
@@ -136,6 +140,7 @@ public class Diary extends AppCompatActivity {
                 groupList.add(postKey);
                 groupList.add(fileName);
                 groupList.add(date);
+                groupList.add(weather);
                 if (index==0)
                 {
                     lookDiary.show(groupList);

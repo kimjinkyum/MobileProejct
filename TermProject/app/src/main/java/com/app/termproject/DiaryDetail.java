@@ -57,8 +57,8 @@ public class DiaryDetail extends AppCompatActivity {
     android.support.design.widget.FloatingActionButton editButton;
     String pinnumber;
     String key;
-    String filename, originalFileName;
-    String nameEdit, contentEdit, imageEdit, original, date;
+    String filename,originalFileName;
+    String nameEdit,contentEdit,imageEdit,original,date,weather;
     ImageView iv;
     Uri filePath;
     int flag = 1;
@@ -73,66 +73,72 @@ public class DiaryDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_detail);
-        diaryTitle = (TextView) findViewById(R.id.textView1);
-        diaryContent = (TextView) findViewById(R.id.textView2);
-        title = findViewById(R.id.editText1);
-        iv = (ImageView) findViewById(R.id.imageView1);
-        diaryDate = (TextView) findViewById(R.id.textView3);
-        content = findViewById(R.id.editText2);
-        deleteButton = findViewById(R.id.postDeleteButton);
-        editButton = findViewById(R.id.postEditButton);
+
+        diaryTitle= (TextView)findViewById(R.id.textView1);
+        diaryContent = (TextView)findViewById(R.id.textView2);
+        title=findViewById(R.id.editText1);
+        iv = (ImageView)findViewById(R.id.imageView1);
+        diaryDate=(TextView)findViewById(R.id.textView3);
+        content=findViewById(R.id.editText2);
+        deleteButton=findViewById(R.id.postDeleteButton);
+        editButton=findViewById(R.id.postEditButton);
         editButton.hide();
-
         final Intent intent = getIntent(); // 보내온 Intent를 얻는다
+        nameEdit=intent.getStringExtra("name");
+        contentEdit=intent.getStringExtra("content") ;
+        key=intent.getStringExtra("key");
+        original=intent.getStringExtra("uri");
+        originalFileName=intent.getStringExtra("fileName");
+        pinnumber=intent.getStringExtra("pinnumber");
+        date=intent.getStringExtra("date");
+        weather=intent.getStringExtra("weather");
 
-        nameEdit = intent.getStringExtra("name");
-        contentEdit = intent.getStringExtra("content");
-        key = intent.getStringExtra("key");
-        original = intent.getStringExtra("uri");
-        originalFileName = intent.getStringExtra("fileName");
-        pinnumber = intent.getStringExtra("pinnumber");
-        date = intent.getStringExtra("date");
-
+        
         diaryTitle.setText(nameEdit);
         diaryContent.setText(contentEdit);
         diaryDate.setText(date);
 
 
-        Glide.with(getApplicationContext()).load(original).into(iv);
-        diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                editButton.show();
-                diaryTitle.setVisibility(View.INVISIBLE);
-                title.setVisibility(View.VISIBLE);
-                Log.d("editDairy", nameEdit);
-                return true;
-            }
-        });
-        diaryContent.setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                editButton.show();
-                diaryContent.setVisibility(View.INVISIBLE);
-                content.setVisibility(View.VISIBLE);
+         Glide.with(getApplicationContext()).load(original).into(iv);
+         diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
+             @Override
+             public boolean onLongClick(View v)
+             {editButton.show();
+                 diaryTitle.setVisibility(View.INVISIBLE);
+                 title.setVisibility(View.VISIBLE);
+                 Log.d("editDairy",nameEdit);
+                 return true;
+             }
+         });
+         diaryContent.setOnLongClickListener(new View.OnLongClickListener()
+         {
+             public boolean onLongClick(View v)
+             {
+                 editButton.show();
+                 diaryContent.setVisibility(View.INVISIBLE);
+                 content.setVisibility(View.VISIBLE);
 
-                Log.d("editDairy", contentEdit);
-                return true;
-            }
-        });
+                 Log.d("editDairy",contentEdit);
+                 return true;
+             }
+         });
 
-        iv.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                editButton.show();
-                Intent intent1 = new Intent();
-                intent1.setType("image/*");
-                intent1.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent1, "이미지를 선택하세요."), 0);
-                return true;
-            }
-        });
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+         iv.setOnLongClickListener(new View.OnLongClickListener()
+         {
+             @Override
+             public boolean onLongClick(View v) {
+                 editButton.show();
+                 Intent intent1 = new Intent();
+                 intent1.setType("image/*");
+                 intent1.setAction(Intent.ACTION_GET_CONTENT);
+                 startActivityForResult(Intent.createChooser(intent1, "이미지를 선택하세요."), 0);
+                 return true;
+             }
+         });
+        deleteButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
                 delete();
             }
         });
@@ -151,8 +157,8 @@ public class DiaryDetail extends AppCompatActivity {
                         contentEdit = conten;
                     }
                     delete();
-                    GetPost post = new GetPost(pinnumber, nameEdit, original, contentEdit, latlng[0], latlng[1], originalFileName, date);
-                    post.writeNewPost(pinnumber, nameEdit, original, contentEdit, latlng[0], latlng[1], originalFileName, date);
+                    GetPost post=new GetPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date,weather);
+                    post.writeNewPost(pinnumber,nameEdit,original,contentEdit,latlng[0],latlng[1],originalFileName,date,weather);
 
                 } else {
 
@@ -408,8 +414,8 @@ public class DiaryDetail extends AppCompatActivity {
                                 contentEdit = conten;
                             }
                             delete();
-                            GetPost post = new GetPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date);
-                            post.writeNewPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date);
+                            GetPost post = new GetPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date,weather);
+                            post.writeNewPost(pinnumber, nameEdit, imageEdit, contentEdit, latlng[0], latlng[1], filename, date,weather);
                             //i.putExtra("latitude",latlng[0]);
                             //i.putExtra("longitude",latlng[1]);
                             progressDialog.dismiss();

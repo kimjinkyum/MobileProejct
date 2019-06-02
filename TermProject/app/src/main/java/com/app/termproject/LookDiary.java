@@ -53,9 +53,7 @@ public class LookDiary extends Fragment {
         if(bundle!=null)
         {
             pinnumber=bundle.getString("pinnumber");
-
             Log.d("pinnumber",pinnumber);
-
         }
         view=inflater.inflate(R.layout.fragment_look_diary, container, false);
 
@@ -65,9 +63,9 @@ public class LookDiary extends Fragment {
         recyclerView=view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
        cardView=view.findViewById(R.id.cardview);
+        Log.d("down","lookdiary");
 
         postButton=view.findViewById(R.id.createPost);
-
         postButton.setOnClickListener(new View.OnClickListener()
         {
            public void onClick(View v)
@@ -80,7 +78,7 @@ public class LookDiary extends Fragment {
         });
         ((Diary)getActivity()).getPostInformation(0);
         items=new ArrayList<>();
-
+        Log.d("down","lookdiayr , read getPost");
 
         // Inflate the layout for this fragment
         return view;
@@ -94,7 +92,7 @@ public class LookDiary extends Fragment {
             return;
         }
 
-
+        Log.d("down","lookdiary");
         String postNameText=data.getStringExtra("postName");
         String download=data.getStringExtra("uri");
         String postContentText=data.getStringExtra("postContent");
@@ -102,16 +100,9 @@ public class LookDiary extends Fragment {
         String date=data.getStringExtra("date");
         float latitude=data.getFloatExtra("latitude",0);
         float longitude=data.getFloatExtra("longitude",0);
-        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,latitude,longitude,fileName,date);
-        post.writeNewPost(pinnumber,postNameText,download,postContentText,latitude,longitude,fileName,date);
-    }
-
-    private void getImage() {
-        if (file != null) {
-            Uri uri = Uri.parse(file);
-            Log.d("newPost",uri.toString());
-            //Glide.with(view.getContext()).load(uri).into(imageView);
-        }
+        String weather=data.getStringExtra("weather");
+        GetPost post=new GetPost(pinnumber,postNameText,download,postContentText,latitude,longitude,fileName,date,weather);
+        post.writeNewPost(pinnumber,postNameText,download,postContentText,latitude,longitude,fileName,date,weather);
     }
     public void show(ArrayList<ArrayList<String>> groupList)
     {
@@ -126,7 +117,7 @@ public class LookDiary extends Fragment {
             ArrayList<String>postKey=groupList.get(5);
             ArrayList<String>fileName=groupList.get(6);
             ArrayList<String>date=groupList.get(7);
-
+            ArrayList<String>weather=groupList.get(8);
             groupPostList.add(postName);
             groupPostList.add(postContent);
             groupPostList.add(uri);
@@ -135,9 +126,10 @@ public class LookDiary extends Fragment {
             groupPostList.add(postKey);
             groupPostList.add(fileName);
             groupPostList.add(date);
+            groupPostList.add(weather);
             for (int i = 0; i < postName.size(); i++)
             {
-                PostListItem a=new PostListItem(uri.get(i),postName.get(i),postContent.get(i),postKey.get(i),pinnumber,fileName.get(i),date.get(i));
+                PostListItem a=new PostListItem(uri.get(i),postName.get(i),postContent.get(i),postKey.get(i),pinnumber,fileName.get(i),date.get(i),weather.get(i));
                 items.add(a);
             }
             groupList.clear();
