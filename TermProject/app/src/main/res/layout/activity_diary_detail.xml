@@ -13,6 +13,7 @@
         android:fontFamily="@font/font2"
         android:gravity="center_horizontal"
         android:text="textedit"
+        android:textSize="30dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="visible" />
 
@@ -24,7 +25,8 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/textView1"
         android:fontFamily="@font/font2"
-        android:text="<"
+        android:text="@string/nameFistTag"
+        android:textSize="30dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="visible" />
 
@@ -36,7 +38,8 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/textView1"
         android:fontFamily="@font/font2"
-        android:text=">"
+        android:text="@string/nameLastTag"
+        android:textSize="30dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="visible" />
 
@@ -51,19 +54,16 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="20dp"
-        android:id="@+id/layout">
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="80dp"
         android:fontFamily="@font/font2"
+        android:layout_below="@+id/textView1"
+        android:gravity="center_vertical"
         android:text="111"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="visible"
@@ -72,50 +72,42 @@
     <EditText
         android:id="@+id/editText2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginRight="80dp"
         android:layout_alignLeft="@+id/textView2"
-        android:layout_marginLeft="20dp"
-        android:fontFamily="@font/font2"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/textView2"
-        android:fontFamily="@font/font2"
-        android:text="2222"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="visible"
-        android:layout_weight="1"/>
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
         android:fontFamily="@font/font2"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 
-    </LinearLayout>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:visibility="visible"
+        android:id="@+id/weather"
+        />
+
+
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout"
-        android:fontFamily="@font/font2"
-        android:scaleType="centerInside" />
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textView2"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:fontFamily="@font/font2"
         android:layout_below="@id/imageView1"
         android:lines="5"
@@ -126,7 +118,7 @@
     <EditText
         android:id="@+id/editText3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fontFamily="@font/font2"
         android:layout_below="@id/imageView1"
         android:lines="5"

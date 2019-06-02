@@ -60,6 +60,7 @@ public class DiaryDetail extends AppCompatActivity {
     String filename,originalFileName;
     String nameEdit,contentEdit,imageEdit,original,date,weather;
     ImageView iv;
+    ImageView weatherImage;
     Uri filePath;
     int flag = 1;
     TextView diaryTitle, diaryContent, diaryDate;
@@ -74,12 +75,13 @@ public class DiaryDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_detail);
 
+        weatherImage=findViewById(R.id.weather);
         diaryTitle= (TextView)findViewById(R.id.textView1);
-        diaryContent = (TextView)findViewById(R.id.textView2);
+        diaryContent = (TextView)findViewById(R.id.textView3);
         title=findViewById(R.id.editText1);
         iv = (ImageView)findViewById(R.id.imageView1);
-        diaryDate=(TextView)findViewById(R.id.textView3);
-        content=findViewById(R.id.editText2);
+        diaryDate=(TextView)findViewById(R.id.textView2);
+        content=findViewById(R.id.editText3);
         deleteButton=findViewById(R.id.postDeleteButton);
         editButton=findViewById(R.id.postEditButton);
         editButton.hide();
@@ -94,8 +96,31 @@ public class DiaryDetail extends AppCompatActivity {
         weather=intent.getStringExtra("weather");
         diaryTitle.setText(nameEdit);
         diaryContent.setText(contentEdit);
-        diaryDate.setText(date);
 
+        String year;
+        String month;
+        String day;
+        String dateChanged;
+
+        year=date.substring(0,4);
+        month=date.substring(4,6);
+        day=date.substring(6,8);
+
+        dateChanged=year+"년 "+month+"월 "+day + "일";
+
+        diaryDate.setText(dateChanged);
+
+        if(weather.equals("해")){
+            weatherImage.setImageResource(R.drawable.ic_sunny);
+        }else if(weather.equals("눈")){
+            weatherImage.setImageResource(R.drawable.ic_snow);
+        }else if(weather.equals("비")){
+            weatherImage.setImageResource(R.drawable.ic_rain);
+        }else if(weather.equals("구름")){
+            weatherImage.setImageResource(R.drawable.ic_cloud);
+        }else if(weather.equals("구름 조금")){
+            weatherImage.setImageResource(R.drawable.ic_littlecloud);
+        }
 
          Glide.with(getApplicationContext()).load(original).into(iv);
          diaryTitle.setOnLongClickListener(new View.OnLongClickListener() {
