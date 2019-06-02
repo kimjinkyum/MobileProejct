@@ -192,9 +192,12 @@ public class CreatePost extends AppCompatActivity {
 
         viewDate.setText(new StringBuilder().append(cYear).append("년 ").append(cMonth + 1).append("월 ").append(cDay).append("일"));
         String month=Integer.toString(cMonth+1);
+        String day=Integer.toString(cDay);
         if(month.length()==1)
             month="0"+month;
-        date=Integer.toString(cYear)+month+Integer.toString(cDay);
+        if(day.length()==1)
+            day="0"+day;
+        date=Integer.toString(cYear)+month+day;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

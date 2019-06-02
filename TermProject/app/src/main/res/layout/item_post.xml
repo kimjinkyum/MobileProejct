@@ -9,8 +9,11 @@
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        card_view:cardCornerRadius="3dp">
+        android:layout_margin="15dp"
+        card_view:cardCornerRadius="15dp"
+        card_view:cardBackgroundColor="#FFDFEF"
+        card_view:cardElevation="5dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
