@@ -65,7 +65,7 @@ public class CreatePost extends AppCompatActivity {
     EditText viewDate;
     String postContentText;
     ImageButton postConfirmButton;
-    Button postDate;
+    ImageButton postDate;
     private Uri filePath;
     String postNameText;
     String filename;
