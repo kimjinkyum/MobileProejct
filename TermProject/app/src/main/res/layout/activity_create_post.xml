@@ -44,8 +44,9 @@
         android:layout_toRightOf="@+id/postDate"
         android:layout_above="@+id/postEditText"
         android:layout_below="@id/postNameEditText"
-        android:fontFamily="@font/font3"/>
-
+        android:fontFamily="@font/font3"
+        android:enabled="false"
+        />
     <EditText
         android:id="@+id/postEditText"
         android:layout_width="match_parent"

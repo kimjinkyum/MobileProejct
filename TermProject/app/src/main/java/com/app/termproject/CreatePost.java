@@ -437,22 +437,11 @@ public class CreatePost extends AppCompatActivity {
                             i.putExtra("weather",weatherString);
                             setResult(11, i);
                             finish();
-                        }else
-                        {
-                            Intent i=new Intent();
-                            i.putExtra("uri","https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/images%2Fbasic%20image.png?alt=media&token=d594ba53-6d78-46f4-a8e1-023a886abb0b");
-                            i.putExtra("postName",postNameText);
-                            i.putExtra("postContent",postContentText);
-                            i.putExtra("fileName","basic image");
-                            i.putExtra("date",date);
-                            i.putExtra("latitude",latlng[0]);
-                            i.putExtra("longitude",latlng[1]);
-                            i.putExtra("weather",weatherString);
-                            setResult(11, i);
-                            finish();
                         }
                     }
                 });
+
+
             }
             catch (Exception e) {}
             //uploading the image
@@ -469,30 +458,21 @@ public class CreatePost extends AppCompatActivity {
                     Toast.makeText(Profilepic.this, "Upload Failed -> " + e, Toast.LENGTH_LONG).show();
                 }
             });
-            */
-
-
-
-
-
-
-
-
-
-
-
+           */
         }
         else
             {
-                Intent i=new Intent();
-                i.putExtra("uri","https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/images%2Fbasic%20image.png?alt=media&token=d594ba53-6d78-46f4-a8e1-023a886abb0b");
-                i.putExtra("postName",postNameText);
-                i.putExtra("postContent",postContentText);
-                i.putExtra("fileName","basic image");
-                i.putExtra("date",date);
-                i.putExtra("latitude",latlng[0]);
-                i.putExtra("longitude",latlng[1]);
-                setResult(11, i);
+                Log.d("basic","dd");
+                Intent i1=new Intent();
+                i1.putExtra("uri","https://firebasestorage.googleapis.com/v0/b/termproject-12d58.appspot.com/o/images%2Fbasic%20image.png?alt=media&token=d594ba53-6d78-46f4-a8e1-023a886abb0b");
+                i1.putExtra("postName",postNameText);
+                i1.putExtra("postContent",postContentText);
+                i1.putExtra("fileName","basic image");
+                i1.putExtra("date",date);
+                i1.putExtra("latitude",0);
+                i1.putExtra("longitude",0);
+                i1.putExtra("weather",weatherString);
+                setResult(11, i1);
                 finish();
             }
     }
