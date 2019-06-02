@@ -138,9 +138,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:background="@color/background"
             android:fontFamily="@font/font2"
-            android:src="@drawable/addbutton"
+            android:src="@drawable/ic_content_cut"
             android:text="삭제하기" />
 
         <FrameLayout
@@ -154,8 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
-                android:background="@color/background"
-                android:src="@drawable/addbutton"
+                android:src="@drawable/ic_build"
                 android:text="편집 완료"
                 android:visibility="gone" />
         </FrameLayout>

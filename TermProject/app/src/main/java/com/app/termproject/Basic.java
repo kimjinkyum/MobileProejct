@@ -57,9 +57,6 @@ public class Basic extends AppCompatActivity {
         list1 = new ArrayList<>();
         nameList = new ArrayList<>();
 
-        int[] img = new int[]{
-                R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton};
-
 
         // 커스텀 아답타 생성
         diaryAdapter = new DiaryAdapter(this, nameList);

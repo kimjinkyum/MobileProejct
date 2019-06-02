@@ -14,7 +14,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/font3"
             android:text="다이어리 이름을 적어주세요"
-            android:textColor="@color/font_color"
+            android:textColor="#1D3259"
             android:textSize="20dp" />
 
         <android.support.design.widget.TextInputLayout
@@ -45,7 +45,7 @@
             android:fontFamily="@font/font3"
             android:text="OK"
             android:layout_gravity="right|bottom"
-            android:textColor="@color/font_color"
+            android:textColor="#1D3259"
 
             android:background="#ffffff"/>
 

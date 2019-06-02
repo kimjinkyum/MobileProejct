@@ -30,8 +30,10 @@
             android:value="AIzaSyAIOKyyEy92A_eaxB4fBMEU6YwqtK-vYfU" />
 
         <activity android:name=".MapsActivity"/>
-        <activity android:name=".CreatePost" />
-        <activity android:name=".DiaryDetail" />
+        <activity android:name=".CreatePost"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".DiaryDetail"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Diary"
             android:theme="@style/AppTheme.NoActionBar" />
