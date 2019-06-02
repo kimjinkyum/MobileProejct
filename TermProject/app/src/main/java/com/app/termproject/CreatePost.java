@@ -37,12 +37,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.app.termproject.DB.GetDiary;
 import com.app.termproject.DB.GetPost;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -551,47 +554,37 @@ public class CreatePost extends AppCompatActivity {
         }
 
         if (list != null) {
-            if (list.size() == 0) {
-                Toast.makeText(this,"없음",Toast.LENGTH_LONG).show();
+            if (list.size() == 0)
+            {
+                enteraddress();
             }
             else
                 {
                     latlng[0]=(float)list.get(0).getLatitude();
                     latlng[1]=(float)list.get(0).getLongitude();
-                    Toast.makeText(this,list.get(0).getLatitude()+" "+list.get(0).getLongitude(),Toast.LENGTH_LONG).show();
+
             }
         }
     }
     public void enteraddress()
     {
-        final EditText editText=new EditText(this);
-        AlertDialog.Builder builder= new AlertDialog.Builder(this);
-        builder.setTitle("장소가 없습니다");
-        builder.setMessage("장소를 입력해주세요!");
-        builder.setView(editText);
-        builder.setPositiveButton("입력",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (editText.getText().length() == 0) {
-                            ALERT alert = new ALERT(CreatePost.this,"장소를 입력해주세요~");
-                            alert.setDialogListener(new ALERT.ALERTListener() {
-                                @Override
-                                public void onButtonClicked() {
-                                    enteraddress();
-                                }
-                            });
-                            alert.show();
+        final SearchingPIN searchingPIN = new SearchingPIN(this,"address");
+        searchingPIN.setDialogListener(new SearchingPIN.SearchingPINListener() {
+            @Override
+            public void onPositiveClicked(String pin) {
+                                   }
 
-                        }
-                        else {
-                            getLat(editText.getText().toString());
-                        }
+            @Override
+            public void onNegativeClicked(String address)
+            {
 
-                        //Toast.makeText(getApplicationContext(),editText.getText().toString() ,Toast.LENGTH_LONG).show();
-                    }
-                });
-        builder.show();
+                if(address.length()==0)
+                    address="temp";
+                getLat(address);
 
+            }
+        });
+        searchingPIN.show();
     }
 
 }

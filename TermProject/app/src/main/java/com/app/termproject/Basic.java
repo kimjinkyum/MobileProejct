@@ -192,24 +192,10 @@ public class Basic extends AppCompatActivity {
                         GetDiary getDiary = new GetDiary(uid, email, pin);
                         getDiary.isPin();
 
-//                       getDiary.writeOld(uid,email,pin);
-//                        getDiary.isPin();
-//                        if (getDiary.isPin())
-//                        {
-//                            notFound = NotFound.newInstance("null");
-//                            notFound.show(getSupportFragmentManager(), "dialog");
-//                            Log.d("pin", "correct pin");
-//
-//                        } else
-//                            { //찾으면
-//                            Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
-//                            Log.d("pin", "wrong pin");
-//                                getDiary.writeOld(uid,email,pin);
-//                        }
                     }
 
                     @Override
-                    public void onNegativeClicked() {
+                    public void onNegativeClicked(String pin) {
 
                     }
                 });
