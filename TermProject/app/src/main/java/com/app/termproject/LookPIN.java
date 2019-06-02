@@ -58,6 +58,7 @@ public class LookPIN extends Fragment {
     }
     public void getUser()
     {
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final Query databaseReference;
         databaseReference = firebaseDatabase.getReference("user-diary");
@@ -65,8 +66,10 @@ public class LookPIN extends Fragment {
         {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                userView.setText("");
                 for (DataSnapshot message : dataSnapshot.getChildren())
                 {
+
                     String key=message.getKey();
                     Log.d("user",key);
                     for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
@@ -105,6 +108,7 @@ public class LookPIN extends Fragment {
                     if(key.equals(message.getKey()))
                     {
                         Log.d("user","in");
+
                         userView.append(dataSnapshot.child(message.getKey()).child("name").getValue().toString()+"\n");
 
                     }
