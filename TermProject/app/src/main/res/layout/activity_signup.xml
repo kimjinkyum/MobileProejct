@@ -21,24 +21,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/signupLogo"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="80dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/signupIdText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font3"
             android:hint="아이디 (이메일 형식으로)"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress" />
-
-        <ImageView
-            android:id="@+id/idConfirmImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/idTextLayout"
-            android:layout_alignBottom="@id/idTextLayout"
-            android:layout_toRightOf="@+id/signupIdText" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -55,18 +47,9 @@
             android:id="@+id/signupNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font3"
             android:hint="이름"
             android:imeOptions="actionNext" />
     </android.support.design.widget.TextInputLayout>
-
-    <ImageView
-        android:id="@+id/nameConfirmImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/nameTextLayout"
-        android:layout_alignBottom="@id/nameTextLayout"
-        android:layout_toRightOf="@id/nameTextLayout" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/passwordLayout"
@@ -75,7 +58,6 @@
         android:layout_below="@id/nameTextLayout"
         android:layout_alignLeft="@id/nameTextLayout"
         android:layout_alignRight="@id/nameTextLayout"
-        android:fontFamily="@font/font3"
         app:passwordToggleEnabled="true">
 
 
@@ -83,7 +65,6 @@
             android:id="@+id/signupPasswordText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font3"
             android:hint="비밀번호"
             android:imeOptions="actionNext"
             android:inputType="textPassword" />
@@ -96,14 +77,12 @@
         android:layout_below="@id/passwordLayout"
         android:layout_alignLeft="@+id/passwordLayout"
         android:layout_alignRight="@id/passwordLayout"
-        android:fontFamily="@font/font3"
         app:passwordToggleEnabled="true">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/signupPasswordConfirmText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font3"
             android:hint="비밀번호 확인"
             android:imeOptions="actionNext"
             android:inputType="textPassword" />
@@ -122,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordLayoutConfirm"
-        android:fontFamily="@font/font3" />
+         />
 
     <ImageButton
         android:id="@+id/signupConfirmButton"
