@@ -69,7 +69,7 @@ public class CreatePost extends AppCompatActivity {
     String postContentText;
     String weatherString="해";
     ImageButton postConfirmButton;
-    Button postDate;
+    ImageButton postDate;
     private Uri filePath;
     String postNameText;
     String filename;
@@ -199,7 +199,6 @@ public class CreatePost extends AppCompatActivity {
         viewDate.setText(new StringBuilder().append(cYear).append("년 ").append(cMonth + 1).append("월 ").append(cDay).append("일"));
         String month=Integer.toString(cMonth+1);
         String day=Integer.toString(cDay);
-
         if(month.length()==1)
             month="0"+month;
         if(day.length()==1)
