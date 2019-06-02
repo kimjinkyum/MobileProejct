@@ -32,13 +32,15 @@
         android:fontFamily="@font/font3"
         android:src="@drawable/diary"
         android:theme="@style/MyButton"
+        android:layout_marginTop="10dp"
+        android:background="@color/background"
         />
 
     <EditText
         android:id="@+id/viewDate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="0dp"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/postDate"
         android:layout_above="@+id/postEditText"
         android:layout_below="@id/postNameEditText"
