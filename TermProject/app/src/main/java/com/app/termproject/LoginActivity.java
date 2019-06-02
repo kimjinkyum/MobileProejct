@@ -30,8 +30,8 @@ import com.google.firebase.auth.GetTokenResult;
 public class LoginActivity extends AppCompatActivity {
 
     String idToken="";
-    ImageButton loginButton;//login Button
-    ImageButton signupButton;
+    Button loginButton;//login Button
+    Button signupButton;
     EditText idText;//EditText(id)
     EditText passwordText;//EditText(password)
     String id;//value of edit text(id)
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = (EditText) findViewById(R.id.passwordText);
         passwordText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        signupButton=(ImageButton)findViewById(R.id.signupButton);
+        signupButton=findViewById(R.id.signupButton);
         checkEnter(passwordText);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,9 +151,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 else {
-                    dialog = LoginFragment.newInstance("null");
-                    dialog.show(getSupportFragmentManager(), "dialog");
-                }
+                    ALERT alert = new ALERT(LoginActivity.this, "아이디와 비밀번호가 맞지 않아요!!\n다시 입력해주세요~");
+                    alert.setDialogListener(new ALERT.ALERTListener() {
+                        @Override
+                        public void onButtonClicked() {
+                        }
+                    });
+                    alert.show(); }
 
             }
 

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#FF82AC</color>
     <color name="background">#FFCEDE</color>
 
     <color name="color_turquoise">#1abc9c</color>
@@ -25,4 +25,6 @@
     <color name="color_silver">#bdc3c7</color>
     <color name="color_concrete">#95a5a6</color>
     <color name="color_asbestos">#7f8c8d</color>
+
+    <color name="font_color">#F67976</color>
 </resources>

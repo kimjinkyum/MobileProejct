@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class DiaryAdapter extends ArrayAdapter {
     private Context context;
     private LayoutInflater inflate;
-//    int img[];
     private ArrayList<String> name;
     ViewHolder viewHolder;
 

@@ -1,6 +1,7 @@
 package com.app.termproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -19,12 +20,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.app.termproject.DB.GetDiary;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,26 +38,24 @@ public class Basic extends AppCompatActivity {
 
     NotFound notFound;
     FloatingActionButton createButton;
-    ArrayList<String> list;
+    ArrayList<String> list,list1;
     ArrayList<String> nameList;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference;
     GridView diaryView;
     DiaryAdapter diaryAdapter;
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_basic);
-
+        mContext=this;
         createButton = findViewById(R.id.createDiary);
         list = new ArrayList<>();
+        list1 = new ArrayList<>();
         nameList = new ArrayList<>();
-
-        int[] img = new int[]{
-                R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton, R.drawable.addbutton};
 
 
         // 커스텀 아답타 생성
@@ -73,18 +74,24 @@ public class Basic extends AppCompatActivity {
                         1);
             }
         }
-
         showDiaryList();
 
         createButton.show();
+
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Intent intent = new Intent(Basic.this, CreateDiary.class);
-
-                startActivityForResult(intent, 1);
+                CreateDiary createDiary = new CreateDiary(Basic.this);
+                createDiary.setDialogListener(new CreateDiary.CreateDiaryListener() {
+                    @Override
+                    public void onButtonClicked(String k) {
+                        createDB(k);
+                    }
+                });
+                createDiary.show();
+//                Intent intent = new Intent(Basic.this, CreateDiary.class);
+//
+//                startActivityForResult(intent, 1);
 
             }
         });
@@ -92,24 +99,66 @@ public class Basic extends AppCompatActivity {
         diaryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("kk", list.get(position));
                 Intent intent = new Intent(getApplicationContext(), Diary.class);
 
                 //GetDiary d= new GetDiary();
-
                 intent.putExtra("pinnumber", list.get(position));
+                intent.putExtra("name",list1.get(position));
+                Log.d("down","basic intent");
                 startActivity(intent);
+            }
+        });
+        diaryView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                ALERT alert = new ALERT(Basic.this,"다이어리를 정말 삭제 할까요?\n신중히 선택해주세요");
+                alert.setDialogListener(new ALERT.ALERTListener() {
+                    @Override
+                    public void onButtonClicked()
+                    {
+
+                        final String pinnumber=list.get(position);
+                        Log.d("delete",pinnumber);
+                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                        final Query databaseReference;
+                        databaseReference = firebaseDatabase.getReference("user-diary");
+                        databaseReference.addValueEventListener(new ValueEventListener()
+                        {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot message : dataSnapshot.getChildren())
+                                {
+                                    String key=message.getKey();
+                                    for(DataSnapshot message1:dataSnapshot.child(key).getChildren())
+                                    {
+
+                                        String key1=message1.getKey();
+                                        if(key1.equals(pinnumber))
+                                        {
+                                            DatabaseReference databaseReference = firebaseDatabase.getReference("user-diary").child(key).child(key1);
+                                            databaseReference.removeValue();
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        DatabaseReference databaseReference1 = firebaseDatabase.getReference("diary").child(pinnumber);
+                        databaseReference1.removeValue();
+                    }
+                });
+                alert.show();
+                return true;
             }
         });
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String name = data.getStringExtra("diary_name");
-        createDB(name);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,30 +176,23 @@ public class Basic extends AppCompatActivity {
 
                 //수정!!
             case R.id.searchingPIN:
-                SearchingPIN searchingPIN = new SearchingPIN(this);
+                final SearchingPIN searchingPIN = new SearchingPIN(this);
                 searchingPIN.setDialogListener(new SearchingPIN.SearchingPINListener() {
                     @Override
                     public void onPositiveClicked(String pin) {
-                        Toast.makeText(getApplicationContext(), pin, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), pin, Toast.LENGTH_SHORT).show();
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = user.getUid();
                         String email = user.getEmail();
                         Log.d("ddd", pin);
                         GetDiary getDiary = new GetDiary(uid, email, pin);
-//                        getDiary.isPin();
-                        if (getDiary.pinCheck()) {
-                            notFound = NotFound.newInstance("null");
-                            notFound.show(getSupportFragmentManager(), "dialog");
-
-                        } else { //찾으면
-                            Toast.makeText(getApplicationContext(), "성공~", Toast.LENGTH_SHORT).show();
-                        }
+                        getDiary.isPin();
 
                     }
 
                     @Override
-                    public void onNegativeClicked() {
+                    public void onNegativeClicked(String pin) {
 
                     }
                 });
@@ -159,6 +201,16 @@ public class Basic extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void dialog()
+    {
+        ALERT alert = new ALERT(Basic.this,"번호가 존재하지 않아요!!\n다시 입력해주세요~");
+            alert.setDialogListener(new ALERT.ALERTListener() {
+                @Override
+                public void onButtonClicked() {
+                }
+            });
+            alert.show();
     }
 
     public int randomDiaryPinNumber() {
@@ -174,6 +226,7 @@ public class Basic extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         String email = user.getEmail();
+        String name=user.getDisplayName();
         String diary_pin = Integer.toString(randomDiaryPinNumber());
         GetDiary d = new GetDiary();
         d.set(uid, diary_pin, diary_name);
@@ -188,6 +241,8 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 diaryAdapter.clear();
+                list.clear();
+                list1.clear();
                 for (DataSnapshot message : dataSnapshot.getChildren()) {
                     //Log.d("ddd", message.child(message.getKey()).getValue().toString());
                     Log.d("ddd", message.getKey());
@@ -195,10 +250,12 @@ public class Basic extends AppCompatActivity {
                     String diaryname = dataSnapshot.child(value).child("diaryname").getValue().toString();
                     Log.d("Ddd", diaryname);
                     list.add(value);
+                    list1.add(diaryname);
                     nameList.add(diaryname);
 
                 }
                 diaryAdapter.notifyDataSetChanged();
+
                 //listView.setSelection(adapter.getCount()-1);
             }
 

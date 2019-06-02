@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="주소데이터가 없어요"
+            android:textColor="#1D3259"
+            android:id="@+id/insertaddress"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/font2"/>
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/mapEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/insertaddress"
+            android:layout_marginRight="20dp"
+            android:hint="주소 입력해주세요"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/insertaddress"
+            android:fontFamily="@font/font2"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/negativeButton"
+            android:layout_below="@id/mapEdit"
+            android:layout_alignRight="@+id/mapEdit"
+            android:text="취소"
+            android:background="#ffffff"
+            android:textColor="@color/font_color"
+            android:fontFamily="@font/font2"
+            android:visibility="gone"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mapButton"
+            android:layout_below="@id/mapEdit"
+            android:layout_toLeftOf="@+id/negativeButton"
+            android:text="찾기"
+            android:layout_alignParentRight="true"
+            android:background="#ffffff"
+            android:textColor="@color/font_color"
+            android:fontFamily="@font/font2"/>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,39 +1,62 @@
 package com.app.termproject;
 
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
-public class CreateDiary extends AppCompatActivity {
-    Button button;
-    EditText diaryName;
+public class CreateDiary extends Dialog implements View.OnClickListener {
+    private android.support.design.widget.TextInputEditText editText;
+    private Button button;
+    private Context context;
+    private android.support.design.widget.TextInputLayout textInputLayout;
+    String string;
 
-    @Override
+
+    public CreateDiary(Context context) {
+        super(context);
+        this.context = context;
+    }
+
+    private CreateDiary.CreateDiaryListener createDiaryistener;
+
+    interface CreateDiaryListener {
+        void onButtonClicked(String str);
+    }
+
+    public void setDialogListener(CreateDiary.CreateDiaryListener createDiaryListener) {
+        this.createDiaryistener = createDiaryListener;
+    }
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.creatediary);
+        setContentView(R.layout.fragment_creatediary);
 
-        diaryName = findViewById(R.id.diaryName);
-        button = findViewById(R.id.checkDiary);
+        textInputLayout = findViewById(R.id.textLayout);
+        button = findViewById(R.id.button);
+        editText = findViewById(R.id.edit1);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                String name = diaryName.getText().toString();
-                Log.d("co", name);
-                i.putExtra("diary_name", name);
-                setResult(RESULT_OK, i);
-                finish();
-            }
-        });
+        textInputLayout.setCounterEnabled(true);
+        textInputLayout.setCounterMaxLength(8);
+        textInputLayout.setErrorEnabled(true);
+        button.setOnClickListener(this);
 
 
-        //받은 다이어리 이름을 DB에 저장할 것
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button) {
+            String createName = editText.getText().toString();
+            if (createName.length() <= 8) {
+                createDiaryistener.onButtonClicked(createName);
+                dismiss();
+            }
+
+        }
+
+    }
+
 }

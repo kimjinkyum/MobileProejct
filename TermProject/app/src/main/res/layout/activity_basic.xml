@@ -2,15 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="#ffffffff">
 
 
     <GridView
         android:id="@+id/diaryView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:columnWidth="100dp"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="15dp"
         android:numColumns="2"
         android:verticalSpacing="10dp" />
 
@@ -18,16 +19,17 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
 
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/createDiary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_gravity="right|bottom"
-            android:background="@color/background"
-            android:src="@drawable/addbutton" />
+            android:src="@drawable/ic_add_circle_outline"
+            android:background="@drawable/ripple_oval"
+            android:elevation="7dp"/>
     </FrameLayout>
 </RelativeLayout>
