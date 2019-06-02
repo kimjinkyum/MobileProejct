@@ -12,47 +12,43 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AlertCancel extends Dialog implements View.OnClickListener {
-    private TextView textView;
-    String string;
+    private EditText editText;
     private Button positiveButton;
     private Button negativeButton;
     private Context context;
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference ;
 
-    public AlertCancel(Context context, String string) {
+    public AlertCancel(Context context){
         super(context);
-        this.context = context;
-        this.string = string;
+        this.context=context;
     }
 
-    private AlertCancel.AlertCancelListener alertCancelListener;
+    private AlertCancelListener AlertCancelListener;
 
-    interface AlertCancelListener {
-        void onPositiveClicked();
-
+    interface AlertCancelListener{
+        void onPositiveClicked(String pin);
         void onNegativeClicked();
     }
-
-    public void setDialogListener(AlertCancel.AlertCancelListener alertCancelListener) {
-        this.alertCancelListener = alertCancelListener;
+    public void setDialogListener(AlertCancelListener searchingPINListener){
+        this.AlertCancelListener=searchingPINListener;
     }
 
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frgment_alert_cancel);
-        textView = findViewById(R.id.cancelChange);
-        textView.setText(string);
-        positiveButton = findViewById(R.id.cancelbutton);
-        negativeButton = findViewById(R.id.cancelbutton1);
+        positiveButton=findViewById(R.id.mapButton);
+        editText=findViewById(R.id.mapEdit);
         positiveButton.setOnClickListener(this);
-        negativeButton.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v){
+        switch (v.getId()){
             case R.id.positiveButton:
-                alertCancelListener.onPositiveClicked();
+                String pin=editText.getText().toString();
+                AlertCancelListener.onPositiveClicked(pin);
                 dismiss();
                 break;
             case R.id.negativeButton:

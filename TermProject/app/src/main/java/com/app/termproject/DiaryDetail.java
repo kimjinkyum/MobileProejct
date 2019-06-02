@@ -92,8 +92,6 @@ public class DiaryDetail extends AppCompatActivity {
         pinnumber=intent.getStringExtra("pinnumber");
         date=intent.getStringExtra("date");
         weather=intent.getStringExtra("weather");
-
-        
         diaryTitle.setText(nameEdit);
         diaryContent.setText(contentEdit);
         diaryDate.setText(date);
@@ -241,11 +239,9 @@ public class DiaryDetail extends AppCompatActivity {
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
-
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
                 return getDataColumn(context, contentUri, null, null);
             }
             // MediaProvider
@@ -475,42 +471,36 @@ public class DiaryDetail extends AppCompatActivity {
         }
 
         if (list != null) {
-            if (list.size() == 0) {
-                Toast.makeText(this, "없음", Toast.LENGTH_LONG).show();
-            } else {
-                latlng[0] = (float) list.get(0).getLatitude();
-                latlng[1] = (float) list.get(0).getLongitude();
-                Toast.makeText(this, list.get(0).getLatitude() + " " + list.get(0).getLongitude(), Toast.LENGTH_LONG).show();
+            if (list.size() == 0)
+            {
+                enteraddress();
+            }
+            else
+            {
+                latlng[0]=(float)list.get(0).getLatitude();
+                latlng[1]=(float)list.get(0).getLongitude();
+
             }
         }
     }
+    public void enteraddress()
+    {
+        final SearchingPIN searchingPIN = new SearchingPIN(this,"address");
+        searchingPIN.setDialogListener(new SearchingPIN.SearchingPINListener() {
+            @Override
+            public void onPositiveClicked(String pin) {
+            }
 
-    public void enteraddress() {
-        final EditText editText = new EditText(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("장소가 없습니다");
-        builder.setMessage("장소를 입력해주세요!");
-        builder.setView(editText);
-        builder.setPositiveButton("입력",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (editText.getText().length() == 0) {
-                            ALERT alert = new ALERT(DiaryDetail.this, "장소를 입력해주세요~");
-                            alert.setDialogListener(new ALERT.ALERTListener() {
-                                @Override
-                                public void onButtonClicked() {
-                                    enteraddress();
-                                }
-                            });
-                            alert.show();
+            @Override
+            public void onNegativeClicked(String address)
+            {
+                if(address.length()==0)
+                    address="temp";
+                getLat(address);
 
-                        } else {
-                            getLat(editText.getText().toString());
-                        }
-                    }
-                });
-        builder.show();
-
+            }
+        });
+        searchingPIN.show();
     }
 
 
