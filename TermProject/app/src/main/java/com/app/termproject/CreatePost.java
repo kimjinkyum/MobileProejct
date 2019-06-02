@@ -35,6 +35,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.termproject.DB.GetDiary;
@@ -65,7 +66,7 @@ public class CreatePost extends AppCompatActivity {
     ImageView image,weather;
     EditText postName;
     EditText postContent;
-    EditText viewDate;
+    TextView viewDate;
     String postContentText;
     String weatherString="해";
     ImageButton postConfirmButton;
