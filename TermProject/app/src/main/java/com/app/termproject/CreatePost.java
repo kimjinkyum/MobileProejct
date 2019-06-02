@@ -395,6 +395,7 @@ public class CreatePost extends AppCompatActivity {
             final ProgressDialog progressDialog=new ProgressDialog(this, R.style.MyAlertDialogStyle);
             progressDialog.setTitle("열심히 업로드 중이에요!\n잠시만 기다려주세요");
 
+
             progressDialog.show();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
